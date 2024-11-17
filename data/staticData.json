@@ -1,0 +1,159 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "title": "Temp1",
+      "techstack": [
+        "[\"reactjs\"",
+        "\"cooljs\"",
+        "\"fooljs\"]"
+      ],
+      "description": "Thing thsf sbs sikdn loremskjns ajinfa anf",
+      "brief": "false",
+      "describe": ""
+    },
+    {
+      "id": 3,
+      "title": "Temp5456",
+      "techstack": [
+        "[\"makichuji\"",
+        "\"nodejs\"",
+        "\"nojs\"]"
+      ],
+      "description": "Thing thsf sbs sikdn loremskjns ajinfa anf dfsiudfh sjf ssdijuufh sgfs uiehfa aso awuiofhd as pa oiashdf  oiaoisd foiashf oihadsoifsa dugfhs ui asio ioah ioqaj iodapofr izujh ZA Wiruqwoier a A fioswjheuihftr A zdigf sojq[wp iojsad fo amlmcd soifj soidfj oiasjfofp foshugfrhgutr haohjfgr8 oijwe hfew98i4 aoi nmunbwuif alnfvc avbiyuq3yrg asidcnb ajpogfa ufgbegbs ongfsjnf",
+      "brief": "false",
+      "describe": ""
+    },
+    {
+      "id": 1730121657024,
+      "title": "THiung",
+      "techstack": [
+        "[\"jksgfdrf\"",
+        "\"sdjkfbsdwhjf\"",
+        "\"sdjufsdfjkn\"]"
+      ],
+      "description": "sdkjngfhjsd jswedjngf sweddofj woiejdfiokwjqef wn gvjskdl",
+      "brief": false,
+      "describe": "",
+      "static_file": "https://res.cloudinary.com/dyxltjbfw/video/upload/v1731683522/projects_static_media/zohtvnjr49oianmfdqmj.mp4",
+      "resourceType": "video"
+    },
+    {
+      "id": 1731273713616,
+      "title": "sjnf sdf sdiofsd ",
+      "techstack": [
+        "[\"fsdjf\"",
+        "\"jhdchba\"",
+        "\"sjdhfa\"",
+        "\"ajhbfhja\"",
+        "\"ajfbdsa\"",
+        "\"sj\"]"
+      ],
+      "description": "sjdnfsdf sjdnf oifjadndsv",
+      "brief": true,
+      "describe": "sfjs  aoihf a aoid aiosfap jpa joe snv spovj oiaj fiw vsl vsdvpa ai isd pvaodvs",
+      "static_file": "https://res.cloudinary.com/dyxltjbfw/image/upload/v1731273714/projects_static_media/c8g0byid1osd92glvwuu.jpg",
+      "githubLink": "sfjs  aoihf a aoid aiosfap jpa joe snv spovj oiaj fiw vsl vsdvpa ai isd pvaodvs",
+      "liveLink": "sfjs  aoihf a aoid aiosfap jpa joe snv spovj oiaj fiw vsl vsdvpa ai isd pvaodvs"
+    }
+  ],
+  "skills": [
+    {
+      "id": 1,
+      "name": "Html",
+      "imagelink": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzE1bTk0dXJxNDliNjExZWgwM2xpc24xbzVtNGdvaDE3czBhaXdkayZlcD12MV9naWZzX3NlYXJjaCZjdD1n/l3vRfNA1p0rvhMSvS/giphy.gif",
+      "type": "web"
+    },
+    {
+      "id": 2,
+      "name": "Css",
+      "imagelink": "https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExeXRpdTJyNzZ5c2p5c3hiMzltYWNyaGZ3bzA3cHg5NGFqbWV2OG4ydCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/fsEaZldNC8A1PJ3mwp/giphy.gif",
+      "type": "web"
+    },
+    {
+      "id": 3,
+      "name": "Javascript",
+      "imagelink": "https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExenlpZHg5dTNlYWh5YWUxdm1hd2U2YmJzaDFwNTg1NWl4dGVoNG0wMCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/ln7z2eWriiQAllfVcn/giphy.gif",
+      "type": "web"
+    },
+    {
+      "id": 4,
+      "name": "Typescript",
+      "imagelink": "https://cdn.iconscout.com/icon/free/png-512/free-typescript-1174965.png?f=webp&w=256",
+      "type": "web"
+    },
+    {
+      "id": 5,
+      "name": "Tailwindcss",
+      "imagelink": "https://cdn.iconscout.com/icon/free/png-512/free-tailwind-css-5285308-4406745.png?f=webp&w=256",
+      "type": "web"
+    },
+    {
+      "id": 6,
+      "name": "Shadcn",
+      "imagelink": "https://miro.medium.com/v2/resize:fit:720/format:webp/1*O-ClkORJkmUm1wRsApB_yQ.png",
+      "type": "web"
+    },
+    {
+      "id": 7,
+      "name": "React js",
+      "imagelink": "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExejY2aXp2aG5qcndmYmJlemZhbTIxaHA4ejZzazhuNmIwcnRveDd5YiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/eNAsjO55tPbgaor7ma/giphy.webp",
+      "type": "framework"
+    },
+    {
+      "id": 9,
+      "name": "Next Js",
+      "imagelink": "https://www.staffworx.co.uk/wp-content/uploads/2021/09/nextjs-gif.gif",
+      "type": "framework"
+    },
+    {
+      "id": 10,
+      "name": "Node js",
+      "imagelink": "https://user-images.githubusercontent.com/74038190/212257460-738ff738-247f-4445-a718-cdd0ca76e2db.gif",
+      "type": "framework"
+    },
+    {
+      "id": 11,
+      "name": "Java",
+      "imagelink": "https://raw.githubusercontent.com/Deathopex/Deathopex/main/java.gif",
+      "type": "language"
+    },
+    {
+      "id": 12,
+      "name": "Firebase",
+      "imagelink": "https://cdn.dribbble.com/users/6295/screenshots/2923288/firebaseload.gif",
+      "type": "Backend Framework"
+    },
+    {
+      "id": 13,
+      "name": "Mongodb",
+      "imagelink": "https://cdn.iconscout.com/icon/free/png-512/free-mongodb-3-1175138.png?f=webp&w=256",
+      "type": "database"
+    },
+    {
+      "id": 14,
+      "name": "MySql",
+      "imagelink": "https://cdn.iconscout.com/icon/free/png-512/free-mysql-6-226028.png?f=webp&w=256",
+      "type": "database"
+    },
+    {
+      "id": 15,
+      "name": "Postgres Sql",
+      "imagelink": "https://cdn.iconscout.com/icon/free/png-512/free-postgresql-3521647-2945091.png?f=webp&w=256",
+      "type": "database"
+    },
+    {
+      "id": 16,
+      "name": "Prisma Orm",
+      "imagelink": "https://cdn.worldvectorlogo.com/logos/prisma-3.svg",
+      "type": "Database Orm"
+    },
+    {
+      "id": 17,
+      "name": "Docker",
+      "imagelink": "https://i.pinimg.com/originals/f5/5e/80/f55e8059ea945abfd6804b887dd4a0af.gif",
+      "type": "Tools"
+    }
+  ],
+  "resumeDocId": "1Qoo9Ylh0LdW7Grd1aKygupKlUuLAjinmfpPcu7veANo"
+}
