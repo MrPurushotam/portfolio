@@ -7,7 +7,7 @@ const ProjectsSection = ({ project, state }) => {
   return (
     <div className="w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm bg-white hover:shadow-lg transition-shadow duration-200">
       <div className="flex flex-col sm:flex-row gap-3 items-center">
-        <div className="w-44 h-44 flex-shrink-0 flex items-center justify-center overflow-hidden rounded-md border border-gray-200 shadow-sm bg-gray-100">
+        <div className="w-52 h-52 flex-shrink-0 flex items-center justify-center overflow-hidden rounded-md border border-gray-200 shadow-sm bg-gray-100">
           {project?.resourceType === "video" ? (
             <video
               src={
@@ -32,7 +32,7 @@ const ProjectsSection = ({ project, state }) => {
         </div>
 
         <div className="flex-1 space-y-2">
-          <h1 className="text-lg font-semibold text-gray-800 leading-tight">
+          <h1 className="text-4xl font-semibold text-gray-800 leading-tight tracking-wide">
             {project?.title || "Project Title"}
           </h1>
 
@@ -46,13 +46,13 @@ const ProjectsSection = ({ project, state }) => {
           </div>
 
           {/* Description */}
-          <p className="text-sm text-gray-600 line-clamp-2">
+          <p className="text-2xl text-gray-600 line-clamp-2">
             {project?.description ||
               "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nobis vel repellendus cumque corporis animi."}
           </p>
 
           {/* Links Section */}
-          <div className="flex items-center space-x-4 text-sm">
+          <div className="flex items-center space-x-4 text-2xl">
             {project?.githubLink && (
               <Link
                 href={project.githubLink}

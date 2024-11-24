@@ -6,8 +6,7 @@ const SkillComponent = ({ tag, link }) => {
         <img src={link || ""} alt={tag.split(" ").join("-")} className="text-yellow-300 aspect-[3/2] w-fit" />
       </div>
       <div>
-        <span className="text-black text-bold capitalize text-xl tracking-wide">{tag}</span>
-
+        <span className="text-black text-bold capitalize text-3xl tracking-wider">{tag}</span>
       </div>
     </div>
   )

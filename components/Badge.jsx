@@ -14,7 +14,7 @@ const Badge = ({ text, type = "primary" }) => {
   }
   return (
     <div className={`px-3 py-1 shadow-md rounded-full ${typeStyle}`}>
-      <span className="capitalize text-sm font-semibold tracking-wider">{text}</span>
+      <span className="capitalize text-2xl font-semibold tracking-wider">{text}</span>
     </div>
   )
 }
