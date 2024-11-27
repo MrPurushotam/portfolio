@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 
 const Appbar = () => {
@@ -7,6 +7,7 @@ const Appbar = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isCursorNearTop, setIsCursorNearTop] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     let lastScrollTop = 0;
@@ -24,87 +25,123 @@ const Appbar = () => {
       // Update scroll position
       setScrollPosition(currentScrollPos);
       lastScrollTop = currentScrollPos;
+
+      // Close dropdown menu on scroll
+      if (isDropdownOpen) setIsDropdownOpen(false);
     };
 
     const handleMouseMove = (event) => {
-      // Detect if the cursor is near the top of the screen (within 50px)
       if (event.clientY < 50) {
         setIsCursorNearTop(true);
-        setIsHidden(false); // Show Appbar when mouse is near the top
+        setIsHidden(false);
       } else {
         setIsCursorNearTop(false);
       }
     };
 
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isCursorNearTop]);
+  }, [isCursorNearTop, isDropdownOpen]);
 
-  // Change color based on scroll position (e.g., after 200px)
   const backgroundColor = scrollPosition > 200 ? "bg-gray-200" : "bg-red-600";
+  const hoverBackgroundColor = backgroundColor === "bg-gray-200" ? "hover:bg-gray-100" : "hover:bg-red-200/50";
   const textColor = scrollPosition > 200 ? "text-black" : "text-white";
 
   return (
     <nav
-      className={`master-font tracking-wider w-full py-7 px-3 text-3xl sticky z-50 transition-all duration-500 ${backgroundColor} ${isHidden && !isCursorNearTop ? "-top-20" : "top-0"}`}
+      className={`master-font tracking-wider w-full py-7 px-3 sticky z-50 transition-all duration-500 ${backgroundColor} ${isHidden && !isCursorNearTop ? "-top-20" : "top-0"
+        }`}
     >
-      <div className={`w-4/5 mx-auto flex justify-between items-center ${textColor}`}>
-        <Link href={"/"} className="text-4xl font-[750] tracking-wider">
+      <div className={`w-full sm:w-10/12 md:w-4/5 mx-auto flex justify-between items-center ${textColor}`}>
+        <Link href={"/"} className="text-2xl md:text-3xl xl:text-4xl font-[750] tracking-wider">
           Purushotam Jeswani
         </Link>
 
-        <div className="hidden md:flex w-1/3 flex-row gap-3 justify-between">
-          <Link href={"/#about"} className="hover:underline">
-            About
-          </Link>
-          <Link href={"/#skills"} className="hover:underline">
-            Skills
-          </Link>
-          <Link href={"/#projects"} className="hover:underline">
-            Projects
-          </Link>
-          <Link href={"/resume"} className="hover:underline">
-            Resume
-          </Link>
-          <Link href={"/contact"} className="hover:underline">
-            Contact
-          </Link>
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex w-2/5 text-xl xl:text-2xl 2xl:text-3xl flex-row gap-3 justify-between">
+          {["About", "Skills", "Projects"].map((item) => (
+            <Link
+              key={item}
+              href={`/#${item.toLowerCase()}`}
+              className="relative hover:text-opacity-80 group"
+            >
+              {item}
+              <span className="absolute left-0 bottom-[-3px] w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-10/12 group-hover:bottom-[-5px]"></span>
+            </Link>
+          ))}
+          {["Resume", "Contact"].map((item) => (
+            <Link
+              key={item}
+              href={`/${item.toLowerCase()}`}
+              className="relative hover:text-opacity-80 group"
+            >
+              {item}
+              <span className="absolute left-0 bottom-[-3px] w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full group-hover:bottom-[-5px]"></span>
+            </Link>
+          ))}
+
         </div>
 
-        <div className="md:hidden flex items-center">
-          <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} aria-label="Toggle Menu">
-            {isDropdownOpen ? <i className="ph-duotone ph-x text-3xl"></i> : <i className="ph-duotone ph-list-magnifying-glass text-3xl"></i>}
+        {/* Mobile Navigation */}
+        <div className="md:hidden flex items-center relative">
+          <button
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            aria-label="Toggle Menu"
+          >
+            {isDropdownOpen ? (
+              <i className="ph-duotone ph-x text-3xl"></i>
+            ) : (
+              <i className="ph-duotone ph-list-magnifying-glass text-3xl"></i>
+            )}
           </button>
           {isDropdownOpen && (
-            <div className={`absolute top-[80%] right-[10%] md:hidden bg-red-500/70 rounded-sm shadow-sm ${textColor} shadow-lg w-64`}>
-              <div className="flex flex-col gap-3">
-                <Link href={"/#about"} className="hover:underline hover:bg-red-400/90 p-2" onClick={() => setIsDropdownOpen(false)}>
-                  About
-                </Link>
-                <Link href={"/#skills"} className="hover:underline hover:bg-red-400/90 p-2" onClick={() => setIsDropdownOpen(false)}>
-                  Skills
-                </Link>
-                <Link href={"/#projects"} className="hover:underline hover:bg-red-400/90 p-2" onClick={() => setIsDropdownOpen(false)}>
-                  Projects
-                </Link>
-                <Link href={"/resume"} className="hover:underline hover:bg-red-400/90 p-2" onClick={() => setIsDropdownOpen(false)}>
-                  Resume
-                </Link>
-                <Link href={"/contact"} className="hover:underline hover:bg-red-400/90 p-2" onClick={() => setIsDropdownOpen(false)}>
-                  Contact
-                </Link>
+            <div
+              ref={dropdownRef}
+              className={`absolute top-[100%] right-0 text-xl md:hidden ${backgroundColor} rounded-md shadow-md ${textColor} shadow-lg w-48`}
+            >
+              <div className="flex flex-col gap-3 p-3">
+                {["About", "Skills", "Projects"].map((item) => (
+                  <Link
+                    key={item}
+                    href={`/#${item.toLowerCase()}`}
+                    className={`relative hover:text-opacity-80 group`}
+                    onClick={() => setIsDropdownOpen(false)}
+                  >
+                    {item}
+                    <span className="absolute left-0 bottom-[-3px] w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-8/12 group-hover:bottom-[-5px]"></span>
+                  </Link>
+                ))}
+
+                {["Resume", "Contact"].map((item) => (
+                  <Link
+                    key={item}
+                    href={`/${item.toLowerCase()}`}
+                    className={`relative hover:text-opacity-80 group`}
+                    onClick={() => setIsDropdownOpen(false)}
+                  >
+                    {item}
+                    <span className="absolute left-0 bottom-[-3px] w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-8/12 group-hover:bottom-[-5px]"></span>
+                  </Link>
+                ))}
+
               </div>
             </div>
           )}
         </div>
       </div>
-
-      {/* Dropdown Menu for Mobile */}
     </nav>
   );
 };
