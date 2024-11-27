@@ -77,7 +77,20 @@ export function Body({ projects, skills }) {
 
             {/* Skills Section */}
             <section id="skills" className="w-full mx-auto flex flex-col justify-center pt-8 pb-7">
-                <h2 className="mx-auto mt-8 mb-8 font-semibold text-3xl md:text-6xl text-stone-800">Skills</h2>
+                <div className="relative flex mt-8 mb-8 justify-center items-center">
+                    {/* Brush stroke background */}
+                    <div
+                        className="absolute w-11/12 md:w-8/12 h-16 md:h-24 bg-no-repeat bg-contain transform -rotate-6 -top-1 "
+                        style={{
+                            backgroundImage: "url('https://www.pngarts.com/files/10/Paint-Brush-Stroke-PNG-Picture.png')",
+                            backgroundPosition: "center",
+                        }}
+                    ></div>
+                    {/* Projects text */}
+                    <h2 className="relative text-3xl md:text-6xl font-bold text-center tracking-wider text-white">
+                        Skills
+                    </h2>
+                </div>
                 <div className="w-11/12 md:w-4/5 mx-auto flex flex-wrap gap-4 justify-center md:justify-start p-5">
                     {skills.map((skill) => (
                         <div
@@ -103,7 +116,7 @@ export function Body({ projects, skills }) {
                             }}
                         ></div>
                         {/* Projects text */}
-                        <h2 className="relative text-3xl md:text-6xl font-bold text-center tracking-wide text-red-400">
+                        <h2 className="relative text-3xl md:text-6xl font-bold text-center tracking-wider text-[#ff8700] ">
                             Projects
                         </h2>
                     </div>

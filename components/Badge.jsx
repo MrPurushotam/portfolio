@@ -1,22 +1,28 @@
-
 const Badge = ({ text, type = "primary" }) => {
-  let typeStyle=""
-  if(type==="one"){
-    typeStyle="bg-slate-900 text-white";
-  }else if(type==="outline"){
-    typeStyle="border-2 border-slate-900 text-black"
-  }else if(type==="two"){
-    typeStyle="bg-green-500 text-white"
-  }else if(type==="three"){
-    typeStyle="bg-blue-500 text-white"
-  }else if(type==="four"){
-    typeStyle="bg-yellow-500 text-white"
+  let typeStyle = "";
+  if (type === "one") {
+    typeStyle = "bg-slate-900 text-white";
+  } else if (type === "outline") {
+    typeStyle = "border-2 border-slate-900 text-black";
+  } else if (type === "two") {
+    typeStyle = "bg-green-500 text-white";
+  } else if (type === "three") {
+    typeStyle = "bg-blue-500 text-white";
+  } else if (type === "four") {
+    typeStyle = "bg-yellow-500 text-white";
   }
-  return (
-    <div className={`px-3 py-1 shadow-md rounded-full ${typeStyle}`}>
-      <span className="capitalize text-2xl font-semibold tracking-wider">{text}</span>
-    </div>
-  )
-}
 
-export default Badge
+  return (
+    <div
+      className={`px-2 py-1 sm:px-3 sm:py-1.5 md:px-3 md:py-1 lg:px-2 lg:py-1 xl:px-3 xl:py-1 shadow-md rounded-full ${typeStyle}`}
+    >
+      <span
+        className="text-base sm:text-base md:text-xl lg:text-xl xl:text-2xl capitalize font-semibold tracking-wider"
+      >
+        {text}
+      </span>
+    </div>
+  );
+};
+
+export default Badge;
