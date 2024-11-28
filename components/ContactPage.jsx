@@ -54,7 +54,7 @@ const ContactPage = () => {
                             <Link href="mailto:work.purushotam@gmail.com" target='_blank' className="border-2 border-transparent hover:border-gray-900 p-4 rounded-full hover:bg-white/20 transition-colors">
                                 <i className="ph-duotone ph-envelope text-3xl"></i>
                             </Link>
-                            <Link href="github.com/MrPurushotam" target='_blank' className="border-2 border-transparent hover:border-gray-900 p-4 rounded-full hover:bg-white/20 transition-colors">
+                            <Link href="https://www.github.com/MrPurushotam" target='_blank' className="border-2 border-transparent hover:border-gray-900 p-4 rounded-full hover:bg-white/20 transition-colors">
                                 <i className="ph-duotone ph-github-logo text-3xl"></i>
                             </Link>
                             <Link href="https://www.linkedin.com/in/purushotamjeswani" target='_blank' className="border-2 border-transparent hover:border-gray-900 p-4 rounded-full hover:bg-white/20 transition-colors">

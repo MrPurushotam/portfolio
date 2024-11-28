@@ -5,6 +5,7 @@ import SkillComponent from "./SkillComponent";
 import Socials from "./Socials";
 import { useState } from "react";
 import BreifProject from "./BriefProject";
+import Badge from "./Badge";
 
 export function Body({ projects, skills }) {
     const [breifOpen, setBreifOpen] = useState(false);
@@ -18,12 +19,12 @@ export function Body({ projects, skills }) {
 
             {/* Hero Section */}
             <section id="me" className="h-[70vh] w-full mx-auto flex justify-center items-center bg-red-500">
-                <div className="grid grid-cols-1 md:grid-cols-2 w-full h-full">
+                <div className="grid grid-cols-1 md:grid-cols-2 w-11/12 mx-auto h-full">
                     <div className="flex justify-center items-center md:hidden">
                         <img
                             src="https://avatarfiles.alphacoders.com/319/319682.png"
-                            alt="pfp"
-                            className="h-40 w-40 md:h-full md:w-auto rounded-full object-cover"
+                            alt="Pj profile"
+                            className="h-40 w-40 md:h-full md:w-auto rounded-md object-cover"
                         />
                     </div>
                     <div className="flex justify-center items-center">
@@ -40,7 +41,7 @@ export function Body({ projects, skills }) {
 
                             <Link
                                 href="/contact"
-                                className="inline-block mt-6 md:mt-10 text-center text-lg md:text-3xl border-2 border-black rounded p-2 md:p-3 uppercase"
+                                className="inline-block mt-6 md:mt-10 text-center text-lg md:text-3xl border-2 border-black rounded p-2 md:p-3 uppercase hover:bg-red-400/80"
                             >
                                 Get in touch
                             </Link>
@@ -54,17 +55,22 @@ export function Body({ projects, skills }) {
                     <div className="p-4 justify-center items-center hidden md:flex">
                         <img
                             src="https://avatarfiles.alphacoders.com/319/319682.png"
-                            alt="pfp"
-                            className="h-40 w-40 md:h-full md:w-auto rounded-full object-cover"
+                            alt="Pj profile"
+                            className="h-40 w-40 md:h-full md:w-auto rounded-md object-cover"
                         />
                     </div>
                 </div>
             </section>
 
             {/* About Section */}
-            <section id="about" className="w-full mx-auto flex justify-center py-10 bg-gray-200/40">
+            <section id="about" className="w-full mx-auto flex justify-center py-10 bg-gray-200/50">
                 <div className="h-auto w-11/12 md:w-3/5 p-3 pt-8 md:pt-16 md:pb-16">
-                    <h2 className="text-red-600 border-red-500 border-b-2 text-3xl md:text-6xl my-6 md:my-8 capitalize text-center font-bold tracking-wide">About</h2>
+                    <h2 className="flex items-center text-red-600 text-3xl md:text-6xl my-6 md:my-8 capitalize text-center font-bold tracking-wide">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 md:h-12 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                        </svg>
+                        About Me
+                    </h2>
                     <p className="text-3xl md:text-4xl text-justify">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem possimus ad veniam cupiditate
                         tenetur ut cum commodi ab impedit? Reiciendis omnis harum voluptatum rem possimus suscipit,
@@ -78,7 +84,6 @@ export function Body({ projects, skills }) {
             {/* Skills Section */}
             <section id="skills" className="w-full mx-auto flex flex-col justify-center pt-8 pb-7">
                 <div className="relative flex mt-8 mb-8 justify-center items-center">
-                    {/* Brush stroke background */}
                     <div
                         className="absolute w-11/12 md:w-8/12 h-16 md:h-24 bg-no-repeat bg-contain transform -rotate-6 -top-1 "
                         style={{
@@ -86,7 +91,6 @@ export function Body({ projects, skills }) {
                             backgroundPosition: "center",
                         }}
                     ></div>
-                    {/* Projects text */}
                     <h2 className="relative text-3xl md:text-6xl font-bold text-center tracking-wider text-white">
                         Skills
                     </h2>
@@ -106,20 +110,23 @@ export function Body({ projects, skills }) {
             {/* Projects Section */}
             <section id="projects" className="bg-gray-200/50 py-10">
                 <div className="w-full space-y-6">
-                    <div className="relative flex justify-center items-center">
-                        {/* Brush stroke background */}
-                        <div
-                            className="absolute w-11/12 md:w-8/12 h-16 md:h-24 bg-no-repeat bg-contain transform -rotate-6 -top-1 "
-                            style={{
-                                backgroundImage: "url('https://www.pngarts.com/files/10/Paint-Brush-Stroke-PNG-Picture.png')", // Replace with your brush stroke image path
-                                backgroundPosition: "center",
-                            }}
-                        ></div>
-                        {/* Projects text */}
-                        <h2 className="relative text-3xl md:text-6xl font-bold text-center tracking-wider text-[#ff8700] ">
+                    <div className="relative flex flex-col justify-center items-center w-10/12 md:w-7/12 mx-auto ">
+                        {/* <div className=" w-2/3 mx-auto absolute top-0 left-0 right-0  h-[3px] bg-black bg-gradient-to-r from-transparent via-black to-transparent"></div> */}
+                        <h2 className="relative text-3xl md:text-6xl font-bold text-center tracking-wide text-rose-500">
                             Projects
                         </h2>
+                        <div className=" w-2/3 mx-auto my-2 h-[3px] bg-black bg-gradient-to-r from-transparent via-black to-transparent"></div>
+                        <div className="w-full sm:w-4/5 md:w-2/3 lg:w-1/2 min-h-16 mx-auto p-2 flex flex-wrap justify-center items-center gap-2">
+                            <Badge text={"Reactjs"} type="outline" count={20} />
+                            <Badge text={"Reactjs"} type="outline" />
+                            <Badge text={"Reactjs"} type="outline" />
+                            <Badge text={"Reactjs"} type="outline" />
+                            <Badge text={"Reactjs"} type="outline" />
+                            <Badge text={"Reactjs"} type="outline" />
+                            <Badge text={"Reactjs"} type="outline" />
+                        </div>
                     </div>
+
                     <div className="w-11/12 md:w-8/12 mx-auto space-y-4 p-5">
                         {projects?.map((project) => (
                             <ProjectsSection key={project.id} project={project} state={setBreifOpen} />
