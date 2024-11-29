@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const Appbar = () => {
   const [isHidden, setIsHidden] = useState(false);
@@ -66,7 +67,7 @@ const Appbar = () => {
         }`}
     >
       <div className={`w-full sm:w-10/12 md:w-4/5 mx-auto flex justify-between items-center ${textColor}`}>
-        <Link href={"/"} className="text-2xl md:text-3xl xl:text-4xl font-[750] tracking-wider">
+        <Link href={"/"} className="flex items-center text-2xl md:text-3xl xl:text-4xl font-[750] tracking-wider">
           Purushotam Jeswani
         </Link>
 

@@ -1,4 +1,4 @@
-const Badge = ({ text, type = "outline", count = 0 }) => {
+const Badge = ({ text, type = "outline", count = 0,className="" ,...props}) => {
   let typeStyle = "";
   if (type === "one") {
     typeStyle = "bg-slate-900 text-white";
@@ -14,7 +14,8 @@ const Badge = ({ text, type = "outline", count = 0 }) => {
 
   return (
     <div
-      className={`px-2 py-1 sm:px-3 sm:py-1.5 md:px-3 md:py-1 lg:px-2 lg:py-1 xl:px-3 xl:py-1 shadow-md rounded-full ${typeStyle} space-x-1 space-y-1`}
+      className={`px-2 py-1 sm:px-3 sm:py-1.5 md:px-3 md:py-1 lg:px-2 lg:py-1 xl:px-3 xl:py-1 shadow-md rounded-full ${typeStyle} space-x-1 space-y-1 cursor-pointer select-none ${className}`}
+      {...props}
     >
       <span
         className="text-base sm:text-base md:text-xl lg:text-xl xl:text-2xl capitalize font-semibold tracking-wider"

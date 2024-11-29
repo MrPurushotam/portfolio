@@ -3,12 +3,49 @@ import Link from "next/link";
 import ProjectsSection from "./ProjectsSection";
 import SkillComponent from "./SkillComponent";
 import Socials from "./Socials";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import BreifProject from "./BriefProject";
 import Badge from "./Badge";
 
 export function Body({ projects, skills }) {
     const [breifOpen, setBreifOpen] = useState(false);
+    const langCount = useRef({});
+    const [uniqueLanguages, setUniqueLanguges] = useState([]);
+    const [filteredProjects, setFilteredProjects] = useState([]);
+    const [paticularLang,setPaticularLang] = useState("");
+
+    const initializeLanguages = () => {
+        const langMap = {};
+
+        projects.forEach((project) => {
+            JSON.parse(project.techstack).forEach((tech) => {
+                langMap[tech] = (langMap[tech] || 0) + 1;
+            });
+        });
+
+        langCount.current = langMap;
+        setUniqueLanguges(Object.keys(langMap));
+        setFilteredProjects(projects);
+    };
+
+    const handleBadgeClick = (language) => {
+        setPaticularLang(language)
+        sortProjects(language);
+    };
+    const sortProjects = (language) => {
+        if (!language) {
+            setFilteredProjects(projects);
+        } else {
+            const filtered = projects.filter((project) =>
+                JSON.parse(project.techstack).includes(language)
+            );
+            setFilteredProjects(filtered);
+        }
+    };
+    useState(() => {
+        initializeLanguages();
+    }, []);
+
     return (
         <div className="w-full h-full relative primary-font">
             {breifOpen && (
@@ -112,23 +149,24 @@ export function Body({ projects, skills }) {
                 <div className="w-full space-y-6">
                     <div className="relative flex flex-col justify-center items-center w-10/12 md:w-7/12 mx-auto ">
                         {/* <div className=" w-2/3 mx-auto absolute top-0 left-0 right-0  h-[3px] bg-black bg-gradient-to-r from-transparent via-black to-transparent"></div> */}
-                        <h2 className="relative text-3xl md:text-6xl font-bold text-center tracking-wide text-rose-500">
+                        <h2 className="relative text-3xl md:text-6xl font-bold text-center tracking-wider text-red-500" id="projects">
                             Projects
                         </h2>
                         <div className=" w-2/3 mx-auto my-2 h-[3px] bg-black bg-gradient-to-r from-transparent via-black to-transparent"></div>
-                        <div className="w-full sm:w-4/5 md:w-2/3 lg:w-1/2 min-h-16 mx-auto p-2 flex flex-wrap justify-center items-center gap-2">
-                            <Badge text={"Reactjs"} type="outline" count={20} />
-                            <Badge text={"Reactjs"} type="outline" />
-                            <Badge text={"Reactjs"} type="outline" />
-                            <Badge text={"Reactjs"} type="outline" />
-                            <Badge text={"Reactjs"} type="outline" />
-                            <Badge text={"Reactjs"} type="outline" />
-                            <Badge text={"Reactjs"} type="outline" />
+                        <div className="w-full sm:w-4/5 md:w-2/3 lg:w-2/3 min-h-16 mx-auto p-2 flex flex-wrap justify-center items-center gap-2">
+                            <Badge text={"All"} type="outline" count={projects.length} onClick={() => handleBadgeClick("")} className={`${(paticularLang === "")?"bg-rose-500/90 text-white":""}`} />
+                            {
+                                uniqueLanguages.map((tech,idx) => {
+                                    return (
+                                        <Badge key={idx} text={tech} type="outline" count={langCount.current[tech]} onClick={() => handleBadgeClick(tech)} className={`${paticularLang === tech ?"bg-red-500/90 text-white":""}`} />
+                                    )
+                                })
+                            }
                         </div>
                     </div>
 
                     <div className="w-11/12 md:w-8/12 mx-auto space-y-4 p-5">
-                        {projects?.map((project) => (
+                        {filteredProjects.map((project) => (
                             <ProjectsSection key={project.id} project={project} state={setBreifOpen} />
                         ))}
                     </div>

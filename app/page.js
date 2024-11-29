@@ -4,6 +4,7 @@ import Appbar from "@/components/Appbar";
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
+import Footer from "@/components/Footer";
 
 async function getStaticData() {
   const filePath = path.join(process.cwd(), "data", "staticData.json");
@@ -22,7 +23,7 @@ export default async function Home() {
       <div className="flex-1">
         <Body projects={projects} skills={skills} />
       </div>
-      {/* <Footer/> */}
+      <Footer/>
     </div>
   );
 }

@@ -4,7 +4,7 @@ import Link from "next/link";
 import Badge from "./Badge";
 
 const ProjectsSection = ({ project, state }) => {
-  return (
+    return (
     <div className="w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm bg-white hover:shadow-lg transition-shadow duration-200">
       <div className="flex flex-col sm:flex-row gap-3 items-center">
         <div className="w-52 h-52 flex-shrink-0 flex items-center justify-center overflow-hidden rounded-md border border-gray-200 shadow-sm bg-gray-100">
@@ -38,11 +38,24 @@ const ProjectsSection = ({ project, state }) => {
 
           {/* Badges */}
           <div className="flex flex-wrap gap-2">
-            <Badge text="ReactJs" type="outline" />
-            <Badge text="JavaScript" type="one" />
-            <Badge text="Node.js" type="two" />
-            <Badge text="Node.js" type="three" />
-            <Badge text="Node.js" type="four" />
+            {project.techstack.length>0 && JSON.parse(project.techstack)?.map((stack)=>{
+                const randomSelect = () => {
+                  let random = Math.floor(Math.random() * 4)+1
+                  switch (random) {
+                      case 1:
+                          return "one"
+                      case 2:
+                          return "two"
+                      case 3:
+                          return "three"
+                      case 4:
+                          return "four"
+                  }
+              }
+              return(
+                <Badge key={stack} text={stack} type={randomSelect()} /> 
+              )
+            })}
           </div>
 
           {/* Description */}
