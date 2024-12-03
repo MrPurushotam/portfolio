@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
-import Head from "next/head";
 import "./globals.css";
+import Appbar from "@/components/Appbar";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,13 +22,17 @@ export default function RootLayout({ children }) {
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <meta name="apple-mobile-web-app-title" content="PJ Portolio" />
         <link rel="manifest" href="/site.webmanifest" />
-        
+
         <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
         <link href="https://fonts.googleapis.com/css2?family=Markazi+Text:wght@400..700&family=Passero+One&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"></link>
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Appbar />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

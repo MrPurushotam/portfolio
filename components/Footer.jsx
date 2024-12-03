@@ -1,6 +1,7 @@
 
 import Link from "next/link";
 import ThemeSelect from "./themeSelect";
+import Image from "next/image";
 
 const Footer = () => {
 
@@ -35,28 +36,29 @@ const Footer = () => {
                             <i className="ph-duotone ph-x-logo text-3xl"></i>
                         </Link>
                     </div>
+                    <div className="w-32 h-10 -ml-1">
+                        <ThemeSelect />
+                    </div>
                     <div className="text-center text-lg md:text-2xl">
                         <p>&copy; {new Date().getFullYear()} Purushotam Jeswani. All rights reserved.</p>
-                    </div>
-
-                    {/* Dark/Light/System Mode Toggle */}
-                    <div className = "w-32 h-10">
-                        <ThemeSelect/>
                     </div>
                 </div>
 
                 <div className="flex flex-col items-center md:items-start space-y-6">
-                    <h3 className="text-3xl md:text-4xl font-bold">Quick Links</h3>
+                    <h3 className="text-3xl md:text-4xl font-bold master-font">Quick Links</h3>
                     <div className="flex flex-col gap-2 md:gap-3 pl-2">
-                        {["Me","About", "Skills", "Projects", "Resume", "Contact"].map((item) => (
-                            <Link
-                                key={item}
-                                href={`/${item.toLowerCase() === "resume" || item.toLowerCase() === "contact" ? "" : "#"}${item.toLowerCase()}`}
-                                className="relative hover:text-red-200 group text-lg md:text-2xl"
-                            >
-                                {item}
-                                <span className="absolute left-0 bottom-[-3px] w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full group-hover:bottom-[-5px]"></span>
-                            </Link>
+                        {[{ name: "Me", icon: "student-2.gif" }, { name: "About", icon: "search-book-2.gif" }, { name: "Skills", icon: "software-2.gif" }, { name: "Projects", icon: "startup-2.gif" }, { name: "Resume", icon: "resume.gif" }, { name: "Contact", icon: "agenda.gif" }].map((item) => (
+                            <>
+                                <Link
+                                    key={item.name}
+                                    href={`/${item.name.toLowerCase() === "resume" || item.name.toLowerCase() === "contact" ? "" : "#"}${item.name.toLowerCase()}`}
+                                    className="flex items-center gap-2 relative hover:text-red-200 group text-lg md:text-2xl"
+                                >
+                                <img src={`/icons/${item.icon}`} className="bg-neutral-100 rounded-md shadow-sm" width={40} height={20} />
+                                    {item.name}
+                                    <span className="absolute left-0 bottom-[-3px] w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full group-hover:bottom-[-5px]"></span>
+                                </Link>
+                            </>
                         ))}
                     </div>
                 </div>

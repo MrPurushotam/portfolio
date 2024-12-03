@@ -19,11 +19,9 @@ export default async function Home() {
   const { projects, skills } = await getStaticData();
   return (
     <div className="flex flex-col">
-      <Appbar />
       <div className="flex-1">
         <Body projects={projects} skills={skills} />
       </div>
-      <Footer/>
     </div>
   );
 }

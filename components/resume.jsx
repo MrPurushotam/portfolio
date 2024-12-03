@@ -10,7 +10,7 @@ const ResumeIntegration = () => {
   const resumeLink = `https://drive.google.com/file/d/${resumeDocId}/preview`;
 
   return (
-    <div className="w-full h-dvh flex items-center justify-center bg-gray-100">
+    <div className="w-full p-3 h-dvh flex items-center justify-center bg-gray-100">
       {isLoading && <ResumeSkeleton className="mx-auto w-full md:w-3/4 lg:w-1/2" />}
       <iframe
         src={resumeLink}
