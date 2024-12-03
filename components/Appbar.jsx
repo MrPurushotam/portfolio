@@ -67,7 +67,8 @@ const Appbar = () => {
         }`}
     >
       <div className={`w-full sm:w-10/12 md:w-4/5 mx-auto flex justify-between items-center ${textColor}`}>
-        <Link href={"/"} className="flex items-center text-2xl md:text-3xl xl:text-4xl font-[750] tracking-wider">
+        <Link href={"/"} className="flex items-center gap-2 text-2xl md:text-3xl xl:text-4xl font-[750] tracking-wider">
+          <Image src="/favicon.svg" alt="Logo" width={80} height={80} />
           Purushotam Jeswani
         </Link>
 
