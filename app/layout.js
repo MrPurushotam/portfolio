@@ -38,9 +38,8 @@ export default function RootLayout({ children }) {
         {metadata.openGraph.images.map((image, index) => (
           <meta key={index} property="og:image" content={image} />
         ))}
-
-        <meta name="google-site-verification" content="CFdHcwU1z903MfQxQDJ1jl-556aI5SGsaMpa_8RUbKs" />
-
+        <meta name="google-site-verification" content="Hyq7_rXCrzF3ib_AhDf781L1pYQmFT7oZilFhKZVWCY" />
+        
         <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
