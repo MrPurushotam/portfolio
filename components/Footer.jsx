@@ -48,17 +48,13 @@ const Footer = () => {
                     <h3 className="text-3xl md:text-4xl font-bold master-font">Quick Links</h3>
                     <div className="flex flex-col gap-2 md:gap-3 pl-2">
                         {[{ name: "Me", icon: "student-2.gif" }, { name: "About", icon: "search-book-2.gif" }, { name: "Skills", icon: "software-2.gif" }, { name: "Projects", icon: "startup-2.gif" }, { name: "Resume", icon: "resume.gif" }, { name: "Contact", icon: "agenda.gif" }].map((item) => (
-                            <>
-                                <Link
-                                    key={item.name}
-                                    href={`/${item.name.toLowerCase() === "resume" || item.name.toLowerCase() === "contact" ? "" : "#"}${item.name.toLowerCase()}`}
-                                    className="flex items-center gap-2 relative hover:text-red-200 group text-lg md:text-2xl"
-                                >
+                            <Link href={`/${item.name.toLowerCase() === "resume" || item.name.toLowerCase() === "contact" ? "" : "#"}${item.name.toLowerCase()}`} key={item.name} className="flex items-center gap-2">
                                 <img src={`/icons/${item.icon}`} className="bg-neutral-100 rounded-md shadow-sm" width={40} height={20} />
+                                <spam className=" relative hover:text-red-200 group text-lg md:text-2xl">
                                     {item.name}
                                     <span className="absolute left-0 bottom-[-3px] w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full group-hover:bottom-[-5px]"></span>
-                                </Link>
-                            </>
+                                </spam>
+                            </Link>
                         ))}
                     </div>
                 </div>

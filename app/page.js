@@ -1,9 +1,9 @@
 
 import { Body } from "@/components/Body";
-import Appbar from "@/components/Appbar";
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
+import Appbar from "@/components/Appbar";
 import Footer from "@/components/Footer";
 
 async function getStaticData() {
@@ -19,9 +19,11 @@ export default async function Home() {
   const { projects, skills } = await getStaticData();
   return (
     <div className="flex flex-col">
+      <Appbar/>
       <div className="flex-1">
         <Body projects={projects} skills={skills} />
       </div>
+      <Footer/>
     </div>
   );
 }

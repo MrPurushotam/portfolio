@@ -1,7 +1,5 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Appbar from "@/components/Appbar";
-import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -46,9 +44,7 @@ export default function RootLayout({ children }) {
         <link href="https://fonts.googleapis.com/css2?family=Markazi+Text:wght@400..700&family=Passero+One&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"></link>
       </head>
       <body className={inter.className}>
-        <Appbar />
         {children}
-        <Footer />
       </body>
     </html>
   );
