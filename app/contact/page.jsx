@@ -1,4 +1,5 @@
 import ContactPage from "@/components/ContactPage"
+import Appbar from "@/components/Appbar";
 import Footer from "@/components/Footer"
 
 const page = () => {
