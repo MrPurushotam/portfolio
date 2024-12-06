@@ -12,7 +12,7 @@ export function Body({ projects, skills }) {
     const langCount = useRef({});
     const [uniqueLanguages, setUniqueLanguges] = useState([]);
     const [filteredProjects, setFilteredProjects] = useState([]);
-    const [paticularLang,setPaticularLang] = useState("");
+    const [paticularLang, setPaticularLang] = useState("");
 
     const initializeLanguages = () => {
         const langMap = {};
@@ -67,7 +67,7 @@ export function Body({ projects, skills }) {
                     <div className="flex justify-center items-center">
                         <div className="text-center md:text-left">
                             <div>
-                                <span className="text-lg md:text-3xl">Hi, my name is</span>
+                                <span className="text-lg md:text-3xl">Hi, I am</span>
                                 <br />
                                 <span className="text-2xl md:text-4xl font-bold master-font">Purushotam Jeswani</span>
                                 <br />
@@ -109,11 +109,23 @@ export function Body({ projects, skills }) {
                         About Me
                     </h2>
                     <p className="text-3xl md:text-4xl text-justify">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem possimus ad veniam cupiditate
-                        tenetur ut cum commodi ab impedit? Reiciendis omnis harum voluptatum rem possimus suscipit,
-                        accusantium beatae vero explicabo ipsa aspernatur, eveniet recusandae, quae quidem minus
-                        quibusdam natus tempore tenetur voluptatem accusamus voluptatibus mollitia. Excepturi quibusdam
-                        suscipit enim reiciendis?
+                        {/* Hi 🙋🏻‍♂️, I am Purushotam Jeswani, a <span className="highlight-red font-bold text-black underline">Full Stack Developer</span>, with prior experience in <span className="highlight-red font-bold text-black underline">DevOps</span>, bringing development and deployment together to deliver reliable solutions.
+                        I am someone who is curious to make an impact with my skills, someone who is driven by a zeal about coding, someone who is excited to take on advanced projects with a growth-oriented, jolly mindset.
+                        Instead of conventional education, I value continuous learning and I love exploring ideas, out-of-the-box. Getting motivated and influenced by passionate and intellectual minds is something that brings energy into my work.
+                        I strive to be the person you would surely enjoy working with. Although I have my areas of improvement, as in I occasionally struggle with management of time, I am working on getting better at it. */}
+                        Hi 🙋🏻‍♂️, I am Purushotam Jeswani, a <span className="animated-text font-bold text-5xl capitalize p-1 bg-black">Full Stack Developer</span>, with prior experience in <span className="animated-text font-bold text-5xl capitalize p-1 bg-black">DevOps</span>, bringing development and deployment together to deliver reliable solutions.
+                        I am someone who is curious to make an impact with my skills, someone who is driven by a zeal about coding, someone who is excited to take on advanced projects with a growth-oriented, jolly mindset.
+                        Instead of conventional education, I value continuous learning and I love exploring ideas, out-of-the-box. Getting motivated and influenced by passionate and intellectual minds is something that brings energy into my work.
+                        I strive to be the person you would surely enjoy working with. Although I have my areas of improvement, as in I occasionally struggle with management of time, I am working on getting better at it.
+                    </p>
+                    <h2 className="flex items-center text-amber-800 text-3xl md:text-6xl my-6 md:my-8 capitalize text-center font-bold tracking-wide">
+                        <i className="ph-duotone ph-student text-5xl"></i>
+                        Education
+                    </h2>
+                    <p className="text-3xl md:text-4xl text-justify">
+                        I completed my high school at <span className="font-bold">Lakshmipat Singhania Public School, Jaykaypur, Rayagada, Odisha</span> (2019 - 2021), which had a significant influence on me. <br/>
+                        Currently, I am pursuing my <span className="underline font-semibold">B.Tech</span> in Computer Science and Engineering at <span className="font-bold"> Lovely Professional University</span>, Phagwara, Punjab (2022-2026).
+
                     </p>
                 </div>
             </section>
@@ -154,11 +166,11 @@ export function Body({ projects, skills }) {
                         </h2>
                         <div className=" w-2/3 mx-auto my-2 h-[3px] bg-black bg-gradient-to-r from-transparent via-black to-transparent"></div>
                         <div className="w-full sm:w-4/5 md:w-2/3 lg:w-2/3 min-h-16 mx-auto p-2 flex flex-wrap justify-center items-center gap-2">
-                            <Badge text={"All"} type="outline" count={projects.length} onClick={() => handleBadgeClick("")} className={`${(paticularLang === "")?"bg-rose-500/90 text-white":""}`} />
+                            <Badge text={"All"} type="outline" count={projects.length} onClick={() => handleBadgeClick("")} className={`${(paticularLang === "") ? "bg-rose-500/90 text-white" : ""}`} />
                             {
-                                uniqueLanguages.map((tech,idx) => {
+                                uniqueLanguages.map((tech, idx) => {
                                     return (
-                                        <Badge key={idx} text={tech} type="outline" count={langCount.current[tech]} onClick={() => handleBadgeClick(tech)} className={`${paticularLang === tech ?"bg-red-500/90 text-white":""}`} />
+                                        <Badge key={idx} text={tech} type="outline" count={langCount.current[tech]} onClick={() => handleBadgeClick(tech)} className={`${paticularLang === tech ? "bg-red-500/90 text-white" : ""}`} />
                                     )
                                 })
                             }

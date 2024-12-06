@@ -13,14 +13,16 @@ export const POST = async (req) => {
         if (GlobalEmail.includes(email) && password === GlobalPassword) {
             const userId = email;
             const role = "admin";
-            const token = jwt.sign({ id: userId, role }, JWT_SECRET);
+
+            const token = jwt.sign({ id: userId, role }, JWT_SECRET,{expiresIn:'1h'});
 
             const headers = new Headers();
             headers.append('Set-Cookie', serialize('session_token', token, {
                 httpOnly: true,
                 path: '/',
                 sameSite: 'strict',
-                secure: process.env.NODE_ENV === 'production'
+                secure: process.env.NODE_ENV === 'production',
+                maxAge:60*60
             }));
 
             return new Response(JSON.stringify({ message: "Logged in.", success: true }), {
