@@ -20,7 +20,6 @@ const ThemeSelect = () => {
 
         localStorage.setItem("theme", selectedTheme);
     };
-    console.log(theme);
     const handleThemeChange = (selectedTheme) => {
         setTheme(selectedTheme);
         applyTheme(selectedTheme);

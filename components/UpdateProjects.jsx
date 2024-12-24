@@ -1,6 +1,13 @@
 "use client"
 import React, { useEffect, useRef, useState } from 'react'
 import data from "@/data/staticData.json";
+
+const extractNotionLink = (link) => {
+    const parts = link.split('/');
+    return parts.length > 0 ? parts[parts.length - 1] : link;
+};
+
+
 const UpdateProjects = React.memo(({ setProjects, close, updating }) => {
     const outDivRef = useRef(null)
     const projectData = useRef(data.projects.find(project => project.id === updating));
@@ -8,29 +15,29 @@ const UpdateProjects = React.memo(({ setProjects, close, updating }) => {
     const [formdata, setFormdata] = useState(projectData.current
         ?
         {
-            id:projectData.current.id,
+            id: projectData.current.id,
             title: projectData.current.title,
             description: projectData.current.description,
-            techstack: projectData.current.techstack,
-            brief: projectData.current?.brief === "true",
-            describe: projectData.current?.describe,
-            static_file: projectData.current?.static_file,
-            resourceType:projectData.current?.resourceType,
-            githubLink:projectData.current?.githubLink,
-            liveLink:projectData.current?.liveLink
+            techstack: JSON.parse(projectData.current.techstack).join(", "), // Convert JSON array to comma-separated string
+            brief: projectData.current.brief === true,
+            describe: extractNotionLink(projectData.current.describe),
+            static_file: projectData.current.static_file,
+            resourceType: projectData.current.resourceType,
+            githubLink: projectData.current.githubLink,
+            liveLink: projectData.current.liveLink
         }
         :
         {
-            id:null,
+            id: null,
             title: "",
             description: "",
             techstack: "",
             brief: false,
             describe: "",
-            static_file:"",
-            resourceType:"",
-            githubLink:"",
-            liveLink:""
+            static_file: "",
+            resourceType: "",
+            githubLink: "",
+            liveLink: ""
         });
 
     const handleFormData = (e) => {
@@ -39,19 +46,20 @@ const UpdateProjects = React.memo(({ setProjects, close, updating }) => {
         // Handling checkbox (brief) separately
         setFormdata(prev => ({
             ...prev,
-            [name]: name === "techstack"
-                ? Array.isArray(value) ? value.join(", ") : value
-                : (type === "checkbox" ? checked : value)
+            [name]: type === "checkbox" ? checked : value
         }));
     };
 
-
     const handleSubmit = async () => {
         console.log(formdata);
-        const techstackArray = Array.isArray(formdata.techstack)
-            ? formdata.techstack.map(item => item.trim())
-            : formdata.techstack.split(',').map(item => item.trim());
-        const updatedData = { ...formdata, techstack: techstackArray };
+        const techstackArray = formdata.techstack.split(',').map(item => item.trim());
+        const updatedData = {
+            ...formdata,
+            techstack: techstackArray,
+            describe: extractNotionLink(formdata.describe), // Use the new function here
+            githubLink: formdata.githubLink,
+            liveLink: formdata.liveLink
+        };
 
         try {
             const formData = new FormData();
@@ -61,14 +69,14 @@ const UpdateProjects = React.memo(({ setProjects, close, updating }) => {
             formData.append("techstack", JSON.stringify(updatedData.techstack)); // Convert array to JSON string
             formData.append("brief", updatedData.brief);
             formData.append("describe", updatedData.describe || "");
-            formData.append("githubLink", updatedData.describe || "");
-            formData.append("liveLink", updatedData.describe || "");
+            formData.append("githubLink", updatedData.githubLink || "");
+            formData.append("liveLink", updatedData.liveLink || "");
 
             // Attach the file if one is selected
             if (file) {
                 formData.append("staticfile", file);
-            }  
-            
+            }
+
             const response = await fetch(`/api/project`, {
                 method: updating ? "PUT" : "POST",
                 body: formData,
@@ -83,7 +91,7 @@ const UpdateProjects = React.memo(({ setProjects, close, updating }) => {
                 } else {
                     setProjects(prev => ([...prev, result.updatedProject]));
                 }
-                close();
+                close("");
             } else {
                 console.error(result.message);
             }
@@ -95,7 +103,7 @@ const UpdateProjects = React.memo(({ setProjects, close, updating }) => {
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
         if (selectedFile) {
-            setFormdata(prev=>({...prev,resourceType:selectedFile.type.split("/")[0]}))
+            setFormdata(prev => ({ ...prev, resourceType: selectedFile.type.split("/")[0] }))
             setFile(selectedFile);
         }
     }
@@ -112,9 +120,8 @@ const UpdateProjects = React.memo(({ setProjects, close, updating }) => {
         }
     }, [])
 
-
     return (
-        <div className='absolute inset-0 flex items-center justify-center bg-black/20 z-5'>
+        <div className='absolute inset-0 flex items-center justify-center h-full w-full bg-black/20 z-5'>
             <div ref={outDivRef} className='relative w-11/12 max-w-4xl p-6 border border-gray-300 rounded-lg shadow-lg bg-white space-y-6'>
                 <i className="sticky top-[5%] left-[90%] ph-duotone ph-x text-2xl hover:text-red-500"
                     onClick={() => {
@@ -134,14 +141,14 @@ const UpdateProjects = React.memo(({ setProjects, close, updating }) => {
                         formdata.static_file ?
                             <div className="relative">
                                 {
-                                    formdata.resourceType==="video"?
-                                    <video src={formdata.static_file} alt="Preview" className="h-28 w-fit object-fit rounded-md flex justify-center items-center" controls />
-                                    :
-                                    <img src={formdata.static_file} alt="Preview" className="h-28 w-fit object-fit rounded-md flex justify-center items-center" />
+                                    formdata.resourceType === "video" ?
+                                        <video src={formdata.static_file} alt="Preview" className="h-28 w-fit object-fit rounded-md flex justify-center items-center" controls />
+                                        :
+                                        <img src={formdata.static_file} alt="Preview" className="h-28 w-fit object-fit rounded-md flex justify-center items-center" />
                                 }
                                 <i
                                     className="absolute top-0 right-0 ph-duotone ph-x-circle text-lg text-red-500 cursor-pointer"
-                                    onClick={() => setFormdata(prev=>({...prev,static_file:""}))}
+                                    onClick={() => setFormdata(prev => ({ ...prev, static_file: "" }))}
                                 ></i>
                             </div>
                             :
@@ -237,7 +244,7 @@ const UpdateProjects = React.memo(({ setProjects, close, updating }) => {
                     <label className='block text-gray-700 font-semibold mb-2'>Live Link</label>
                     <input
                         type="text"
-                        placeholder="React, Node.js, etc."
+                        placeholder="Enter live link"
                         className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500'
                         name="liveLink"
                         onChange={handleFormData}
@@ -249,7 +256,7 @@ const UpdateProjects = React.memo(({ setProjects, close, updating }) => {
                     <label className='block text-gray-700 font-semibold mb-2'>Github Link</label>
                     <input
                         type="text"
-                        placeholder="React, Node.js, etc."
+                        placeholder="Enter GitHub link"
                         className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500'
                         name="githubLink"
                         onChange={handleFormData}

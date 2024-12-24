@@ -31,11 +31,4 @@ const ResumeSkeleton = props => (
   </ContentLoader>
 )
 
-ResumeSkeleton.metadata = {
-  name: 'Sridhar Easwaran',
-  github: 'sridhareaswaran',
-  description: 'Article or News',
-  filename: 'ArticleLoader',
-}
-
 export default ResumeSkeleton

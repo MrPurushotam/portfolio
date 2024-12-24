@@ -66,7 +66,11 @@ const UpdateSkill = ({ setSkills, close, updating }) => {
                 type: "",
                 id: null,
             });
-        };
+            close("");
+        }else{
+            console.log("Some error occured. Abrupt Exit.");
+            close("");
+        }
     }
 
     useEffect(() => {
@@ -82,7 +86,7 @@ const UpdateSkill = ({ setSkills, close, updating }) => {
     }, [close]);
 
     return (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/20 z-50">
+        <div className="absolute inset-0 flex items-center justify-center bg-black/20 z-50 overflow-hidden h-full w-full">
             <div ref={outDivRef} className="relative w-11/12 max-w-4xl p-6 border border-gray-300 rounded-lg shadow-lg bg-white space-y-6">
                 <i className="sticky top-[5%] left-[90%] ph-duotone ph-x text-2xl hover:text-red-500"
                     onClick={() => {

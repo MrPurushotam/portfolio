@@ -1,8 +1,6 @@
 
 import Link from "next/link";
 import ThemeSelect from "./themeSelect";
-import Image from "next/image";
-
 const Footer = () => {
 
     return (

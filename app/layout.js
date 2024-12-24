@@ -6,14 +6,18 @@ const inter = Inter({ subsets: ["latin"] });
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://purushotamjeswani.in';
 export const metadata = {
   metadataBase: new URL(baseUrl),
-  keywords: ['Purushotam', 'Jeswani', 'jeswani', 'purushotam', 'purushottam', 'purshotam', 'Purushotam jeswani portfolio', 'Purushottam jeswani portfolio', 'portfolio', 'fullstack developer portfolio', 'web developer'],
-  title: "WebDeveloperPurushotam",
-  description: "Purushotam Jeswani Portfolio",
-  titleTemplate: `%s | WebDeveloperPurushotam`,
+  keywords: ['Purushotam', 'Jeswani', 'Purushotam jeswani portfolio', 'Purushotam jeswani', 'portfolio', 'website developer near me', 'web developer', 'Full-stack web developer', 'React developer portfolio', 'Next.js expert India USA', 'Node.js full-stack development', 'Full-stack developer for hire India', 'Full-stack developer for hire India', 'Docker and AWS web development', 'Prisma and MongoDB projects', 'PostgreSQL database expert', 'Cloudflare R2 integration', 'Full-stack development problem solver', 'Full-stack job-ready', 'Hiring React and Next.js developers', 'Skilled full-stack engineer portfolio',],
+  title: {
+    default: "Purushotam Jeswani Portfolio",
+    template: `%s | Purushotam Jeswani`
+  },
+  description: "Explore the professional portfolio of Purushotam Jeswani, a full-stack developer specializing in React, Next.js, Node.js, Docker, AWS, Prisma, MongoDB, and PostgreSQL. Discover innovative projects and skills tailored for tech roles in India and the USA.",
   openGraph: {
     title: "Purushotam Jeswani Portfolio",
-    description: "Purushotam Jeswani Portfolio",
-    images: [`${baseUrl}/favicon-96x96.png`, `${baseUrl}/web-app-manifest-192x192.png`, `${baseUrl}/web-app-manifest-512x512.png`]
+    description: "Explore the professional portfolio of Purushotam Jeswani, a full-stack developer specializing in React, Next.js, Node.js, Docker, AWS, Prisma, MongoDB, and PostgreSQL. Discover innovative projects and skills tailored for tech roles in India and the USA.",
+    type: "website",
+    url: baseUrl,
+    images: [`/favicon-96x96.png`]
   }
 };
 
@@ -21,7 +25,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
         <meta name="keywords" content={metadata.keywords.join(", ")} />
         <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
@@ -33,11 +36,16 @@ export default function RootLayout({ children }) {
 
         <meta property="og:title" content={metadata.openGraph.title} />
         <meta property="og:description" content={metadata.openGraph.description} />
-        {metadata.openGraph.images.map((image, index) => (
+        <meta property="og:image:alt" content="Professional portfolio of Purushotam Jeswani showcasing full-stack development expertise" />
+        <meta property="og:type" content={metadata.openGraph.type} />
+        <meta property="og:url" content={metadata.openGraph.url} />
+        {metadata.openGraph?.images?.map((image, index) => (
           <meta key={index} property="og:image" content={image} />
         ))}
+        <link rel="canonical" href={baseUrl} />
+
         <meta name="google-site-verification" content="Hyq7_rXCrzF3ib_AhDf781L1pYQmFT7oZilFhKZVWCY" />
-        
+
         <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />

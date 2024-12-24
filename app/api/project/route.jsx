@@ -1,24 +1,13 @@
-import fs from 'fs';
 import { NextResponse } from 'next/server';
-import path from 'path';
 import cloudinary from 'cloudinary';
 import { Readable } from 'stream';
+import { readData, writeData } from '../../../utils/common';
 
-const filePath = path.resolve('data/staticData.json');
-
-function readData() {
-    const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-    return { projects: data.projects || [], skills: data.skills || [] };
-}
 cloudinary.v2.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-
-function writeData(updatedData) {
-    fs.writeFileSync(filePath, JSON.stringify(updatedData, null, 2), 'utf-8');
-}
 
 export async function POST(req) {
     try {
@@ -45,7 +34,7 @@ export async function POST(req) {
             const fileStream = Readable.from(fileBuffer);
             const result = await new Promise((resolve, reject) => {
                 const uploadStream = cloudinary.v2.uploader.upload_stream(
-                    { folder: 'projects_static_media',resource_type:resourceType },
+                    { folder: 'projects_static_media', resource_type: resourceType },
                     (error, result) => {
                         if (error) reject(error);
                         else resolve(result);
@@ -56,7 +45,7 @@ export async function POST(req) {
             uploadedFileUrl = result.secure_url;
         }
 
-        const data = readData();
+        const data = await readData();
         const newProject = {
             id: Date.now(),
             title,
@@ -66,12 +55,12 @@ export async function POST(req) {
             describe,
             static_file: uploadedFileUrl,
             resourceType,
-            githubLink:githubLink.trim(),
-            liveLink:liveLink.trim()
+            githubLink: githubLink.trim(),
+            liveLink: liveLink.trim()
         };
         console.log(newProject)
         data.projects.push(newProject);
-        writeData(data);
+        await writeData(data);
 
         return NextResponse.json({ message: "Project added successfully.", success: true }, { status: 200 });
     } catch (error) {
@@ -79,6 +68,7 @@ export async function POST(req) {
         return NextResponse.json({ message: "Internal server error.", success: false }, { status: 500 });
     }
 }
+
 export async function PUT(req) {
     try {
         const formData = await req.formData();
@@ -92,12 +82,12 @@ export async function PUT(req) {
         const liveLink = formData.get('liveLink');
         const staticfile = formData.get('staticfile');
         let resourceType;
-        
+
         if (!id) {
             return NextResponse.json({ message: "Id can't be null.", success: false }, { status: 401 });
         }
-        
-        const data = readData();
+
+        const data = await readData();
         const projectIndex = data.projects.findIndex(project => project.id === id);
 
         if (projectIndex === -1) {
@@ -116,12 +106,12 @@ export async function PUT(req) {
             const fileStream = Readable.from(fileBuffer);
             const result = await new Promise((resolve, reject) => {
                 const uploadStream = cloudinary.v2.uploader.upload_stream(
-                    { folder: 'projects_static_media',resource_type: resourceType  },
+                    { folder: 'projects_static_media', resource_type: resourceType },
                     (error, result) => (error ? reject(error) : resolve(result))
                 );
                 fileStream.pipe(uploadStream);
             });
-            
+
             newMediaUrl = result.secure_url;
         }
 
@@ -134,12 +124,12 @@ export async function PUT(req) {
             describe: describe || project.describe,
             static_file: newMediaUrl,
             resourceType,
-            githubLink:githubLink || project.githubLink,
+            githubLink: githubLink || project.githubLink,
             liveLink: liveLink || project.liveLink
         };
 
         data.projects[projectIndex] = updatedProject;
-        writeData(data);
+        await writeData(data);
 
         return NextResponse.json({ message: "Project updated successfully.", updatedProject, success: true }, { status: 200 });
     } catch (error) {
@@ -147,6 +137,7 @@ export async function PUT(req) {
         return NextResponse.json({ message: "Internal server error.", success: false }, { status: 500 });
     }
 }
+
 export async function DELETE(req) {
     try {
         const body = await req.json();
@@ -156,13 +147,14 @@ export async function DELETE(req) {
             return NextResponse.json({ message: "Id can't be null.", success: false }, { status: 401 });
         }
 
-        const data = readData();
-        const project = data.projects[projectIndex];
+        const data = await readData();
+        const projectIndex = data.projects.findIndex(project => project.id === id);
 
         if (projectIndex === -1) {
             return NextResponse.json({ message: "Project not found", success: false }, { status: 404 });
         }
 
+        const project = data.projects[projectIndex];
         if (project.static_file) {
             const publicId = project.static_file.split('/').pop().split('.')[0];
             try {
@@ -173,7 +165,7 @@ export async function DELETE(req) {
             }
         }
         data.projects.splice(projectIndex, 1);
-        writeData(data);
+        await writeData(data);
 
         return NextResponse.json({ message: "Project deleted successfully.", success: true }, { status: 200 });
     } catch (error) {

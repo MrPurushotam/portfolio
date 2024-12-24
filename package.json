@@ -13,9 +13,11 @@
     "cookie": "^1.0.1",
     "jsonwebtoken": "^9.0.2",
     "next": "^14.2.15",
+    "notion-client": "^7.1.5",
     "react": "^18",
     "react-content-loader": "^7.0.2",
     "react-dom": "^18",
+    "react-notion-x": "^7.2.5",
     "stream": "^0.0.3"
   },
   "devDependencies": {

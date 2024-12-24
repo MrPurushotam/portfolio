@@ -28,15 +28,16 @@
       "id": 1730121657024,
       "title": "THiung",
       "techstack": [
-        "[\"jksgfdrf\"",
-        "\"sdjkfbsdwhjf\"",
-        "\"sdjufsdfjkn\"]"
+        "[\"fuck\"",
+        "\"me\"",
+        "\"daddy\"]"
       ],
       "description": "sdkjngfhjsd jswedjngf sweddofj woiejdfiokwjqef wn gvjskdl",
-      "brief": false,
-      "describe": "",
-      "static_file": "https://res.cloudinary.com/dyxltjbfw/video/upload/v1731683522/projects_static_media/zohtvnjr49oianmfdqmj.mp4",
-      "resourceType": "video"
+      "brief": true,
+      "describe": "How-to-setup-Amazon-EC2-Machine-and-deploy-code-on-it-133d619bc30f80be8900fe3f256cdb43",
+      "static_file": "https://res.cloudinary.com/dyxltjbfw/image/upload/v1734037355/projects_static_media/vuzuamidys3w0i6v4t4c.jpg",
+      "githubLink": "https://www.notion.so/How-to-setup-Amazon-EC2-Machine-and-deploy-code-on-it-133d619bc30f80be8900fe3f256cdb43?pvs=4",
+      "liveLink": "https://www.notion.so/How-to-setup-Amazon-EC2-Machine-and-deploy-code-on-it-133d619bc30f80be8900fe3f256cdb43?pvs=4"
     },
     {
       "id": 1731273713616,
@@ -96,19 +97,19 @@
     },
     {
       "id": 7,
-      "name": "React js",
+      "name": "ReactJs",
       "imagelink": "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExejY2aXp2aG5qcndmYmJlemZhbTIxaHA4ejZzazhuNmIwcnRveDd5YiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/eNAsjO55tPbgaor7ma/giphy.webp",
       "type": "framework"
     },
     {
       "id": 9,
-      "name": "Next Js",
+      "name": "NextJs",
       "imagelink": "https://www.staffworx.co.uk/wp-content/uploads/2021/09/nextjs-gif.gif",
       "type": "framework"
     },
     {
       "id": 10,
-      "name": "Node js",
+      "name": "NodeJs",
       "imagelink": "https://user-images.githubusercontent.com/74038190/212257460-738ff738-247f-4445-a718-cdd0ca76e2db.gif",
       "type": "framework"
     },
@@ -138,7 +139,7 @@
     },
     {
       "id": 15,
-      "name": "Postgres Sql",
+      "name": "PostgresSql",
       "imagelink": "https://cdn.iconscout.com/icon/free/png-512/free-postgresql-3521647-2945091.png?f=webp&w=256",
       "type": "database"
     },
@@ -154,6 +155,5 @@
       "imagelink": "https://i.pinimg.com/originals/f5/5e/80/f55e8059ea945abfd6804b887dd4a0af.gif",
       "type": "Tools"
     }
-  ],
-  "resumeDocId": "1Qoo9Ylh0LdW7Grd1aKygupKlUuLAjinmfpPcu7veANo"
+  ]
 }

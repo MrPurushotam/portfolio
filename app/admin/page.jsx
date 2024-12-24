@@ -1,8 +1,12 @@
 import Admin from "@/components/Admin"
 
+export const metadata = {
+  title: 'Admin',
+  description: 'Admin access Purushotam Jeswani portfolio,quickly update your portfolio with new projects, skills, and more.',
+};
 const page = () => {
-  return(
-    <Admin/>
+  return (
+    <Admin />
   )
 }
 

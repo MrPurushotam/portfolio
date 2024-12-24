@@ -1,27 +1,14 @@
-import fs from 'fs';
-import path from "path";
 import { NextResponse } from "next/server";
-
-const filePath = path.resolve('data/staticData.json');
-
-// Helper function to read and parse JSON file
-function readJSONFile() {
-    return JSON.parse(fs.readFileSync(filePath, "utf-8"));
-}
-
-// Helper function to write to JSON file
-function writeJSONFile(data) {
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
-}
+import { readData, writeData } from '../../../utils/common';
 
 export async function POST(req) {
     try {
         const body = await req.json();
-        const { name, link, type } = body;
+        const { name, imagelink, type } = body;
 
-        if (!name || !link) {
+        if (!name || !imagelink) {
             return NextResponse.json(
-                { message: "Please fill required fields (name, link).", success: false },
+                { message: "Please fill required fields (name, imagelink).", success: false },
                 { status: 401 }
             );
         }
@@ -29,17 +16,17 @@ export async function POST(req) {
         const newSkill = {
             id: Date.now(),
             name,
-            link,
+            imagelink,
             type
         };
 
-        const data = readJSONFile();
+        const data = await readData();
         data.skills.push(newSkill);
 
-        writeJSONFile(data);
+        await writeData(data);
 
         return NextResponse.json(
-            { message: "Skill added successfully.", success: true,newSkill },
+            { message: "Skill added successfully.", success: true, newSkill },
             { status: 200 }
         );
     } catch (error) {
@@ -54,16 +41,16 @@ export async function POST(req) {
 export async function PUT(req) {
     try {
         const body = await req.json();
-        const { id, name, link, type } = body;
+        const { id, name, imagelink, type } = body;
 
-        if (!id || !name || !link || !type) {
+        if (!id || !name || !imagelink || !type) {
             return NextResponse.json(
-                { message: "Please provide all required fields (id, name, link, type).", success: false },
+                { message: "Please provide all required fields (id, name, imagelink, type).", success: false },
                 { status: 401 }
             );
         }
 
-        const data = readJSONFile();
+        const data = await readData();
         const skillIndex = data.skills.findIndex(skill => skill.id === id);
 
         if (skillIndex === -1) {
@@ -73,9 +60,9 @@ export async function PUT(req) {
             );
         }
 
-        data.skills[skillIndex] = { ...data.skills[skillIndex], name, link, type };
+        data.skills[skillIndex] = { ...data.skills[skillIndex], name, imagelink, type };
 
-        writeJSONFile(data);
+        await writeData(data);
 
         return NextResponse.json(
             { message: "Skill updated successfully.", updatedSkill: data.skills[skillIndex], success: true },
@@ -102,10 +89,10 @@ export async function DELETE(req) {
             );
         }
 
-        const data = readJSONFile();
+        const data = await readData();
         data.skills = data.skills.filter(skill => skill.id !== id);
 
-        writeJSONFile(data);
+        await writeData(data);
 
         return NextResponse.json(
             { message: "Skill deleted successfully.", success: true },

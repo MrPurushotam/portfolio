@@ -1,13 +1,26 @@
 "use client";
 import { useState } from "react";
-import data from "../data/staticData.json";
 import ResumeSkeleton from "./ResumeSkelenton";
 
-const ResumeIntegration = () => {
-  const { resumeDocId } = data;
+const ResumeIntegration = ({ resumeDocId }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [id, setId] = useState(resumeDocId || "");
+  const resumeLink = `https://drive.google.com/file/d/${id}/preview`;
 
-  const resumeLink = `https://drive.google.com/file/d/${resumeDocId}/preview`;
+  useEffect(() => {
+    const fetch = async () => {
+      if (!resumeDocId) {
+        const resp = await fetch("/api/all/resume", { method: 'GET' });
+        if (resp.ok) {
+          const data = await resp.json();
+          if (data.success) {
+            setId(data.resumeDocId);
+          }
+        }
+      }
+    }
+    fetch();
+  }, [resumeDocId]);
 
   return (
     <div className="w-full p-3 h-dvh flex items-center justify-center bg-gray-100">
