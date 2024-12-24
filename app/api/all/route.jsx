@@ -13,8 +13,7 @@ export async function GET(request) {
         if (!choice) {
             response = data;
             response.success = true;
-        }
-        else {
+        } else {
             if (choice.includes('projects')) {
                 response.projects = data.projects;
             }

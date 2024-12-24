@@ -13,19 +13,22 @@ export const metadata = {
   }
 };
 export const fetchResumeDocIdServerSide = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/all/resume`, { method: 'GET' });
-  const data = await res.json();
-  console.log("server side resume page")
-  return {
-    props: {
-      resumeData: data.resumeDocId,
-    },
-  };
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/all?choice=resume`, { method: 'GET' });
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    const data = await res.json();
+    console.log("server side resume page");
+    return data.resumeDocId || "";
+  } catch (error) {
+    console.log("Error occurred while fetching.", error.message);
+    return "";
+  }
 };
 
 const page = async () => {
-  const data = await getServerSideProps();
-  const { resumeData } = data.props;
+  const resumeData = await fetchResumeDocIdServerSide();
   return (
     <div className="flex flex-col">
       <Appbar />

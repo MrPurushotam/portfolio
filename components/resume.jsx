@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResumeSkeleton from "./ResumeSkelenton";
 
 const ResumeIntegration = ({ resumeDocId }) => {
@@ -9,14 +9,18 @@ const ResumeIntegration = ({ resumeDocId }) => {
 
   useEffect(() => {
     const fetch = async () => {
-      if (!resumeDocId) {
-        const resp = await fetch("/api/all/resume", { method: 'GET' });
-        if (resp.ok) {
-          const data = await resp.json();
-          if (data.success) {
-            setId(data.resumeDocId);
+      try {
+        if (!resumeDocId) {
+          const resp = await fetch("/api/all/resume", { method: 'GET' });
+          if (resp.ok) {
+            const data = await resp.json();
+            if (data.success) {
+              setId(data.resumeDocId);
+            }
           }
         }
+      } catch (error) {
+        console.log("Error occured while fetching docId: ", error.message)
       }
     }
     fetch();
