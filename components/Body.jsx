@@ -8,7 +8,7 @@ import BriefProject from "./BriefProject";
 import Badge from "./Badge";
 
 export function Body({ projects, skills }) {
-    const [breifOpen, setBreifOpen] = useState(false);
+    const [isProjectBriefObject, setIsProjectBriefObject] = useState(false);
     const langCount = useRef({});
     const [uniqueLanguages, setUniqueLanguges] = useState([]);
     const [filteredProjects, setFilteredProjects] = useState([]);
@@ -46,11 +46,13 @@ export function Body({ projects, skills }) {
         initializeLanguages();
     }, [projects]);
 
+    console.log(filteredProjects);
+    
     return (
         <div className="w-full h-full relative primary-font">
-            {breifOpen && (
+            {Object.keys(isProjectBriefObject).length>0 && (
                 <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center">
-                    <BriefProject id={breifOpen} close={setBreifOpen} />
+                    <BriefProject project={isProjectBriefObject} close={setIsProjectBriefObject} />
                 </div>
             )}
 
@@ -186,7 +188,7 @@ export function Body({ projects, skills }) {
 
                     <div className="w-11/12 md:w-8/12 mx-auto space-y-4 p-5">
                         {filteredProjects?.map((project) => (
-                            <ProjectsSection key={project.id} project={project} state={setBreifOpen} />
+                            <ProjectsSection key={project.id} project={project} state={setIsProjectBriefObject} />
                         ))}
                     </div>
                 </div>

@@ -1,10 +1,11 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
-import data from "@/data/staticData.json";
+import Spinner from './Spinner';
 
 const UpdateSkill = ({ setSkills, close, updating }) => {
     const outDivRef = useRef(null);
-    const skillData = useRef(data.skills.find(skill => skill.id === updating));
+    const skillData = useRef(null);
+    const [loading, setLoading] = useState(false);
     const [formdata, setFormdata] = useState(skillData.current
         ? {
             name: skillData.current?.name,
@@ -31,6 +32,7 @@ const UpdateSkill = ({ setSkills, close, updating }) => {
 
     const handleSubmit = async () => {
         console.log('Skill Data:', formdata);
+        setLoading(true);
         const resp = updating
             ? await fetch(`/api/skill`, {
                 method: 'PUT',
@@ -67,10 +69,11 @@ const UpdateSkill = ({ setSkills, close, updating }) => {
                 id: null,
             });
             close("");
-        }else{
+        } else {
             console.log("Some error occured. Abrupt Exit.");
             close("");
         }
+        setLoading(false);
     }
 
     useEffect(() => {
@@ -85,61 +88,88 @@ const UpdateSkill = ({ setSkills, close, updating }) => {
         };
     }, [close]);
 
+    useEffect(() => {
+        const fetchSkill = async (updating) => {
+            try {
+                setLoading(true);
+                const data = await fetch(`/api/skill/?id=${updating}`);
+                const result = await data.json();
+                if (result.success && result.skill) {
+                    skillData.current = result.skill;
+                    setFormdata(result.skill);
+                }
+            } catch (error) {
+                console.error("Error fetching skill data:", error.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+        if (updating) {
+            fetchSkill(updating);
+        }
+    }, [updating])
     return (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/20 z-50 overflow-hidden h-full w-full">
-            <div ref={outDivRef} className="relative w-11/12 max-w-4xl p-6 border border-gray-300 rounded-lg shadow-lg bg-white space-y-6">
-                <i className="sticky top-[5%] left-[90%] ph-duotone ph-x text-2xl hover:text-red-500"
-                    onClick={() => {
-                        setFormdata({
-                            imagelink: "",
-                            name: "",
-                            type: "",
-                            id: null
-                        });
-                        close("");
-                    }}>
-                </i>
-                <h2 className="text-xl font-bold text-center text-gray-900">{updating ? "Update Skill" : "Add Skill"}</h2>
-                <div>
-                    <label className="block text-gray-700 font-semibold mb-2">Skill Name</label>
-                    <input
-                        type="text"
-                        placeholder="Enter Skill"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                        name="name"
-                        onChange={handleFormData}
-                        value={formdata.name}
-                    />
+        <>
+            <div className="absolute inset-0 flex items-center justify-center bg-black/20 z-50 overflow-hidden h-full w-full">
+                <div ref={outDivRef} className="relative w-11/12 max-w-4xl p-6 border border-gray-300 rounded-lg shadow-lg bg-white space-y-6">
+                    {loading &&
+                        <div className="absolute inset-0 flex items-center justify-center bg-white/40 z-[60]">
+                            <Spinner />
+                        </div>
+                    }
+                    <i className="sticky top-[5%] left-[90%] ph-duotone ph-x text-2xl hover:text-red-500"
+                        onClick={() => {
+                            setFormdata({
+                                imagelink: "",
+                                name: "",
+                                type: "",
+                                id: null
+                            });
+                            close("");
+                        }}>
+                    </i>
+                    <h2 className="text-xl font-bold text-center text-gray-900">{updating ? "Update Skill" : "Add Skill"}</h2>
+                    <div>
+                        <label className="block text-gray-700 font-semibold mb-2">Skill Name</label>
+                        <input
+                            type="text"
+                            placeholder="Enter Skill"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                            name="name"
+                            onChange={handleFormData}
+                            value={formdata.name}
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-gray-700 font-semibold mb-2">Type</label>
+                        <input
+                            type="text"
+                            placeholder="Frontend, Backend, Database, etc."
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                            name="type"
+                            onChange={handleFormData}
+                            value={formdata.type}
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-gray-700 font-semibold mb-2">Image Link</label>
+                        <input
+                            type="url"
+                            placeholder="Enter a valid link to describe skill"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                            name="imagelink"
+                            onChange={handleFormData}
+                            value={formdata.imagelink}
+                        />
+                    </div>
+                    <button
+                        onClick={handleSubmit}
+                        className="w-full text-lg font-semibold tracking-wider px-3 py-2 rounded-md shadow-md bg-sky-500 hover:bg-sky-600 text-white disabled:bg-sky-800">
+                        {updating ? "Update Skill" : "Add Skill"}
+                    </button>
                 </div>
-                <div>
-                    <label className="block text-gray-700 font-semibold mb-2">Type</label>
-                    <input
-                        type="text"
-                        placeholder="Frontend, Backend, Database, etc."
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                        name="type"
-                        onChange={handleFormData}
-                        value={formdata.type}
-                    />
-                </div>
-                <div>
-                    <label className="block text-gray-700 font-semibold mb-2">Image Link</label>
-                    <input
-                        type="url"
-                        placeholder="Enter a valid link to describe skill"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                        name="imagelink"
-                        onChange={handleFormData}
-                        value={formdata.imagelink}
-                    />
-                </div>
-                <button
-                    onClick={handleSubmit}
-                    className="w-full text-lg font-semibold tracking-wider px-3 py-2 rounded-md shadow-md bg-sky-500 hover:bg-sky-600 text-white disabled:bg-sky-800">
-                    {updating ? "Update Skill" : "Add Skill"}
-                </button>
             </div>
-        </div>
+        </>
     );
 };
 

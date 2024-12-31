@@ -24,10 +24,11 @@ export async function POST(req) {
         data.skills.push(newSkill);
 
         await writeData(data);
+        const etag = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex');
 
         return NextResponse.json(
             { message: "Skill added successfully.", success: true, newSkill },
-            { status: 200 }
+            { status: 200 , headers: { 'ETag': etag } }
         );
     } catch (error) {
         console.error("Error occurred while creating skill.", error.message);
@@ -63,10 +64,10 @@ export async function PUT(req) {
         data.skills[skillIndex] = { ...data.skills[skillIndex], name, imagelink, type };
 
         await writeData(data);
-
+        const etag = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex');
         return NextResponse.json(
             { message: "Skill updated successfully.", updatedSkill: data.skills[skillIndex], success: true },
-            { status: 200 }
+            { status: 200, headers: { 'ETag': etag } }
         );
     } catch (error) {
         console.error("Error occurred while updating skill.", error.message);
@@ -94,12 +95,55 @@ export async function DELETE(req) {
 
         await writeData(data);
 
+        const etag = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex');
         return NextResponse.json(
             { message: "Skill deleted successfully.", success: true },
-            { status: 200 }
+            { status: 200 , headers: { 'ETag': etag } }
         );
     } catch (error) {
         console.error("Error occurred while deleting skill.", error.message);
+        return NextResponse.json(
+            { message: "Internal error occurred.", success: false },
+            { status: 500 }
+        );
+    }
+}
+
+export async function GET(req) {
+    try {
+        const { searchParams } = new URL(req.url);
+        const id = searchParams.get('id');
+
+        const data = await readData();
+        const etag = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex');
+
+        // Check for If-None-Match header
+        const clientEtag = req.headers.get('If-None-Match');
+        if (clientEtag === etag) {
+            // If ETag matches, return 304 Not Modified
+            return new Response(null, { status: 304 });
+        }
+
+        if (id) {
+            const skill = data.skills.find(skill => skill.id === parseInt(id));
+            if (!skill) {
+                return NextResponse.json(
+                    { message: "Skill not found.", success: false },
+                    { status: 404 }
+                );
+            }
+            return NextResponse.json(
+                { skill, success: true },
+                { status: 200, headers: { 'ETag': etag }, }
+            );
+        } else {
+            return NextResponse.json(
+                { skills: data.skills, success: true },
+                { status: 200 , headers: { 'ETag': etag }, }
+            );
+        }
+    } catch (error) {
+        console.error("Error occurred while fetching skills.", error.message);
         return NextResponse.json(
             { message: "Internal error occurred.", success: false },
             { status: 500 }

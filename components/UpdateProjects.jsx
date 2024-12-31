@@ -1,44 +1,31 @@
 "use client"
 import React, { useEffect, useRef, useState } from 'react'
-import data from "@/data/staticData.json";
+import Spinner from './Spinner';
 
 const extractNotionLink = (link) => {
     const parts = link.split('/');
-    return parts.length > 0 ? parts[parts.length - 1] : link;
+    const docTitle = parts.length > 0 ? parts[parts.length - 1] : link;
+    const distoredSplitArray = docTitle.split("-");
+    return distoredSplitArray[distoredSplitArray.length - 1];
 };
-
 
 const UpdateProjects = React.memo(({ setProjects, close, updating }) => {
     const outDivRef = useRef(null)
-    const projectData = useRef(data.projects.find(project => project.id === updating));
+    const projectData = useRef(null);
     const [file, setFile] = useState(null);
-    const [formdata, setFormdata] = useState(projectData.current
-        ?
-        {
-            id: projectData.current.id,
-            title: projectData.current.title,
-            description: projectData.current.description,
-            techstack: JSON.parse(projectData.current.techstack).join(", "), // Convert JSON array to comma-separated string
-            brief: projectData.current.brief === true,
-            describe: extractNotionLink(projectData.current.describe),
-            static_file: projectData.current.static_file,
-            resourceType: projectData.current.resourceType,
-            githubLink: projectData.current.githubLink,
-            liveLink: projectData.current.liveLink
-        }
-        :
-        {
-            id: null,
-            title: "",
-            description: "",
-            techstack: "",
-            brief: false,
-            describe: "",
-            static_file: "",
-            resourceType: "",
-            githubLink: "",
-            liveLink: ""
-        });
+    const [loading, setLoading] = useState(false);
+    const [formdata, setFormdata] = useState({
+        id: null,
+        title: "",
+        description: "",
+        techstack: "",
+        brief: false,
+        describe: "",
+        static_file: "",
+        resourceType: "",
+        githubLink: "",
+        liveLink: ""
+    });
 
     const handleFormData = (e) => {
         const { name, value, type, checked } = e.target;
@@ -52,7 +39,8 @@ const UpdateProjects = React.memo(({ setProjects, close, updating }) => {
 
     const handleSubmit = async () => {
         console.log(formdata);
-        const techstackArray = formdata.techstack.split(',').map(item => item.trim());
+        setLoading(true);
+        const techstackArray = formdata?.techstack?.split(',').map(item => item.trim());
         const updatedData = {
             ...formdata,
             techstack: techstackArray,
@@ -60,7 +48,6 @@ const UpdateProjects = React.memo(({ setProjects, close, updating }) => {
             githubLink: formdata.githubLink,
             liveLink: formdata.liveLink
         };
-
         try {
             const formData = new FormData();
             formData.append("id", updatedData.id);
@@ -97,6 +84,8 @@ const UpdateProjects = React.memo(({ setProjects, close, updating }) => {
             }
         } catch (error) {
             console.error("An error occurred:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -120,9 +109,48 @@ const UpdateProjects = React.memo(({ setProjects, close, updating }) => {
         }
     }, [])
 
+    useEffect(() => {
+        const fetchProject = async (updating) => {
+            setLoading(true);
+            try {
+                const resp = await fetch(`/api/project/?id=${updating}`);
+                const result = await resp.json();
+                console.log(result, resp);
+                if (result.success && result.project) {
+                    projectData.current = result.project;
+                    setFormdata({
+                        id: result.project.id,
+                        title: result.project.title,
+                        description: result.project.description,
+                        techstack: JSON.parse(result.project.techstack).join(", "), // Convert JSON array to comma-separated string
+                        brief: result.project.brief === true,
+                        describe: extractNotionLink(result.project.describe),
+                        static_file: result.project.static_file,
+                        resourceType: result.project.resourceType,
+                        githubLink: result.project.githubLink,
+                        liveLink: result.project.liveLink
+                    });
+                }
+            } catch (error) {
+                console.log("Error occured while fetching project data: ", error.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+        if (updating) {
+            fetchProject(updating);
+        }
+    }, [updating])
+
     return (
         <div className='absolute inset-0 flex items-center justify-center h-full w-full bg-black/20 z-5'>
             <div ref={outDivRef} className='relative w-11/12 max-w-4xl p-6 border border-gray-300 rounded-lg shadow-lg bg-white space-y-6'>
+                {loading &&
+                    <div className="absolute inset-0 flex items-center justify-center bg-white/40 z-[60]">
+                        <Spinner />
+                    </div>
+                }
+
                 <i className="sticky top-[5%] left-[90%] ph-duotone ph-x text-2xl hover:text-red-500"
                     onClick={() => {
                         setFormdata({

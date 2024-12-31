@@ -62,6 +62,7 @@ const LoginPage = () => {
               required
               className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
               placeholder="Enter your email"
+              autoSave="on"
             />
           </div>
           <div>
@@ -77,6 +78,7 @@ const LoginPage = () => {
               required
               className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
               placeholder="Enter your password"
+              autoSave='on'
             />
           </div>
           <button

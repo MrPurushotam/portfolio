@@ -10,8 +10,11 @@ export async function POST(req) {
         }
         const data = await readData();
         data.resumeDocId = docId;
+
         await writeData(data);
-        return NextResponse.json({ message: "Resume Doc Id added successfully.", success: true }, { status: 200 });
+        const etag = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex');
+
+        return NextResponse.json({ message: "Resume Doc Id added successfully.", success: true }, { status: 200, headers: { 'ETag': etag } });
     } catch (error) {
         console.log("Error occurred while adding project:", error.message);
         return NextResponse.json({ message: "Internal server error.", success: false }, { status: 500 });

@@ -4,7 +4,7 @@ import Link from "next/link";
 import Badge from "./Badge";
 
 const ProjectsSection = ({ project, state }) => {
-    return (
+  return (
     <div className="w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm bg-white hover:shadow-lg transition-shadow duration-200">
       <div className="flex flex-col sm:flex-row gap-3 items-center">
         <div className="w-52 h-52 flex-shrink-0 flex items-center justify-center overflow-hidden rounded-md border border-gray-200 shadow-sm bg-gray-100">
@@ -38,22 +38,22 @@ const ProjectsSection = ({ project, state }) => {
 
           {/* Badges */}
           <div className="flex flex-wrap gap-2">
-            {project.techstack.length>0 && JSON.parse(project.techstack)?.map((stack)=>{
-                const randomSelect = () => {
-                  let random = Math.floor(Math.random() * 4)+1
-                  switch (random) {
-                      case 1:
-                          return "one"
-                      case 2:
-                          return "two"
-                      case 3:
-                          return "three"
-                      case 4:
-                          return "four"
-                  }
+            {project.techstack.length > 0 && JSON.parse(project.techstack)?.map((stack) => {
+              const randomSelect = () => {
+                let random = Math.floor(Math.random() * 4) + 1
+                switch (random) {
+                  case 1:
+                    return "one"
+                  case 2:
+                    return "two"
+                  case 3:
+                    return "three"
+                  case 4:
+                    return "four"
+                }
               }
-              return(
-                <Badge key={stack} text={stack} type={randomSelect()} /> 
+              return (
+                <Badge key={stack} text={stack} type={randomSelect()} />
               )
             })}
           </div>
@@ -86,7 +86,7 @@ const ProjectsSection = ({ project, state }) => {
             )}
             {project?.brief && (
               <button
-                onClick={() => state(project?.id)}
+                onClick={() => state(project)}
                 className="flex items-center space-x-1 font-medium text-blue-600 hover:underline"
               >
                 <i className="ph-duotone ph-dots-three-outline-vertical"></i>

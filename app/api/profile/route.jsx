@@ -49,8 +49,9 @@ export async function POST(req) {
         data.profile = profileUrl;
         console.log(data.profile);
         await writeData(data);
+        const etag = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex');
 
-        return NextResponse.json({ message: "Profile upload successful.", profile: profileUrl, success: true }, { status: 200 });
+        return NextResponse.json({ message: "Profile upload successful.", profile: profileUrl, success: true }, { status: 200, headers: { 'ETag': etag } });
     } catch (error) {
         console.log("Error occurred while uploading profile:", error.message);
         return NextResponse.json({ message: "Internal server error.", success: false }, { status: 500 });
@@ -75,8 +76,9 @@ export async function DELETE(req) {
         }
         delete data.profile;
         await writeData(data);
+        const etag = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex');
 
-        return NextResponse.json({ message: "Project deleted successfully.", success: true }, { status: 200 });
+        return NextResponse.json({ message: "Project deleted successfully.", success: true }, { status: 200, headers: { 'ETag': etag } });
     } catch (error) {
         console.log("Error occurred while deleting project:", error.message);
         return NextResponse.json({ message: "Internal server error.", success: false }, { status: 500 });

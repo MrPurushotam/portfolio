@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import cloudinary from 'cloudinary';
 import { Readable } from 'stream';
 import { readData, writeData } from '../../../utils/common';
+import crypto from 'crypto';
 
 cloudinary.v2.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -62,7 +63,8 @@ export async function POST(req) {
         data.projects.push(newProject);
         await writeData(data);
 
-        return NextResponse.json({ message: "Project added successfully.", success: true }, { status: 200 });
+        const etag = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex');
+        return NextResponse.json({ message: "Project added successfully.", success: true }, { status: 200 , headers: { 'ETag': etag }});
     } catch (error) {
         console.log("Error occurred while adding project:", error.message);
         return NextResponse.json({ message: "Internal server error.", success: false }, { status: 500 });
@@ -131,7 +133,13 @@ export async function PUT(req) {
         data.projects[projectIndex] = updatedProject;
         await writeData(data);
 
-        return NextResponse.json({ message: "Project updated successfully.", updatedProject, success: true }, { status: 200 });
+        const etag = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex');
+
+        // Return updated data with the new ETag
+        return NextResponse.json(
+            { message: "Project updated successfully.", updatedProject, success: true },
+            { status: 200, headers: { 'ETag': etag } }
+        );
     } catch (error) {
         console.log("Error occurred while updating project:", error.message);
         return NextResponse.json({ message: "Internal server error.", success: false }, { status: 500 });
@@ -167,9 +175,39 @@ export async function DELETE(req) {
         data.projects.splice(projectIndex, 1);
         await writeData(data);
 
-        return NextResponse.json({ message: "Project deleted successfully.", success: true }, { status: 200 });
+        const etag = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex');
+        return NextResponse.json({ message: "Project deleted successfully.", success: true }, { status: 200 , headers: { 'ETag': etag } });
     } catch (error) {
         console.log("Error occurred while deleting project:", error.message);
+        return NextResponse.json({ message: "Internal server error.", success: false }, { status: 500 });
+    }
+}
+
+export async function GET(req) {
+    try {
+        const { searchParams } = new URL(req.url);
+        const id = searchParams.get('id');
+
+        const data = await readData();
+
+        const etag = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex');
+
+        const clientEtag = req.headers.get('If-None-Match');
+        if (clientEtag === etag) {
+            return new Response(null, { status: 304 });
+        }
+
+        if (id) {
+            const project = data.projects.find(project => parseInt(project.id) === parseInt(id));
+            if (!project) {
+                return NextResponse.json({ message: "Project not found", success: false }, { status: 404 });
+            }
+            return NextResponse.json({ project, success: true }, { status: 200, headers: { 'ETag': etag }, });
+        } else {
+            return NextResponse.json({ projects: data.projects, success: true }, { status: 200 , headers: { 'ETag': etag }, });
+        }
+    } catch (error) {
+        console.log("Error occurred while fetching projects:", error.message);
         return NextResponse.json({ message: "Internal server error.", success: false }, { status: 500 });
     }
 }
