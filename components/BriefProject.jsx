@@ -4,10 +4,12 @@ import Badge from "./Badge";
 import { NotionRenderer } from "react-notion-x";
 import 'react-notion-x/src/styles.css';
 import 'prismjs/themes/prism-tomorrow.css';
+import ResumeSkeleton from "./ResumeSkelenton";
 
 const BriefProject = ({ project, close }) => {
     const ref = useRef();
     const [notionData, setNotionData] = useState(null);
+    const [Error, setError] = useState(false);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -23,16 +25,28 @@ const BriefProject = ({ project, close }) => {
 
     useEffect(() => {
         if (project && project.brief) {
-            console.log(project.describe);
-            fetch(`/api/notion?pageId=${project.describe}`)
-                .then((res) => res.json())
-                .then((data) => {
-                    if (data.recordMap) {
-                        setNotionData(data.recordMap);
-                    } else {
-                        console.error('Failed to load Notion data:', data.error);
-                    }
-                });
+            const cachedData = sessionStorage.getItem(`notionData-${project.describe}`);
+            if (cachedData) {
+                setNotionData(JSON.parse(cachedData));
+            } else {
+                fetch(`/api/notion?pageId=${project.describe}`)
+                    .then((res) => res.json())
+                    .then((data) => {
+                        if (data.recordMap) {
+                            setNotionData(data.recordMap);
+                            sessionStorage.setItem(`notionData-${project.describe}`, JSON.stringify(data.recordMap));
+                        } else {
+                            console.error('Failed to load Notion data:', data.error);
+                            setError(true);
+                            sessionStorage.setItem(`notionData-${project.describe}`, JSON.stringify(null)); // Cache null for failed fetch
+                        }
+                    })
+                    .catch((err) => {
+                        console.error('Error fetching Notion data:', err);
+                        setError(true);
+                        sessionStorage.setItem(`notionData-${project.describe}`, JSON.stringify(null)); // Cache null for failed fetch
+                    });
+            }
         }
     }, [project]);
 
@@ -69,20 +83,20 @@ const BriefProject = ({ project, close }) => {
                 >
                     ✕
                 </button>
-                <div className="relative h-60 w-full rounded-t-lg overflow-hidden">
+                <div className="relative h-60 w-full rounded-t-lg overflow-hidden flex items-center">
                     {project.resourceType === "video" ? (
                         <video
                             src={project.static_file}
                             autoPlay
                             muted
                             loop
-                            className="h-full w-full object-cover"
+                            className="h-full w-full object-contain bg-neutral-400"
                         />
                     ) : (
                         <img
                             src={project.static_file}
                             alt={project.title}
-                            className="h-full w-full object-cover"
+                            className="h-full w-full object-contain bg-neutral-400"
                         />
                     )}
 
@@ -98,13 +112,28 @@ const BriefProject = ({ project, close }) => {
                     </div>
                 </div>
 
-                <div className="p-4 space-y-4 max-h-96 overflow-y-auto">
+                <div className="p-4 space-y-4 max-h-[520px] overflow-y-auto">
                     <p className="text-gray-700 text-xl sm:text-2xl leading-relaxed">
                         {project.description}
                     </p>
 
+                    {project.brief && !notionData && !Error && (
+                        <div className="flex flex-col items-center justify-center h-72 ">
+                            <div className="text-lg font-semibold text-gray-700 animate-pulse mb-4">
+                                Loading Doc...
+                            </div>
+                            <ResumeSkeleton height={600} width={600} className="w-full md:w-3/4 lg:w-1/2 mx-auto shadow-lg rounded-lg overflow-hidden bg-white p-6" />
+                        </div>
+                    )}
+
                     {project.brief && notionData && (
                         <NotionRenderer recordMap={notionData} />
+                    )}
+
+                    {Error && (
+                        <h3 className="text-red-500 font-semibold text-lg text-center">
+                            Couldn't fetch notion document.
+                        </h3>
                     )}
                 </div>
             </div>

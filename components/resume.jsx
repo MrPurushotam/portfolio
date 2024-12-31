@@ -28,7 +28,14 @@ const ResumeIntegration = ({ resumeDocId }) => {
 
   return (
     <div className="w-full p-3 h-dvh flex items-center justify-center bg-gray-100">
-      {isLoading && <ResumeSkeleton className="mx-auto w-full md:w-3/4 lg:w-1/2" />}
+      {isLoading && (
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+          <div className="text-lg font-semibold text-gray-700 animate-pulse mb-4">
+            Loading Resume...
+          </div>
+          <ResumeSkeleton className="w-full md:w-3/4 lg:w-1/2 mx-auto shadow-md rounded-md overflow-hidden bg-white" />
+        </div>
+      )}      
       <iframe
         src={resumeLink}
         onLoad={() => setIsLoading(false)}

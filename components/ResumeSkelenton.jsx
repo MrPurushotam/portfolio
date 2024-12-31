@@ -6,9 +6,10 @@ const ResumeSkeleton = props => (
   <ContentLoader
     width={850}
     height={800}
-    viewBox="0 0 850 800"
+    viewBox={`0 0 ${props.width || 850} ${props.height || 800}`}
     backgroundColor="#eaeced"
     foregroundColor="#ffffff"
+    title="document"
     {...props}
   >
     <rect x="42" y="57" rx="4" ry="4" width="417" height="29" />
