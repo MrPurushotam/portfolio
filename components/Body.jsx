@@ -45,8 +45,6 @@ export function Body({ projects, skills }) {
     useEffect(() => {
         initializeLanguages();
     }, [projects]);
-
-    console.log(filteredProjects);
     
     return (
         <div className="w-full h-full relative primary-font">
