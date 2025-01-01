@@ -23,8 +23,7 @@ export async function readData() {
             profile: data.profile || "",
         };
     } catch (error) {
-        console.error('Error reading data:', error);
-        throw error;
+        console.error('Error reading data:', error.message);
     }
 }
 
@@ -40,7 +39,6 @@ export async function writeData(updatedData) {
         });
     } catch (err) {
         console.log("Error writing data:", err.message);
-        throw err;
     }
 }
 

@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import BriefProject from "./BriefProject";
 import Badge from "./Badge";
 
-export function Body({ projects, skills }) {
+export function Body({ projects, skills, profile }) {
     const [isProjectBriefObject, setIsProjectBriefObject] = useState(false);
     const langCount = useRef({});
     const [uniqueLanguages, setUniqueLanguges] = useState([]);
@@ -45,59 +45,63 @@ export function Body({ projects, skills }) {
     useEffect(() => {
         initializeLanguages();
     }, [projects]);
-    
+
     return (
         <div className="w-full h-full relative primary-font">
-            {Object.keys(isProjectBriefObject).length>0 && (
+            {Object.keys(isProjectBriefObject).length > 0 && (
                 <div className="fixed inset-0 bg-black/50 z-50 flex justify-center items-center">
                     <BriefProject project={isProjectBriefObject} close={setIsProjectBriefObject} />
                 </div>
             )}
 
             {/* Hero Section */}
-            <section id="me" className="h-[70vh] w-full mx-auto flex justify-center items-center bg-red-500">
-                <div className="grid grid-cols-1 md:grid-cols-2 w-11/12 mx-auto h-full">
-                    <div className="flex justify-center items-center md:hidden">
+            <section id="me" className="h-[90vh] w-full mx-auto flex justify-center items-center bg-gradient-to-br from-red-500 to-red-600">
+                <div className="grid grid-cols-1 md:grid-cols-2 w-11/12 mx-auto h-full gap-1">
+                    {/* Left Image Section (for small screens, image is above text) */}
+                    <div className="flex justify-center items-center md:hidden pt-5">
                         <img
-                            src="https://avatarfiles.alphacoders.com/319/319682.png"
+                            src={profile || "pj_png.png"}
                             alt="Pj profile"
-                            className="h-40 w-40 md:h-full md:w-auto rounded-md object-cover"
+                            className="w-[50vw] h-[45vh] rounded-full shadow-lg object-cover"
                         />
                     </div>
-                    <div className="flex justify-center items-center">
-                        <div className="text-center md:text-left">
-                            <div>
-                                <span className="text-lg md:text-3xl">Hi, I am</span>
-                                <br />
-                                <span className="text-2xl md:text-4xl font-bold master-font">Purushotam Jeswani</span>
-                                <br />
-                                <span className="text-lg md:text-3xl itatlic">
-                                    Full-stack Web Developer & DevOps Enthusiast from India
-                                </span>
-                            </div>
 
-                            <Link
-                                href="/contact"
-                                className="inline-block mt-6 md:mt-10 text-center text-lg md:text-3xl border-2 border-black rounded p-2 md:p-3 uppercase hover:bg-red-400/80"
-                            >
-                                Get in touch
-                            </Link>
-                            <div className="flex justify-center md:justify-start items-center my-4">
-                                <Socials />
-                            </div>
+                    {/* Main Content Section */}
+                    <div className="flex flex-col justify-center items-center md:items-start text-center md:text-left">
+                        <div>
+                            <span className="text-3xl md:text-2xl text-white">Hi, I am</span>
+                            <br />
+                            <span className="text-4xl md:text-5xl font-bold master-font text-white">
+                                Purushotam Jeswani
+                            </span>
+                            <br />
+                            <span className="text-3xl md:text-2xl italic text-gray-200">
+                                Full-stack Web Developer & DevOps Enthusiast from India
+                            </span>
+                        </div>
+                        <Link
+                            href="/contact"
+                            className="inline-block mt-6 mb-3 md:mt-6 px-4 py-2 md:px-6 md:py-3 text-xl md:text-xl border-2 border-white rounded-md text-white uppercase hover:bg-white hover:text-red-600 transition duration-300"
+                        >
+                            Get in touch
+                        </Link>
+                        <div className="flex justify-center md:justify-start items-center mt-4">
+                            <Socials />
                         </div>
                     </div>
 
-                    {/* Right Image Section */}
-                    <div className="p-4 justify-center items-center hidden md:flex">
+                    {/* Right Image Section (only visible on md and above) */}
+                    <div className="hidden md:flex justify-center items-center w-full">
                         <img
-                            src="https://avatarfiles.alphacoders.com/319/319682.png"
+                            src={profile || "pj_png.png"}
                             alt="Pj profile"
-                            className="h-40 w-40 md:h-full md:w-auto rounded-md object-cover"
+                            className="h-[85%] w-full max-w-[400px] rounded-full shadow-lg object-cover"
                         />
                     </div>
                 </div>
             </section>
+
+
 
             {/* About Section */}
             <section id="about" className="w-full mx-auto flex justify-center py-10 bg-gray-200/50">
@@ -118,22 +122,34 @@ export function Body({ projects, skills }) {
                         <i className="ph-duotone ph-student text-5xl"></i>
                         Education
                     </h2>
-                    <div className="text-3xl md:text-4xl text-justify flex flex-col">
+                    <div className="text-3xl md:text-4xl text-justify flex flex-col gap-6">
+                        {/* Lovely Professional University Section */}
                         <div className="flex flex-col w-full px-2">
-                            <div className="flex justify-between items-center">
-                                <h2 className="text-3xl font-semibold text-neutral-900">Lovely Professional University, Phagwara, Punjab </h2>
-                                <p className="text-xl text-gray-700">2022-2026</p>
+                            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+                                <h2 className="text-3xl font-semibold text-neutral-900">
+                                    Lovely Professional University, Phagwara, Punjab
+                                </h2>
+                                <p className="text-xl text-gray-700 sm:text-right sm:mt-0 mt-2">2022-2026</p>
                             </div>
-                            <p className="text-2xl">Currently, pursuing my B.Tech in Computer Science and Engineering</p>
+                            <p className="text-2xl mt-2">
+                                Currently, pursuing my B.Tech in Computer Science and Engineering
+                            </p>
                         </div>
+
+                        {/* Lakshmipat Singhania Public School Section */}
                         <div className="flex flex-col w-full px-2">
-                            <div className="flex justify-between items-center">
-                                <h2 className="text-3xl font-semibold text-neutral-900">Lakshmipat Singhania Public School </h2>
-                                <p className="text-xl text-gray-700">2019 - 2021</p>
+                            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+                                <h2 className="text-3xl font-semibold text-neutral-900">
+                                    Lakshmipat Singhania Public School
+                                </h2>
+                                <p className="text-xl text-gray-700 sm:text-right sm:mt-0 mt-2">2019 - 2021</p>
                             </div>
-                            <p className="text-2xl">Completed my high school from hometown Rayagada, Odisha.</p>
+                            <p className="text-2xl mt-2">
+                                Completed my high school from hometown Rayagada, Odisha.
+                            </p>
                         </div>
                     </div>
+
                 </div>
             </section>
 
