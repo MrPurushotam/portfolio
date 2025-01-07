@@ -13,6 +13,9 @@ export async function POST(req) {
 
         await writeData(data);
         const etag = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex');
+        
+        // Revalidate the cache
+        revalidateTag('resume');
 
         return NextResponse.json({ message: "Resume Doc Id added successfully.", success: true }, { status: 200, headers: { 'ETag': etag } });
     } catch (error) {

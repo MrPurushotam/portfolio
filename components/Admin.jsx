@@ -23,7 +23,7 @@ const Admin = () => {
         if (!token) {
             router.push("/login")
         }
-    },[router])
+    }, [router])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -150,12 +150,25 @@ const Admin = () => {
         if (resp.ok) {
             const result = await resp.json();
             console.log("Profile updated.");
-            profileUrlRef.current=result.profile;
+            profileUrlRef.current = result.profile;
             console.log(result.profile);
             setProfile(null);
             setProfileUrl(result.profile);
         }
     };
+
+    const revalidate = async (tag) => {
+        try {
+            const res = await fetch(`/api/revalidate`, { method: "POST", body: JSON.stringify({ tag }) });
+            const data = await res.json();
+            if (data.success && data.revalidated) {
+                console.log("Revalidated:", tag);
+            }
+        } catch (error) {
+            console.error("Error revalidating:", error.message);
+        }
+    }
+
     return (
         <div className="w-full min-h-screen py-5 px-2 bg-white">
             {(edit === "projects" || editData?.type === "projects") && <UpdateProjects setProjects={setProjects} close={editData?.type === "projects" ? setEditData : setEdit} updating={editData?.id || null} />}
@@ -172,7 +185,10 @@ const Admin = () => {
                 <div className="w-11/12 mx-auto p-1 flex flex-col space-y-3">
                     <div className="flex items-center justify-between">
                         <h2 className="text-xl font-semibold tracking-wider">Projects</h2>
-                        <i className="ph-duotone ph-pencil-simple text-2xl hover:text-sky-600 " onClick={() => setEdit("projects")}></i>
+                        <div className="flex gap-2 items-center p-1">
+                            <i className="ph-duotone ph-arrow-counter-clockwise text-2xl hover:text-sky-600 rounded-md" onClick={() => revalidate("projects")}></i>
+                            <i className="ph-duotone ph-pencil-simple text-2xl hover:text-sky-600 " onClick={() => setEdit("projects")}></i>
+                        </div>
                     </div>
                     <div className="w-full min-h-32 h-fit border-2 border-amber-600 overflow-y-auto overflow-x-hidden flex flex-wrap gap-2 p-1">
                         {projects.map((fields) => {
@@ -195,7 +211,10 @@ const Admin = () => {
                 <div className="w-11/12 mx-auto p-1 flex flex-col space-y-3">
                     <div className="flex items-center justify-between ">
                         <h2 className="text-xl font-semibold tracking-wider">Skills</h2>
-                        <i className="ph-duotone ph-pencil-simple text-2xl hover:text-sky-600" onClick={() => { setEdit("skills") }}></i>
+                        <div className="flex gap-2 items-center p-1">
+                            <i className="ph-duotone ph-arrow-counter-clockwise text-2xl hover:text-sky-600 rounded-md" onClick={() => revalidate("skills")}></i>
+                            <i className="ph-duotone ph-pencil-simple text-2xl hover:text-sky-600" onClick={() => { setEdit("skills") }}></i>
+                        </div>
                     </div>
                     <div className="w-full min-h-36 h-fit border-2 border-amber-600 overflow-y-auto overflow-x-hidden flex flex-wrap gap-2 p-1">
                         {skills.map((skill) => {
@@ -224,6 +243,7 @@ const Admin = () => {
                         onChange={handleResumeLinkInput}
                         value={resumeDocId}
                     />
+                    <i className="ph-duotone ph-arrow-counter-clockwise text-2xl hover:text-sky-600 rounded-md" onClick={() => revalidate("resume")}></i>
                     <button className={`bg-cyan-500 text-white font-semibold  text-xl px-3 py-2 my-4 rounded-md shaodwmd disabled:bg-cyan-700 hover:bg-cyan-700`}
                         disabled={resumeDocId === initalData.current.resumeDocId} onClick={handleResumeDocIdUpdate} >Update</button>
                 </div>
@@ -243,6 +263,7 @@ const Admin = () => {
                         multiple={false}
                         accept="image/jpeg,image/png,image/jpg"
                     />
+                    <i className="ph-duotone ph-arrow-counter-clockwise text-2xl hover:text-sky-600 rounded-md" onClick={() => revalidate("profile")}></i>
                     <button className={`bg-cyan-500 text-white font-semibold text-xl px-3 py-2 my-4 rounded-md shadow-md disabled:bg-cyan-700 hover:bg-cyan-700`}
                         disabled={profileUrl === profileUrlRef.current || !profileUrl} onClick={uploadProfile}>Update Profile</button>
                 </div>

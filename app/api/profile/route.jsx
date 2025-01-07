@@ -3,6 +3,7 @@ import cloudinary from 'cloudinary';
 import { Readable } from 'stream';
 import { readData, writeData } from '../../../utils/common';
 import crypto from 'crypto'; // Ensure crypto is imported
+import { revalidateTag } from 'next/cache';
 
 cloudinary.v2.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -50,6 +51,9 @@ export async function POST(req) {
         data.profile = profileUrl;
         console.log(data.profile);
         await writeData(data);
+
+        revalidateTag("profile");
+
         const etag = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex');
 
         return NextResponse.json({ message: "Profile upload successful.", profile: profileUrl, success: true }, { status: 200, headers: { 'ETag': etag } });
@@ -77,6 +81,9 @@ export async function DELETE(req) {
         }
         delete data.profile;
         await writeData(data);
+
+        revalidateTag("profile");
+
         const etag = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex');
 
         return NextResponse.json({ message: "Project deleted successfully.", success: true }, { status: 200, headers: { 'ETag': etag } });

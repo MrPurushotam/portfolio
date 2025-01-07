@@ -25,6 +25,9 @@ export async function POST(req) {
 
         await writeData(data);
         const etag = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex');
+        
+        // Revalidate the cache
+        revalidateTag('skills');
 
         return NextResponse.json(
             { message: "Skill added successfully.", success: true, newSkill },
@@ -65,6 +68,10 @@ export async function PUT(req) {
 
         await writeData(data);
         const etag = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex');
+        
+        // Revalidate the cache
+        revalidateTag('skills');
+
         return NextResponse.json(
             { message: "Skill updated successfully.", updatedSkill: data.skills[skillIndex], success: true },
             { status: 200, headers: { 'ETag': etag } }
@@ -94,8 +101,11 @@ export async function DELETE(req) {
         data.skills = data.skills.filter(skill => skill.id !== id);
 
         await writeData(data);
-
         const etag = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex');
+        
+        // Revalidate the cache
+        revalidateTag('skills');
+        
         return NextResponse.json(
             { message: "Skill deleted successfully.", success: true },
             { status: 200 , headers: { 'ETag': etag } }

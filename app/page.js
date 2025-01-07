@@ -1,10 +1,17 @@
 import { Body } from "@/components/Body";
 import Appbar from "@/components/Appbar";
 import Footer from "@/components/Footer";
+import { revalidatePath } from 'next/cache';
 
 export const fetchStaticDataServerSide = async () => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/all`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/all`, {
+      next: {
+        revalidate: 8 * 3600, // Cache for 1 hour
+        tags: ['projects', 'skills', 'profile','resume'] // Tags for selective revalidation
+      }
+    }
+    );
     if (!res.ok) {
       throw new Error('Failed to fetch data');
     }
@@ -43,12 +50,12 @@ export const metadata = {
 
 export default async function Home() {
   const data = await fetchStaticDataServerSide();
-  const  { projects, skills, profile, resumeDocId } = data.props;
+  const { projects, skills, profile, resumeDocId } = data.props;
   return (
     <div className="flex flex-col">
       <Appbar />
       <div className="flex-1">
-        <Body projects={projects} skills={skills} profile={profile} resumeDocId={resumeDocId}/>
+        <Body projects={projects} skills={skills} profile={profile} resumeDocId={resumeDocId} />
       </div>
       <Footer />
     </div>

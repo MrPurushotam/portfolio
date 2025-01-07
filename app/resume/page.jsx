@@ -14,7 +14,12 @@ export const metadata = {
 };
 export const fetchResumeDocIdServerSide = async () => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/all?choice=resume`, { method: 'GET' });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/all?choice=resume`, {
+      method: 'GET', next: {
+        revalidate: 8 * 3600,
+        tags: ['resume']  // Tags for selective revalidation
+      }
+    });
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }

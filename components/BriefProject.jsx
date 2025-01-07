@@ -29,7 +29,7 @@ const BriefProject = ({ project, close }) => {
             if (cachedData) {
                 setNotionData(JSON.parse(cachedData));
             } else {
-                fetch(`/api/notion?pageId=${project.describe}`)
+                fetch(`/api/notion?pageId=${project.describe}`, { next: { revalidate: 3600 * 8, tags: ['notion', 'projects'] } })
                     .then((res) => res.json())
                     .then((data) => {
                         if (data.recordMap) {

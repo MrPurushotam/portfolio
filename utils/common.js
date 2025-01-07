@@ -8,6 +8,10 @@ export async function readData() {
                 'Content-Type': 'application/json',
                 'Api-key': ApiKey,
             },
+            next: {
+                revalidate: 8 * 3600,
+                tags: ['projects', 'skills', 'profile', 'resume']
+            }
         });
 
         if (!response.ok) {

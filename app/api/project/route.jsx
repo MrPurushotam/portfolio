@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { revalidateTag } from 'next/cache';
 import cloudinary from 'cloudinary';
 import { Readable } from 'stream';
 import { readData, writeData } from '../../../utils/common';
@@ -62,6 +63,9 @@ export async function POST(req) {
         console.log(newProject)
         data.projects.push(newProject);
         await writeData(data);
+
+        // Revalidate the cache
+        revalidateTag('projects');
 
         const etag = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex');
         return NextResponse.json({ message: "Project added successfully.", success: true }, { status: 200 , headers: { 'ETag': etag }});
@@ -132,6 +136,9 @@ export async function PUT(req) {
 
         data.projects[projectIndex] = updatedProject;
         await writeData(data);
+        
+        // Revalidate the cache
+        revalidateTag('projects');
 
         const etag = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex');
 
@@ -174,6 +181,9 @@ export async function DELETE(req) {
         }
         data.projects.splice(projectIndex, 1);
         await writeData(data);
+
+        // Revalidate the cache
+        revalidateTag('projects');
 
         const etag = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex');
         return NextResponse.json({ message: "Project deleted successfully.", success: true }, { status: 200 , headers: { 'ETag': etag } });
