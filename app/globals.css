@@ -75,7 +75,20 @@
     45deg,
     #000000 30%,
     #191919 48%,
-    #333333 12%
+    #333333 12% 
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation: heroHighlight 5s ease infinite;
+}
+.animated-text-dark {
+  color: #000000;
+  background-image: linear-gradient(
+    45deg,
+    #ee9ca7 30%,
+    #ffdde1 12% 
   );
   background-clip: text;
   -webkit-background-clip: text;

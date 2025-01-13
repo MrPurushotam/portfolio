@@ -1,6 +1,6 @@
 const SkillComponent = ({ tag, link }) => {
   return (
-    <div className="w-full h-auto p-2 sm:p-3 bg-gray-300/30 flex flex-col sm:flex-row rounded-md items-center sm:justify-between shadow-md">
+    <div className="w-full h-auto p-2 sm:p-3 bg-gray-300/30 flex flex-col sm:flex-row rounded-md items-center sm:justify-between shadow-md dark:bg-[#e5e3d7] ">
       <div className="w-16 sm:w-20 lg:w-24 overflow-hidden flex-shrink-0">
         <img 
           src={link || ""} 

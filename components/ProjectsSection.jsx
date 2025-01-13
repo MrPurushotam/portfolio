@@ -5,9 +5,9 @@ import Badge from "./Badge";
 
 const ProjectsSection = ({ project, state }) => {
   return (
-    <div className="w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm bg-white hover:shadow-lg transition-shadow duration-200">
+    <div className="w-full px-3 py-3 border border-gray-300 dark:border-none dark:shadow-md dark:shadow-[#383838] rounded-md shadow-sm bg-white dark:bg-[#262526] hover:shadow-lg transition-shadow duration-200 ">
       <div className="flex flex-col sm:flex-row gap-3 items-center">
-        <div className="w-52 h-52 flex-shrink-0 flex items-center justify-center overflow-hidden rounded-md border border-gray-200 shadow-sm bg-gray-100">
+        <div className="w-52 h-52 flex-shrink-0 flex items-center justify-center overflow-hidden rounded-md border border-gray-200 shadow-sm bg-gray-100 dark:border-none">
           {project?.resourceType === "video" ? (
             <video
               src={
@@ -32,7 +32,7 @@ const ProjectsSection = ({ project, state }) => {
         </div>
 
         <div className="flex-1 space-y-2">
-          <h1 className="text-4xl font-semibold text-gray-800 leading-tight tracking-wide">
+          <h1 className="text-4xl font-semibold text-gray-800 dark:text-[#ffe0e8] leading-tight tracking-wide">
             {project?.title || "Project Title"}
           </h1>
 
@@ -59,17 +59,17 @@ const ProjectsSection = ({ project, state }) => {
           </div>
 
           {/* Description */}
-          <p className="text-2xl text-gray-600 line-clamp-2">
+          <p className="text-2xl text-gray-600 dark:text-[#ffe0e8] line-clamp-2">
             {project?.description ||
               "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nobis vel repellendus cumque corporis animi."}
           </p>
 
           {/* Links Section */}
-          <div className="flex items-center space-x-4 text-2xl">
+          <div className="flex items-center space-x-4 text-2xl text-blue-600 dark:text-[#2C8BCF] ">
             {project?.githubLink && (
               <Link
                 href={project.githubLink}
-                className="flex items-center space-x-1 font-medium text-blue-600 hover:underline"
+                className="flex items-center space-x-1 font-medium  hover:underline"
               >
                 <i className="ph-duotone ph-github-logo"></i>
                 <span>GitHub</span>
@@ -78,7 +78,7 @@ const ProjectsSection = ({ project, state }) => {
             {project?.liveLink && (
               <Link
                 href={project.liveLink}
-                className="flex items-center space-x-1 font-medium text-blue-600 hover:underline"
+                className="flex items-center space-x-1 font-medium  hover:underline"
               >
                 <i className="ph-duotone ph-share"></i>
                 <span>Live</span>
@@ -87,7 +87,7 @@ const ProjectsSection = ({ project, state }) => {
             {project?.brief && (
               <button
                 onClick={() => state(project)}
-                className="flex items-center space-x-1 font-medium text-blue-600 hover:underline"
+                className="flex items-center space-x-1 font-mediumhover:underline"
               >
                 <i className="ph-duotone ph-dots-three-outline-vertical"></i>
                 <span>Brief</span>

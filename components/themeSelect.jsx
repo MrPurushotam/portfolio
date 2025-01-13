@@ -15,8 +15,11 @@ const ThemeSelect = () => {
         const root = window.document.documentElement;
         const isDark = selectedTheme === "dark" || (selectedTheme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
 
-        root.classList.remove("dark", "light");
-        root.classList.add(isDark ? "dark" : "light");
+        if (isDark) {
+            root.classList.add("dark");
+        } else {
+            root.classList.remove("dark");
+        }
 
         localStorage.setItem("theme", selectedTheme);
     };

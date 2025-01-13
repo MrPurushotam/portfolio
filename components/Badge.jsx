@@ -3,7 +3,7 @@ const Badge = ({ text, type = "outline", count = 0,className="" ,...props}) => {
   if (type === "one") {
     typeStyle = "bg-slate-900 text-white";
   } else if (type === "outline") {
-    typeStyle = "border-2 border-slate-900 text-black";
+    typeStyle = "border-2 border-slate-900 dark:border-[#f5e8c7] text-black dark:text-[#f5e8c7] ";
   } else if (type === "two") {
     typeStyle = "bg-green-500 text-white";
   } else if (type === "three") {

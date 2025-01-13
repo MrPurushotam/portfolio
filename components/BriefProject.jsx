@@ -75,10 +75,10 @@ const BriefProject = ({ project, close }) => {
     };
 
     return (
-        <div className="fixed w-full h-full inset-0 flex justify-center items-center bg-white/40 z-30">
-            <div className="relative w-11/12 max-w-4xl rounded-lg shadow-lg backdrop-blur-sm bg-white/80" ref={ref}>
+        <div className="fixed w-full h-full inset-0 flex justify-center items-center bg-white/40 dark:bg-black/40 z-30">
+            <div className="relative w-11/12 max-w-4xl rounded-lg shadow-lg backdrop-blur-sm bg-white/80 dark:bg-[#1d1d1c]/80" ref={ref}>
                 <button
-                    className="absolute top-4 right-4 text-2xl sm:text-3xl text-black bg-gray-200 hover:bg-gray-300 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:text-red-500 hover:font-bold transition-all z-40"
+                    className="absolute top-4 right-4 text-2xl sm:text-3xl text-black bg-gray-200 hover:bg-gray-300 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:text-red-500 hover:font-bold transition-all z-40 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
                     onClick={() => close({})}
                 >
                     ✕
@@ -112,17 +112,17 @@ const BriefProject = ({ project, close }) => {
                     </div>
                 </div>
 
-                <div className="p-4 space-y-4 max-h-[520px] overflow-y-auto">
-                    <p className="text-gray-700 text-xl sm:text-2xl leading-relaxed">
+                <div className="p-4 space-y-4 max-h-[520px] overflow-y-auto dark:text-white">
+                    <p className="text-gray-700 text-xl sm:text-2xl leading-relaxed dark:text-gray-300">
                         {project.description}
                     </p>
 
                     {project.brief && !notionData && !Error && (
                         <div className="flex flex-col items-center justify-center h-72 ">
-                            <div className="text-lg font-semibold text-gray-700 animate-pulse mb-4">
+                            <div className="text-lg font-semibold text-gray-700 animate-pulse mb-4 dark:text-gray-300">
                                 Loading Doc...
                             </div>
-                            <ResumeSkeleton height={600} width={600} className="w-full md:w-3/4 lg:w-1/2 mx-auto shadow-lg rounded-lg overflow-hidden bg-white p-6" />
+                            <ResumeSkeleton height={600} width={600} className="w-full md:w-3/4 lg:w-1/2 mx-auto shadow-lg rounded-lg overflow-hidden bg-white p-6 dark:bg-[#1d1d1c]" />
                         </div>
                     )}
 

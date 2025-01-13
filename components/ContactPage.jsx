@@ -40,10 +40,10 @@ const ContactPage = () => {
     };
 
     return (
-        <div className="min-h-fit bg-gray-70 p-6">
+        <div className="min-h-fit bg-gray-70 p-6 dark:bg-[#444444] ">
             <div className="max-w-6xl mx-auto">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
-                    <div className="text-gray-900 space-y-8">
+                    <div className="text-gray-900 space-y-8 dark:text-white">
                         <h1 className="text-4xl font-bold mb-6">Let's Connect!</h1>
                         <p className="text-lg opacity-90">
                             I'm always interested in hearing about new projects and opportunities.
@@ -67,7 +67,7 @@ const ContactPage = () => {
                     </div>
 
                     {/* Right side - Contact Form */}
-                    <div className="bg-gray-200/70 backdrop-blur-lg border border-black/10 rounded-xl">
+                    <div className="bg-gray-200/70 backdrop-blur-lg border border-black/10 rounded-xl dark:shadow-md dark:shadow-red-300">
                         <div className="p-6">
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 <div className="space-y-2">

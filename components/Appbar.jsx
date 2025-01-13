@@ -56,14 +56,14 @@ const Appbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isCursorNearTop, isDropdownOpen]);
-
-  const backgroundColor = scrollPosition > 200 ? "bg-gray-200" : "bg-red-600";
-  const hoverBackgroundColor = backgroundColor === "bg-gray-200" ? "hover:bg-gray-100" : "hover:bg-red-200/50";
-  const textColor = scrollPosition > 200 ? "text-black" : "text-white";
+  // 
+  const backgroundColor = scrollPosition > 200 ? "bg-gray-200 dark:bg-[#2a2727]" : "bg-red-600 dark:bg-gradient-to-br dark:bg-black";
+  const hoverBackgroundColor = backgroundColor === "bg-gray-200 " ? "hover:bg-gray-100" : "hover:bg-red-200/50";
+  const textColor = scrollPosition > 200 ? "text-black dark:text-neutral-200" : "text-white";
 
   return (
     <nav
-      className={`master-font tracking-wider w-full py-7 px-3 sticky z-50 transition-all duration-500 ${backgroundColor} ${isHidden && !isCursorNearTop ? "-top-20" : "top-0"
+      className={`master-font tracking-wider w-full py-7 px-3 sticky z-50 transition-all duration-500 dark:border-b-2 dark:border-gray-900 ${backgroundColor} ${isHidden && !isCursorNearTop ? "-top-20" : "top-0"
         }`}
     >
       <div className={`w-full sm:w-10/12 md:w-4/5 mx-auto flex justify-between items-center ${textColor}`}>
@@ -94,7 +94,6 @@ const Appbar = () => {
               <span className="absolute left-0 bottom-[-3px] w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full group-hover:bottom-[-5px]"></span>
             </Link>
           ))}
-
         </div>
 
         {/* Mobile Navigation */}
@@ -138,7 +137,6 @@ const Appbar = () => {
                     <span className="absolute left-0 bottom-[-3px] w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-8/12 group-hover:bottom-[-5px]"></span>
                   </Link>
                 ))}
-
               </div>
             </div>
           )}

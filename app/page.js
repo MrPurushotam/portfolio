@@ -2,13 +2,14 @@ import { Body } from "@/components/Body";
 import Appbar from "@/components/Appbar";
 import Footer from "@/components/Footer";
 import { revalidatePath } from 'next/cache';
+import FrostedBg from "@/components/FrostedBg";
 
 export const fetchStaticDataServerSide = async () => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/all`, {
       next: {
         revalidate: 8 * 3600, // Cache for 1 hour
-        tags: ['projects', 'skills', 'profile','resume'] // Tags for selective revalidation
+        tags: ['projects', 'skills', 'profile', 'resume'] // Tags for selective revalidation
       }
     }
     );
@@ -55,7 +56,9 @@ export default async function Home() {
     <div className="flex flex-col">
       <Appbar />
       <div className="flex-1">
-        <Body projects={projects} skills={skills} profile={profile} resumeDocId={resumeDocId} />
+        <FrostedBg>
+          <Body projects={projects} skills={skills} profile={profile} resumeDocId={resumeDocId} />
+        </FrostedBg>
       </div>
       <Footer />
     </div>
