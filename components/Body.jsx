@@ -114,7 +114,11 @@ export function Body({ projects, skills, profile }) {
                         About Me
                     </h2>
                     <p className="text-3xl md:text-4xl text-justify dark:text-[#d2e3f8]">
-                        Hi 🙋🏻‍♂️, I am Purushotam Jeswani, a <span className="animated-text dark:animated-text-dark font-bold text-4xl capitalize p-1 bg-black">Full Stack Developer</span>, with prior experience in <span className="animated-text dark:animated-text-dark font-bold text-4xl capitalize p-1 bg-black">DevOps</span>, bringing development and deployment together to deliver reliable solutions.
+                        Hi 🙋🏻‍♂️, I am Purushotam Jeswani, a 
+                        <span className="animated-text bg-light-gradient dark:bg-dark-gradient font-bold text-4xl capitalize p-1 bg-black">Full Stack Developer</span>
+                        , with prior experience in 
+                        <span className="animated-text bg-light-gradient dark:bg-dark-gradient font-bold text-4xl capitalize p-1 bg-black">DevOps</span>
+                        , bringing development and deployment together to deliver reliable solutions.
                         I am someone who is curious to make an impact with my skills, someone who is driven by a zeal about coding, someone who is excited to take on advanced projects with a growth-oriented, jolly mindset.
                         Instead of conventional education, I value continuous learning and I love exploring ideas, out-of-the-box. Getting motivated and influenced by passionate and intellectual minds is something that brings energy into my work.
                         I strive to be the person you would surely enjoy working with. Although I have my areas of improvement, as in I occasionally struggle with management of time, I am working on getting better at it.

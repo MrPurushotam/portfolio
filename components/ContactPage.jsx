@@ -22,11 +22,12 @@ const ContactPage = () => {
 
         try {
             const resp = await fetch("/api/contact", { method: "POST", body: JSON.stringify(formData) });
-            if (resp.ok) {
-                alert("Message sent to Purushotam. He shall be getting back to you soon")
+            const data = await resp.json();
+            if (data.success) {
+                alert(data.message);
             }
         } catch (error) {
-            console.log("Error occured while sending message.",error.message)
+            console.log("Error occured while sending message.", error.message);
         } finally {
             setLoading(true)
         }
@@ -40,10 +41,10 @@ const ContactPage = () => {
     };
 
     return (
-        <div className="min-h-fit bg-gray-70 p-6 dark:bg-[#444444] ">
-            <div className="max-w-6xl mx-auto">
+        <div className="min-h-fit bg-gray-70 p-6 dark:bg-[#373737] ">
+            <div className="max-w-6xl mx-auto dark:shadow-sm dark:shadow-[#373737] rounded-md p-8 dark:bg-[#2a282b] ">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
-                    <div className="text-gray-900 space-y-8 dark:text-white">
+                    <div className="text-gray-900 space-y-8 dark:text-[#c6c6d0]">
                         <h1 className="text-4xl font-bold mb-6">Let's Connect!</h1>
                         <p className="text-lg opacity-90">
                             I'm always interested in hearing about new projects and opportunities.

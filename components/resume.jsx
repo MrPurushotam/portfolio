@@ -5,6 +5,7 @@ import ResumeSkeleton from "./ResumeSkelenton";
 const ResumeIntegration = ({ resumeDocId }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [id, setId] = useState(resumeDocId || "");
+  const [theme, setTheme] = useState('light'); // Add state for theme
   const resumeLink = `https://drive.google.com/file/d/${id}/preview`;
 
   useEffect(() => {
@@ -26,16 +27,22 @@ const ResumeIntegration = ({ resumeDocId }) => {
     fetch();
   }, [resumeDocId]);
 
+  useEffect(() => {
+    // Detect the current theme
+    const currentTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? 'dark' : 'light';
+    setTheme(currentTheme);
+  }, []);
+
   return (
     <div className="w-full p-3 h-dvh flex items-center justify-center bg-gray-100 dark:bg-[#444444]">
       {isLoading && (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-          <div className="text-lg font-semibold text-gray-700 dark:text-ggray-200 animate-pulse mb-4">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-[#222023] ">
+          <div className="text-lg font-semibold text-[#c6c6d0] dark:text-ggray-200 animate-pulse mb-4">
             Loading Resume...
           </div>
-          <ResumeSkeleton className="w-full md:w-3/4 lg:w-1/2 mx-auto shadow-md rounded-md overflow-hidden bg-white" />
+          <ResumeSkeleton className="w-full md:w-3/4 lg:w-1/2 mx-auto shadow-md rounded-md overflow-hidden bg-transparent" theme={theme} />
         </div>
-      )}      
+      )}
       <iframe
         src={resumeLink}
         onLoad={() => setIsLoading(false)}
