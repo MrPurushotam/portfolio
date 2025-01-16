@@ -1,12 +1,22 @@
+import { NextResponse } from 'next/server';
+
 const nodemailer = require('nodemailer');
 
-const contactroute = async (req, res) => {
-    if (req.method === "POST") {
-        const { name, email, message, subject } = req.body;
+export const POST = async (req, res) => {
+    try {
+        const { name, email, message, subject } = await req.json();
+
+        // Validate incoming data
+        if (!name || !email || !message || !subject) {
+            return NextResponse.json({ message: 'All fields are required', success: false }, { status: 400 });
+        }
 
         // Create a transporter object using SMTP transport
         let transporter = nodemailer.createTransport({
             service: 'gmail',
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false,
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS
@@ -14,22 +24,17 @@ const contactroute = async (req, res) => {
         });
 
         let mailOptions = {
-            from: email,
+            from: process.env.EMAIL_USER,
             to: process.env.EMAIL_USER,
+            replyTo: email,
             subject: `${subject}`,
-            text: `${name}: ${message}`
+            text: `From: ${name} <${email}>\n\n${message}`
         };
 
         // Send mail with defined transport object
-        try {
-            await transporter.sendMail(mailOptions);
-            res.status(200).json({ message: 'Email sent successfully', success: true });
-        } catch (error) {
-            res.status(500).json({ message: 'Error sending email', error, success: false });
-        }
-    } else {
-        res.status(405).json({ message: 'Method not allowed' });
+        await transporter.sendMail(mailOptions);
+        return NextResponse.json({ message: 'Email sent successfully', success: true }, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ message: 'Error sending email', error, success: false }, { status: 500 });
     }
 }
-
-export default contactroute;

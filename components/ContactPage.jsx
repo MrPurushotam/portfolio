@@ -25,11 +25,13 @@ const ContactPage = () => {
             const data = await resp.json();
             if (data.success) {
                 alert(data.message);
+            }else{
+                alert(data.message);
             }
         } catch (error) {
             console.log("Error occured while sending message.", error.message);
         } finally {
-            setLoading(true)
+            setLoading(false)
         }
     };
 
