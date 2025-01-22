@@ -75,10 +75,10 @@ const BriefProject = ({ project, close }) => {
     };
 
     return (
-        <div className="fixed w-full h-full inset-0 flex justify-center items-center bg-white/40 dark:bg-black/40 z-30">
-            <div className="relative w-11/12 max-w-4xl rounded-lg shadow-lg backdrop-blur-sm bg-white/80 dark:bg-[#1d1d1c]/80" ref={ref}>
+        <div className="fixed w-full h-full inset-0 flex justify-center items-center bg-white/40 dark:bg-black/40 z-30 pt-28">
+            <div className="relative w-11/12 h-[85vh] max-w-4xl rounded-lg shadow-lg backdrop-blur-sm bg-white/80 dark:bg-[#1d1d1c]/80" ref={ref}>
                 <button
-                    className="absolute top-4 right-4 text-2xl sm:text-3xl text-black bg-gray-200 hover:bg-gray-300 rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:text-red-500 hover:font-bold transition-all z-40 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
+                    className="absolute top-4 right-4 text-xl sm:text-3xl text-black bg-gray-200 hover:bg-gray-300 rounded-full w-7 h-7 sm:w-10 sm:h-10 flex items-center justify-center shadow-md hover:text-red-500 hover:font-bold transition-all z-40 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
                     onClick={() => close({})}
                 >
                     ✕
@@ -127,7 +127,19 @@ const BriefProject = ({ project, close }) => {
                     )}
 
                     {project.brief && notionData && (
-                        <NotionRenderer recordMap={notionData} />
+                        <div className="notion-app dark:notion-dark notion-app-dark">
+                            <div className="bg-white dark:bg-[#1d1d1c] text-black dark:text-[#e5e5e5] p-4">
+                                <NotionRenderer
+                                    recordMap={notionData}
+                                    darkMode={document.documentElement.classList.contains('dark')}
+                                    className="dark:notion-dark"
+                                    // Optional: Add these props for better dark mode support
+                                    mapPageUrl={pageId => `/projects/${pageId}`}
+                                    previewImages={true}
+                                    fullPage={false}
+                                />
+                            </div>
+                        </div>
                     )}
 
                     {Error && (

@@ -37,7 +37,7 @@ const ResumeIntegration = ({ resumeDocId }) => {
     <div className="w-full p-3 h-dvh flex items-center justify-center bg-gray-100 dark:bg-[#444444]">
       {isLoading && (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-[#222023] ">
-          <div className="text-lg font-semibold text-[#c6c6d0] dark:text-ggray-200 animate-pulse mb-4">
+          <div className="text-lg font-semibold text-[#c6c6d0] dark:text-gray-200 animate-pulse mb-4">
             Loading Resume...
           </div>
           <ResumeSkeleton className="w-full md:w-3/4 lg:w-1/2 mx-auto shadow-md rounded-md overflow-hidden bg-transparent" theme={theme} />

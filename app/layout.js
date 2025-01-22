@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://purushotamjeswani.in';
 export const metadata = {
   metadataBase: new URL(baseUrl),
-  keywords: ['Purushotam', 'Jeswani', 'Purushotam jeswani portfolio', 'Purushotam jeswani', 'portfolio', 'website developer near me', 'web developer', 'Full-stack web developer', 'React developer portfolio', 'Next.js expert India USA', 'Node.js full-stack development', 'Full-stack developer for hire India', 'Full-stack developer for hire India', 'Docker and AWS web development', 'Prisma and MongoDB projects', 'PostgreSQL database expert', 'Cloudflare R2 integration', 'Full-stack development problem solver', 'Full-stack job-ready', 'Hiring React and Next.js developers', 'Skilled full-stack engineer portfolio',],
+  keywords: ['Purushotam', 'Jeswani','purshotam','purushottam','pourushotam', 'Purushotam jeswani portfolio', 'Purushotam jeswani', 'portfolio', 'website developer near me', 'web developer', 'Full-stack web developer', 'React developer portfolio', 'Next.js expert India USA', 'Node.js full-stack development', 'Full-stack developer for hire India', 'Full-stack developer for hire India', 'Docker and AWS web development', 'Prisma and MongoDB projects', 'PostgreSQL database expert', 'Cloudflare R2 integration', 'Full-stack development problem solver', 'Full-stack job-ready', 'Hiring React and Next.js developers', 'Skilled full-stack engineer portfolio',],
   title: {
     default: "Purushotam Jeswani Portfolio",
     template: `%s | Purushotam Jeswani`
@@ -46,6 +46,8 @@ export default function RootLayout({ children }) {
 
         <meta name="google-site-verification" content="Hyq7_rXCrzF3ib_AhDf781L1pYQmFT7oZilFhKZVWCY" />
 
+        {/*Rest broswer defined css  */}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"></link>
         <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />

@@ -19,6 +19,7 @@
     "react-content-loader": "^7.0.2",
     "react-dom": "^18",
     "react-notion-x": "^7.2.5",
+    "react-sortablejs": "^6.1.4",
     "stream": "^0.0.3"
   },
   "devDependencies": {

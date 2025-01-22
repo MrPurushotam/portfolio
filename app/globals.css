@@ -147,3 +147,20 @@
     rgba(255, 20, 0, 0.1)
   );
 }
+
+.notion-dark .notion-page {
+  --notion-font: inherit;
+  --notion-gray: rgb(155, 155, 155);
+  --notion-red: rgb(255, 115, 105);
+  --notion-pink: rgb(226, 85, 161);
+  --notion-blue: rgb(82, 156, 202);
+  --notion-purple: rgb(154, 109, 215);
+  --notion-teal: rgb(77, 171, 154);
+  --notion-yellow: rgb(255, 220, 73);
+  --notion-orange: rgb(255, 163, 68);
+  --notion-brown: rgb(147, 114, 100);
+
+  --notion-bg: #1d1d1c;
+  --notion-text: #e5e5e5;
+  --notion-code-bg: rgba(45, 45, 45);
+}

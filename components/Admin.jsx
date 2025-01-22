@@ -4,7 +4,7 @@ import UpdateProjects from "./UpdateProjects";
 import UpdateSkill from "./UpdateSkill";
 import { useRouter } from "next/navigation";
 import useCurrentTime from "./currentTime";
-
+import { ReactSortable } from "react-sortablejs";
 const Admin = () => {
     const time = useCurrentTime();
     const [edit, setEdit] = useState("")
@@ -17,6 +17,9 @@ const Admin = () => {
     const initalData = useRef({});
     const [profileUrl, setProfileUrl] = useState(profileUrlRef.current);
     const router = useRouter();
+    const [projectsOrder, setProjectsOrder] = useState([]);
+    const [skillsOrder, setSkillsOrder] = useState([]);
+
 
     useEffect(() => {
         const token = window.localStorage.getItem("auth");
@@ -169,6 +172,34 @@ const Admin = () => {
         }
     }
 
+    useEffect(() => {
+        setProjectsOrder(projects.map((project) => project.id));
+        setSkillsOrder(skills.map((skill) => skill.id));
+    }, [projects, skills]);
+
+    const updateOrder = async (type) => {
+        const currentOrder = type === "projects" ? projectsOrder : skillsOrder;
+        const initialOrder = initalData.current[type]?.map((item) => item.id) || [];
+
+        if (JSON.stringify(currentOrder) === JSON.stringify(initialOrder)) {
+            console.log("Order unchanged.");
+            return;
+        }
+
+        try {
+            const res = await fetch(`/api/updateOrder`, {
+                method: "POST",
+                body: JSON.stringify({ type, order: currentOrder }),
+            });
+            if (res.ok) {
+                console.log(`${type} order updated.`);
+                await revalidate(type);
+            }
+        } catch (error) {
+            console.error("Error updating order:", error.message);
+        }
+    };
+
     return (
         <div className="w-full min-h-screen py-5 px-2 bg-white">
             {(edit === "projects" || editData?.type === "projects") && <UpdateProjects setProjects={setProjects} close={editData?.type === "projects" ? setEditData : setEdit} updating={editData?.id || null} />}
@@ -190,10 +221,19 @@ const Admin = () => {
                             <i className="ph-duotone ph-pencil-simple text-2xl hover:text-sky-600 " onClick={() => setEdit("projects")}></i>
                         </div>
                     </div>
-                    <div className="w-full min-h-32 h-fit border-2 border-amber-600 overflow-y-auto overflow-x-hidden flex flex-wrap gap-2 p-1">
+                    <ReactSortable
+                        list={projects}
+                        setList={setProjects}
+                        animation={150}
+                        className="w-full min-h-32 h-fit border-2 border-amber-600 overflow-y-auto overflow-x-hidden flex flex-wrap gap-2 p-1"
+                        onEnd={(evt) => {
+                            const newOrder = evt.to.children;
+                            setProjectsOrder(Array.from(newOrder).map(node => parseInt(node.getAttribute('data-id'))));
+                        }}
+                    >
                         {projects.map((fields) => {
                             return (
-                                <div key={fields.id} className="flex flex-col justify-center items-center w-32 h-32 rounded-md shadow-sm border-2 border-amber-900 capitalize ">
+                                <div key={fields.id} data-id={fields.id} className="flex flex-col justify-center items-center w-32 h-32 rounded-md shadow-sm border-2 border-amber-900 capitalize ">
                                     {fields.title}
                                     <div className="flex space-x-1 py-1">
                                         <i className="ph-duotone ph-note-pencil text-xl font-semibold hover:text-green-600 z-1" title="Edit Projects" onClick={() => handleEdit("projects", fields.id)}></i>
@@ -204,8 +244,13 @@ const Admin = () => {
                             )
                         })
                         }
-                    </div>
-
+                    </ReactSortable>
+                    <button
+                        className="bg-blue-500 text-white font-semibold text-xl px-3 py-2 mt-3 rounded-md shadow-md hover:bg-blue-700"
+                        onClick={() => updateOrder("projects")}
+                    >
+                        Update Order
+                    </button>
                 </div>
 
                 <div className="w-11/12 mx-auto p-1 flex flex-col space-y-3">
@@ -216,7 +261,16 @@ const Admin = () => {
                             <i className="ph-duotone ph-pencil-simple text-2xl hover:text-sky-600" onClick={() => { setEdit("skills") }}></i>
                         </div>
                     </div>
-                    <div className="w-full min-h-36 h-fit border-2 border-amber-600 overflow-y-auto overflow-x-hidden flex flex-wrap gap-2 p-1">
+                    <ReactSortable
+                        list={skills}
+                        setList={setSkills}
+                        animation={150}
+                        className="w-full min-h-36 h-fit border-2 border-amber-600 overflow-y-auto overflow-x-hidden flex flex-wrap gap-2 p-1"
+                        onEnd={(evt) => {
+                            const newOrder = evt.to.children;
+                            setSkillsOrder(Array.from(newOrder).map(node => parseInt(node.getAttribute('data-id'))));
+                        }}
+                    >
                         {skills.map((skill) => {
                             return (
                                 <div key={skill.id} className="flex justify-center items-center flex-col w-32 h-32 rounded-md shadow-sm border-2 border-amber-900 capitalize">
@@ -230,7 +284,13 @@ const Admin = () => {
                             )
                         })
                         }
-                    </div>
+                    </ReactSortable>
+                    <button
+                        className="bg-blue-500 text-white font-semibold text-xl px-3 py-2 mt-3 rounded-md shadow-md hover:bg-blue-700"
+                        onClick={() => updateOrder("skills")}
+                    >
+                        Update Order
+                    </button>
                 </div>
 
                 <div className="w-11/12 mx-auto h-auto">
@@ -267,11 +327,9 @@ const Admin = () => {
                     <button className={`bg-cyan-500 text-white font-semibold text-xl px-3 py-2 my-4 rounded-md shadow-md disabled:bg-cyan-700 hover:bg-cyan-700`}
                         disabled={profileUrl === profileUrlRef.current || !profileUrl} onClick={uploadProfile}>Update Profile</button>
                 </div>
-
             </div>
         </div>
     )
 }
-
 
 export default Admin;

@@ -2,7 +2,6 @@ import { Body } from "@/components/Body";
 import Appbar from "@/components/Appbar";
 import Footer from "@/components/Footer";
 import { revalidatePath } from 'next/cache';
-import FrostedBg from "@/components/FrostedBg";
 
 export const fetchStaticDataServerSide = async () => {
   try {
@@ -56,9 +55,7 @@ export default async function Home() {
     <div className="flex flex-col">
       <Appbar />
       <div className="flex-1">
-        <FrostedBg>
-          <Body projects={projects} skills={skills} profile={profile} resumeDocId={resumeDocId} />
-        </FrostedBg>
+        <Body projects={projects} skills={skills} profile={profile} resumeDocId={resumeDocId} />
       </div>
       <Footer />
     </div>
