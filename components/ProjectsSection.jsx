@@ -17,7 +17,7 @@ const ProjectsSection = ({ project, state }) => {
               muted
               autoPlay
               loop
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
           ) : (
             <img
@@ -26,7 +26,7 @@ const ProjectsSection = ({ project, state }) => {
                 "https://aceyourpaper.com/essays/public/images/loader.gif"
               }
               alt="Project Thumbnail"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
           )}
         </div>
@@ -69,6 +69,8 @@ const ProjectsSection = ({ project, state }) => {
             {project?.githubLink && (
               <Link
                 href={project.githubLink}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center space-x-1 font-medium  hover:underline"
               >
                 <i className="ph-duotone ph-github-logo"></i>
@@ -78,6 +80,8 @@ const ProjectsSection = ({ project, state }) => {
             {project?.liveLink && (
               <Link
                 href={project.liveLink}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center space-x-1 font-medium  hover:underline"
               >
                 <i className="ph-duotone ph-share"></i>
