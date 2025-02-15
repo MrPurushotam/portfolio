@@ -67,7 +67,7 @@ const ProjectsSection = ({ project, state }) => {
           {/* Links Section */}
           <div className="flex items-center space-x-4 text-2xl text-blue-600 dark:text-[#2C8BCF] ">
             {project?.githubLink && (
-              <Link
+              <a
                 href={project.githubLink}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -75,10 +75,10 @@ const ProjectsSection = ({ project, state }) => {
               >
                 <i className="ph-duotone ph-github-logo"></i>
                 <span>GitHub</span>
-              </Link>
+              </a>
             )}
             {project?.liveLink && (
-              <Link
+              <a
                 href={project.liveLink}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -86,7 +86,7 @@ const ProjectsSection = ({ project, state }) => {
               >
                 <i className="ph-duotone ph-share"></i>
                 <span>Live</span>
-              </Link>
+              </a>
             )}
             {project?.brief && (
               <button
