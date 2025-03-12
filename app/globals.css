@@ -17,11 +17,12 @@
     background-color: black;
     transition: all 0.5s ease-in-out;
   }
+  /* PT Sans */
   .master-font {
-    font-family: "Passero One", Courier, monospace;
+    font-family: "League Spartan", 'Times New Roman';
   }
   .primary-font {
-    font-family: "Markazi Text", "Tinos", "Times New Roman", Times, serif;
+    font-family: "Markazi Text", serif;
   }
 }
 

@@ -55,7 +55,7 @@ export function Body({ projects, skills, profile }) {
             )}
 
             {/* Hero Section */}
-            <section id="me" className="h-[90vh] w-full mx-aufrom-red-to flex justify-center items-center bg-gradient-to-br from-red-500 to-red-600 dark:bg-gradient-to-tr dark:from-[#0f0c29] dark:via-[#3d3c50] dark:to-[#24243e] ">
+            <section id="me" className="h-[90vh] w-full mx-aufrom-red-to flex justify-center items-center bg-gradient-to-br from-red-500 to-red-600 dark:bg-gradient-to-tr dark:from-[#0f0c29] dark:via-[#3d3c50] dark:to-[#24243e]">
                 <div className="grid grid-cols-1 md:grid-cols-2 w-11/12 mx-auto h-full gap-1">
                     {/* Left Image Section (for small screens, image is above text) */}
                     <div className="flex justify-center items-center md:hidden pt-5">
@@ -67,16 +67,25 @@ export function Body({ projects, skills, profile }) {
                     </div>
 
                     {/* Main Content Section */}
-                    <div className="flex flex-col justify-center items-center md:items-start text-center md:text-left">
+                    <div className="flex flex-col justify-center items-center md:items-start text-center md:text-left md:pl-24">
                         <div>
-                            <span className="text-3xl md:text-2xl text-white dark:text-gray-300">Hi, I am</span>
+                            <span className="text-3xl md:text-2xl text-gray-50 dark:text-gray-300">Hi, I am</span>
                             <br />
-                            <span className="text-4xl md:text-5xl font-bold master-font text-white dark:text-gray-100">
-                                Purushotam Jeswani
-                            </span>
+                            <div className="relative inline-block">
+                                <img
+                                    src="/white-stroke.png"
+                                    alt="Brush Stroke"
+                                    className="absolute inset-0 md:-left-5 md:scale-125 lg:left-0 lg:scale-110 w-[110%] h-full object-cover -rotate-2 scale-105"
+                                    style={{ zIndex: 0 }}
+                                />
+                                <span className="relative text-4xl md:text-4xl xl:text-5xl font-light tracking-wide master-font text-[#0a100d]">
+                                    Purushotam Jeswani
+                                </span>
+                            </div>
                             <br />
-                            <span className="text-3xl md:text-2xl italic text-gray-200 dark:text-red-400">
-                                Full-stack Web Developer & DevOps Enthusiast from India
+
+                            <span className="text-3xl md:text-2xl italic mt-2 text-gray-50 dark:text-red-400">
+                                Full-stack Web Developer & DevOps Enthusiast 
                             </span>
                         </div>
                         <Link

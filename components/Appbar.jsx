@@ -63,17 +63,17 @@ const Appbar = () => {
 
   return (
     <nav
-      className={`master-font tracking-wider w-full py-7 px-3 sticky z-50 transition-all duration-500 dark:border-b-2 dark:border-gray-900 ${backgroundColor} ${isHidden && !isCursorNearTop ? "-top-20" : "top-0"
+      className={`master-font tracking-wide w-full py-7 px-3 sticky z-50 transition-all duration-500 dark:border-b-2 dark:border-gray-900 ${backgroundColor} ${isHidden && !isCursorNearTop ? "-top-30" : "top-0"
         }`}
     >
       <div className={`w-full sm:w-10/12 md:w-4/5 mx-auto flex justify-between items-center ${textColor}`}>
-        <Link href={"/"} className="flex items-center gap-2 text-2xl md:text-3xl xl:text-4xl font-[750] tracking-wider">
-          <Image src="/favicon.svg" alt="Logo" width={80} height={80} />
+        <Link href={"/"} className="flex items-center gap-2 text-2xl md:text-3xl xl:text-4xl font-medium tracking-normal">
+          <Image src="/favicon.svg" alt="Logo" className="w-12 h-12  md:w-24 md:h-24" width={1} height={1} />
           Purushotam Jeswani
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex w-2/5 text-xl xl:text-2xl 2xl:text-3xl flex-row gap-3 justify-between">
+        <div className="hidden md:flex w-2/5 text-xl  md:text-2xl 2xl:text-3xl flex-row gap-3 justify-between tracking-tight">
           {["About", "Skills", "Projects"].map((item) => (
             <Link
               key={item}
