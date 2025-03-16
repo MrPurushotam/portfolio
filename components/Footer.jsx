@@ -7,7 +7,7 @@ const Footer = () => {
         <footer className="bg-neutral-800 text-white py-12 md:py-16">
             <div className="w-8/12 md:w-3/5 mx-auto flex flex-col md:flex-row justify-between items-start space-y-5 md:space-y-0 primary-font">
                 <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-6">
-                    <h3 className="text-xl md:text-3xl title-font">PJ</h3>
+                    <h3 className="text-2xl md:text-3xl xl:text-4xl font-bold italic title-font tracking-wide">Pj</h3>
                     <div className="flex gap-6">
                         <Link
                             href="https://github.com/MrPurushotam"
