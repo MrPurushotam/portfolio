@@ -7,7 +7,7 @@ const Footer = () => {
         <footer className="bg-neutral-800 text-white py-12 md:py-16">
             <div className="w-8/12 md:w-3/5 mx-auto flex flex-col md:flex-row justify-between items-start space-y-5 md:space-y-0 primary-font">
                 <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-6">
-                    <h3 className="text-3xl md:text-4xl font-bold master-font">Purushotam Jeswani</h3>
+                    <h3 className="text-xl md:text-3xl title-font">PJ</h3>
                     <div className="flex gap-6">
                         <Link
                             href="https://github.com/MrPurushotam"
@@ -45,7 +45,7 @@ const Footer = () => {
                 <div className="flex flex-col items-center md:items-start space-y-6">
                     <h3 className="text-3xl md:text-4xl font-bold master-font">Quick Links</h3>
                     <div className="flex flex-col gap-2 md:gap-3 pl-2">
-                        {[{ name: "Me", icon: "student-2.gif" }, { name: "About", icon: "search-book-2.gif" }, { name: "Skills", icon: "software-2.gif" }, { name: "Projects", icon: "startup-2.gif" }, { name: "Resume", icon: "resume.gif" }, { name: "Contact", icon: "agenda.gif" }].map((item) => (
+                        {[{ name: "About", icon: "search-book-2.gif" }, { name: "Skills", icon: "software-2.gif" }, { name: "Projects", icon: "startup-2.gif" }, { name: "Resume", icon: "resume.gif" }, { name: "Contact", icon: "agenda.gif" }].map((item) => (
                             <Link href={`/${item.name.toLowerCase() === "resume" || item.name.toLowerCase() === "contact" ? "" : "#"}${item.name.toLowerCase()}`} key={item.name} className="flex items-center gap-2">
                                 <img src={`/icons/${item.icon}`} className="bg-neutral-100 rounded-md shadow-sm" width={40} height={20} />
                                 <span className=" relative hover:text-red-200 group text-lg md:text-2xl">

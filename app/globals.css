@@ -7,6 +7,7 @@
     @apply underline relative;
     text-decoration-color: transparent;
   }
+
   .links::after {
     content: "";
     position: absolute;
@@ -17,10 +18,16 @@
     background-color: black;
     transition: all 0.5s ease-in-out;
   }
+
   /* PT Sans */
+  .title-font{
+    font-family: "Allison", cursive;
+  }
+
   .master-font {
     font-family: "League Spartan", 'Times New Roman';
   }
+
   .primary-font {
     font-family: "Markazi Text", serif;
   }
@@ -31,34 +38,42 @@
     transform: translateX(0) scale(1) rotate(45deg);
     opacity: 1;
   }
+
   12.5% {
     transform: translateX(10px) scale(1.1) rotate(45deg);
     opacity: 0.9;
   }
+
   25% {
     transform: translateX(20px) scale(1.2) rotate(45deg);
     opacity: 0.8;
   }
+
   37.5% {
     transform: translateX(10px) scale(1.1) rotate(45deg);
     opacity: 0.5;
   }
+
   50% {
     transform: translateX(0) scale(1) rotate(45deg);
     opacity: 0;
   }
+
   62.5% {
     transform: translateX(0) scale(1) rotate(215deg);
     opacity: 0;
   }
+
   75% {
     transform: translateX(-10px) scale(1.1) rotate(215deg);
     opacity: 0.5;
   }
+
   87.5% {
     transform: translateX(-20px) scale(1.2) rotate(215deg);
     opacity: 0.8;
   }
+
   100% {
     transform: translateX(0) scale(1) rotate(215deg);
     opacity: 1;
@@ -72,12 +87,10 @@
 /* Add these styles to your global CSS or module CSS file */
 .animated-text {
   color: #000000;
-  background-image: linear-gradient(
-    45deg,
-    #000000 30%,
-    #191919 48%,
-    #333333 12% 
-  );
+  background-image: linear-gradient(45deg,
+      #000000 30%,
+      #191919 48%,
+      #333333 12%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -86,11 +99,9 @@
 }
 
 .animated-text-dark {
-  background-image: linear-gradient(
-    45deg,
-    #ee9ca7 60%,
-    #ffdde1 40%
-  );
+  background-image: linear-gradient(45deg,
+      #ee9ca7 60%,
+      #ffdde1 40%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -100,26 +111,30 @@
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
 }
 
 .animated-text {
-  position: relative; /* Needed for positioning the ::after element */
+  position: relative;
+  /* Needed for positioning the ::after element */
 }
 
 .animated-text::after {
   content: '';
   position: absolute;
   left: 0;
-  top:45px;
+  top: 45px;
   width: 0%;
   height: 3px;
-  background-color: #dc2625; /* Underline color */
+  background-color: #dc2625;
+  /* Underline color */
   animation: underline 2s linear infinite;
 }
 
@@ -128,10 +143,12 @@
     width: 0%;
     opacity: 1;
   }
+
   50% {
     width: 100%;
     opacity: 1;
   }
+
   100% {
     width: 100%;
     opacity: 0;
@@ -141,12 +158,10 @@
 
 .highlight-red {
   border-radius: 1em 0 1em 0;
-  background-image: linear-gradient(
-    -100deg,
-    rgba(255, 20, 0, 0.2),
-    rgba(255, 20, 0, 0.7) 95%,
-    rgba(255, 20, 0, 0.1)
-  );
+  background-image: linear-gradient(-100deg,
+      rgba(255, 20, 0, 0.2),
+      rgba(255, 20, 0, 0.7) 95%,
+      rgba(255, 20, 0, 0.1));
 }
 
 .notion-dark .notion-page {

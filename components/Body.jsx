@@ -45,7 +45,7 @@ export function Body({ projects, skills, profile }) {
     useEffect(() => {
         initializeLanguages();
     }, [projects]);
-// THOUGHT:- error whle the project brief is rendered its rendering at the center which shouldn't be the case figure out a way to fix it 
+    // THOUGHT:- error whle the project brief is rendered its rendering at the center which shouldn't be the case figure out a way to fix it 
     return (
         <div className="w-full h-full relative primary-font">
             {Object.keys(isProjectBriefObject).length > 0 && (
@@ -55,42 +55,42 @@ export function Body({ projects, skills, profile }) {
             )}
 
             {/* Hero Section */}
-            <section id="me" className="h-[90vh] w-full mx-aufrom-red-to flex justify-center items-center bg-gradient-to-br from-red-500 to-red-600 dark:bg-gradient-to-tr dark:from-[#0f0c29] dark:via-[#3d3c50] dark:to-[#24243e]">
+            <section id="me" className="min-h-[90vh] h-auto w-full py-3 mx-aufrom-red-to flex justify-center items-center bg-gradient-to-br from-red-500 to-red-600 dark:bg-gradient-to-tr dark:from-[#0f0c29] dark:via-[#3d3c50] dark:to-[#24243e]">
                 <div className="grid grid-cols-1 md:grid-cols-2 w-11/12 mx-auto h-full gap-1">
                     {/* Left Image Section (for small screens, image is above text) */}
                     <div className="flex justify-center items-center md:hidden pt-5">
                         <img
                             src={profile || "pj_png.png"}
                             alt="Pj profile"
-                            className="w-[50vw] h-[45vh] rounded-full shadow-lg dark:shadow-white object-cover"
+                            className="w-[50vw] h-[45vh] rounded-full shadow-lg dark:shadow-gray-800 object-cover"
                         />
                     </div>
 
                     {/* Main Content Section */}
-                    <div className="flex flex-col justify-center items-center md:items-start text-center md:text-left md:pl-24">
-                        <div>
-                            <span className="text-3xl md:text-2xl text-gray-50 dark:text-gray-300">Hi, I am</span>
-                            <br />
-                            <div className="relative inline-block">
+                    <div className="flex flex-col justify-center items-center md:items-start text-center md:text-left pt-2 md:pl-24">
+                        <div className="flex flex-col">
+                            <span className="text-xl md:text-2xl italic text-gray-50 dark:text-gray-300 mb-1">Hi, I am</span>
+                            <div className="relative inline-block w-fit mx-auto md:mx-0">
                                 <img
                                     src="/white-stroke.png"
                                     alt="Brush Stroke"
-                                    className="absolute inset-0 md:-left-5 md:scale-125 lg:left-0 lg:scale-110 w-[110%] h-full object-cover -rotate-2 scale-105"
+                                    className="absolute inset-0 scale-125 w-[150%] h-full object-cover -rotate-2"
                                     style={{ zIndex: 0 }}
                                 />
-                                <span className="relative text-4xl md:text-4xl xl:text-5xl font-light tracking-wide master-font text-[#0a100d]">
+                                <span className="relative text-5xl font-semibold tracking-wide title-font text-[#0a100d]">
                                     Purushotam Jeswani
                                 </span>
                             </div>
-                            <br />
-
-                            <span className="text-3xl md:text-2xl italic mt-2 text-gray-50 dark:text-red-400">
-                                Full-stack Web Developer & DevOps Enthusiast 
+                            <span className="text-xl md:text-2xl italic mt-3 text-white dark:text-[#F87171] ">
+                                Full-stack Web Developer & DevOps Engineer
                             </span>
+                            {/* <span className="text-xl md:text-2xl mx-auto font-medium tracking-wide w-[70%] md:mx-0 md:w-[90%] italic mt-2 text-gray-50 dark:text-gray-300">
+                                Hey, I’m Purushotam Jeswani—Full Stack Developer, problem solver, and creative thinker. I love turning ideas into smooth, scalable solutions while keeping things fun and fresh. Whether it’s coding, DevOps, or pushing the boundaries of what’s possible, I’m all in. Let’s build something cool!
+                            </span> */}
                         </div>
                         <Link
                             href="/contact"
-                            className="inline-block mt-6 mb-3 md:mt-6 px-4 py-2 md:px-6 md:py-3 text-xl md:text-2xl font-bold tracking-wider border-2 border-white  rounded-md text-white dark:text-gray-300 uppercase hover:bg-white hover:text-red-600 dark:hover:bg-gray-300 dark:hover:text-black transition duration-300"
+                            className="inline-block mt-2 mb-2 md:mt-4 px-4 py-2 md:px-6 md:py-3 text-lg md:text-xl font-bold tracking-wider border-2 border-white  rounded-lg text-white dark:text-gray-300 uppercase hover:bg-white hover:text-red-600 dark:hover:bg-gray-300 dark:hover:text-black transition duration-300"
                         >
                             Get in touch
                         </Link>
@@ -104,7 +104,7 @@ export function Body({ projects, skills, profile }) {
                         <img
                             src={profile || "pj_png.png"}
                             alt="Pj profile"
-                            className="h-[85%] w-full max-w-[400px] rounded-full shadow-lg dark:shadow-white object-cover"
+                            className="h-[85%] w-full max-w-[400px] rounded-full shadow-lg dark:shadow-gray-800 object-cover"
                         />
                     </div>
                 </div>
@@ -116,28 +116,22 @@ export function Body({ projects, skills, profile }) {
             {/* About Section */}
             <section id="about" className="w-full mx-auto flex justify-center py-10 bg-gray-200/50 dark:bg-[#1d1d1c]">
                 <div className="h-auto w-11/12 md:w-3/5 p-3 pt-8 md:pt-16 md:pb-16">
-                    <h2 className="flex items-center text-red-600 dark:text-[#fff4b7] text-3xl md:text-6xl my-6 md:my-8 capitalize text-center font-bold tracking-wide">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 md:h-12 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <h2 className="flex items-center text-red-600 dark:text-[#fff4b7] text-xl md:text-3xl my-4 md:my-6 capitalize text-center font-bold tracking-wide master-font">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 md:h-9 mr-2 mb-1" viewBox="0 0 20 20" fill="currentColor">
                             <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                         </svg>
                         About Me
                     </h2>
-                    <p className="text-3xl md:text-4xl text-justify dark:text-[#d2e3f8]">
-                        Hi 🙋🏻‍♂️, I am Purushotam Jeswani, a 
-                        <span className="animated-text bg-light-gradient dark:bg-dark-gradient font-bold text-4xl capitalize p-1 bg-black">Full Stack Developer</span>
-                        , with prior experience in 
-                        <span className="animated-text bg-light-gradient dark:bg-dark-gradient font-bold text-4xl capitalize p-1 bg-black">DevOps</span>
-                        , bringing development and deployment together to deliver reliable solutions.
-                        I am someone who is curious to make an impact with my skills, someone who is driven by a zeal about coding, someone who is excited to take on advanced projects with a growth-oriented, jolly mindset.
-                        Instead of conventional education, I value continuous learning and I love exploring ideas, out-of-the-box. Getting motivated and influenced by passionate and intellectual minds is something that brings energy into my work.
-                        I strive to be the person you would surely enjoy working with. Although I have my areas of improvement, as in I occasionally struggle with management of time, I am working on getting better at it.
+                    <p className="text-lg md:text-xl text-justify dark:text-[#d2e3f8] master-font pl-4 tracking-wide">
+                        I thrive on building scalable, high-impact solutions with React, Next.js, Node.js, and AWS. Creativity and experimentation drive my approach—I love pushing boundaries and bringing depth to every project. Development, for me, isn’t just about writing code; it’s about crafting seamless experiences.
+                        <br />
+                        Beyond tech, I’m passionate about geopolitics, reading, and exploring new places (preferably on two wheels!). With a strategic mindset and a fun approach to work, I tackle challenges with enthusiasm. Let’s build something extraordinary!
                     </p>
-                    <h2 className="flex items-center text-amber-800 dark:text-[#fff4b7] text-3xl md:text-6xl my-6 md:my-8 capitalize text-center font-bold tracking-wide">
-                        <i className="ph-duotone ph-student text-5xl"></i>
+                    <h2 className="flex items-center text-amber-800 dark:text-[#fff4b7] text-xl md:text-3xl my-4 md:my-6 capitalize text-center font-bold tracking-wide master-font">
+                        <i className="ph-duotone ph-student text-xl md:text-3xl mb-2 mr-2"></i>
                         Education
                     </h2>
-                    <div className="text-3xl md:text-4xl text-justify flex flex-col gap-6 dark:text-[#d2e3f8] ">
-                        {/* Lovely Professional University Section */}
+                    <div className="text-xl md:text-3xl text-justify flex flex-col gap-6 dark:text-[#d2e3f8] pl-4 ">
                         <div className="flex flex-col w-full px-2">
                             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center ">
                                 <h2 className="text-3xl font-semibold text-neutral-900 dark:text-[#ffd686]">
