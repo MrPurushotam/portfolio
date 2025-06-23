@@ -1,7 +1,8 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import ThemeSelect from "./themeSelect";
+import ThemeSelectAppbar from "./ThemeSelectUpdated";
 
 const Appbar = () => {
   const [isHidden, setIsHidden] = useState(false);
@@ -9,25 +10,21 @@ const Appbar = () => {
   const [isCursorNearTop, setIsCursorNearTop] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const [showPj, setShowPj] = useState(false);
 
   useEffect(() => {
     let lastScrollTop = 0;
 
     const handleScroll = () => {
       const currentScrollPos = window.pageYOffset;
-
-      // Hide when scrolling down and cursor is not near top
       if (currentScrollPos > lastScrollTop && !isCursorNearTop) {
         setIsHidden(true);
       } else {
         setIsHidden(false);
       }
-
-      // Update scroll position
       setScrollPosition(currentScrollPos);
       lastScrollTop = currentScrollPos;
 
-      // Close dropdown menu on scroll
       if (isDropdownOpen) setIsDropdownOpen(false);
     };
 
@@ -45,7 +42,6 @@ const Appbar = () => {
         setIsDropdownOpen(false);
       }
     };
-
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mousedown", handleClickOutside);
@@ -56,7 +52,17 @@ const Appbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isCursorNearTop, isDropdownOpen]);
-  // 
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowPj(true);
+    }, 1200); // Delay before starting the animation
+
+    return () => clearTimeout(timer);
+  }, []);
+
+
+
   const backgroundColor = scrollPosition > 200 ? "bg-gray-200 dark:bg-[#2a2727]" : "bg-red-600 dark:bg-gradient-to-br dark:bg-black";
   const hoverBackgroundColor = backgroundColor === "bg-gray-200 " ? "hover:bg-gray-100" : "hover:bg-red-200/50";
   const textColor = scrollPosition > 200 ? "text-black dark:text-neutral-200" : "text-white";
@@ -71,12 +77,26 @@ const Appbar = () => {
           <Image src="/favicon.svg" alt="Logo" className="w-12 h-12  md:w-24 md:h-24" width={1} height={1} />
           Purushotam Jeswani
         </Link> */}
-        <Link href={"/"} className="flex items-center gap-2 text-2xl md:text-3xl xl:text-4xl font-bold italic tracking-wide title-font">
-          Pj
+        <Link href={"/"} className={`flex items-center gap-2 text-2xl md:text-3xl xl:text-4xl font-bold italic tracking-wide title-font`}>
+          <div className="grid place-items-center">
+            <span
+              className={`col-start-1 row-start-1 transition-opacity duration-500 ease-in-out ${
+                showPj ? "opacity-0" : "opacity-100"
+              }`}
+            >
+              Purushotam Jeswani
+            </span>
+            <span
+              className={`col-start-1 row-start-1 transition-opacity duration-500 ease-in-out ${
+                showPj ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              Pj
+            </span>
+          </div>
         </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex w-2/5 text-base  md:text-lg 2xl:text-xl flex-row gap-3 justify-between tracking-tight">
+        <div className="hidden md:flex w-2/5 text-base  md:text-lg 2xl:text-xl flex-row gap-3 justify-between items-center tracking-tight">
           {["About", "Skills", "Projects"].map((item) => (
             <Link
               key={item}
@@ -97,10 +117,11 @@ const Appbar = () => {
               <span className="absolute left-0 bottom-[-3px] w-0 h-[2px] bg-current transition-all duration-300 group-hover:w-full group-hover:bottom-[-5px]"></span>
             </Link>
           ))}
+          <ThemeSelectAppbar />
         </div>
 
-        {/* Mobile Navigation */}
         <div className="md:hidden flex items-center relative">
+          <ThemeSelectAppbar />
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             aria-label="Toggle Menu"

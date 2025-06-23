@@ -6,6 +6,7 @@ import Socials from "./Socials";
 import { useEffect, useRef, useState } from "react";
 import BriefProject from "./BriefProject";
 import Badge from "./Badge";
+import { motion } from "motion/react"
 
 export function Body({ projects, skills, profile }) {
     const [isProjectBriefObject, setIsProjectBriefObject] = useState(false);
@@ -55,21 +56,61 @@ export function Body({ projects, skills, profile }) {
             )}
 
             {/* Hero Section */}
-            <section id="me" className="min-h-[90vh] h-auto w-full py-3 mx-aufrom-red-to flex justify-center items-center bg-gradient-to-br from-red-500 to-red-600 dark:bg-gradient-to-tr dark:from-[#0f0c29] dark:via-[#3d3c50] dark:to-[#24243e]">
-                <div className="grid grid-cols-1 md:grid-cols-2 w-11/12 mx-auto h-full gap-1">
+            <section id="me" className="min-h-[93vh] h-auto w-full py-3 mx-aufrom-red-to flex justify-center items-center bg-gradient-to-br from-red-500 to-red-600 dark:bg-gradient-to-br dark:from-[#0f2027] dark:via-[#203a43] dark:to-[#2c5364]"
+            >
+                <div className="relative grid grid-cols-1 md:grid-cols-2 w-11/12 mx-auto h-full gap--8 md:gap-4">
                     {/* Left Image Section (for small screens, image is above text) */}
-                    <div className="flex justify-center items-center md:hidden pt-5">
-                        <img
-                            src={profile || "pj_png.png"}
-                            alt="Pj profile"
-                            className="w-[50vw] h-[45vh] rounded-full shadow-lg dark:shadow-gray-800 object-cover"
+
+                    <div className="flex justify-center items-center md:hidden pt-5 pb-3 mb-2 w-full relative">
+                        <motion.div
+                            initial={{ scale: 1 }}
+                            animate={{ scale: [1, 1.05, 1], rotate: [0, 1, 0], rotate: [0, 360] }}
+                            transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
+                            className="absolute w-[450px] h-[450px] bg-teal-400/30 opacity-20 blur-[160px] rounded-full z-0"
                         />
+
+                        <motion.div
+                            whileHover={{ scale: 1.05, rotate: 1 }}
+                            transition={{ type: "spring", stiffness: 200 }}
+                            className="relative z-10 p-[1.5px] bg-gradient-to-tr from-rose-400/30 to-red-400/30 dark:bg-gradient-to-tr dark:from-cyan-300/20 dark:to-blue-400/20 rounded-[2rem]"
+                        >
+                            <motion.div
+                                animate={{ y: [0, -5, 0] }}
+                                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                                className="absolute top-2 right-2 bg-cyan-600/70 text-white px-2 py-1 rounded-full text-xs shadow-md border border-white/10 backdrop-blur-sm"
+                            >
+                                🚀 Building the web
+                            </motion.div>
+
+                            <motion.div
+                                animate={{ y: [0, 6, 0] }}
+                                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                                className="absolute top-14 right-6 bg-blue-600/70 text-white text-xs px-2 py-1 rounded-full shadow-md border border-white/10 backdrop-blur-sm"
+                            >
+                                🧠 Lifelong Learner
+                            </motion.div>
+
+                            <motion.div
+                                animate={{ y: [0, -5, 0] }}
+                                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                                className="absolute bottom-2 left-2 bg-indigo-600/70 text-white font-semibold text-xs px-2 py-1 rounded-full shadow-md border border-white/10 backdrop-blur-sm"
+                            >
+                                ⚙️ Automating stuff
+                            </motion.div>
+
+                            <img
+                                src={profile || "pj_png.png"}
+                                alt="Pj profile"
+                                className="w-[70vw] max-w-xs h-auto rounded-[2rem] shadow-xl object-cover ring-4 ring-white/10 "
+                            />
+                        </motion.div>
                     </div>
 
+
                     {/* Main Content Section */}
-                    <div className="flex flex-col justify-center items-center md:items-start text-center md:text-left pt-2 md:pl-24">
-                        <div className="flex flex-col">
-                            <span className="text-xl md:text-2xl italic text-gray-50 dark:text-gray-300 mb-1">Hi, I am</span>
+                    <div className="flex flex-col justify-center items-center md:items-start text-center md:text-left md:ml-2 lg:ml-28 xl:ml-36">
+                        <div className="flex flex-col justify-start md:justify-center">
+                            <span className="text-lg md:text-xl italic text-gray-50 dark:text-gray-300 mb-1">Hi, I am</span>
                             <div className="relative inline-block w-fit mx-auto md:mx-0">
                                 <img
                                     src="/white-stroke.png"
@@ -77,35 +118,86 @@ export function Body({ projects, skills, profile }) {
                                     className="absolute inset-0 scale-125 w-[150%] h-full object-cover -rotate-2"
                                     style={{ zIndex: 0 }}
                                 />
-                                <span className="relative text-5xl font-semibold tracking-wide title-font text-[#0a100d]">
+                                <span className="relative text-4xl font-semibold tracking-wide title-font text-[#0a100d]">
                                     Purushotam Jeswani
                                 </span>
                             </div>
-                            <span className="text-xl md:text-2xl italic mt-3 text-white dark:text-[#F87171] ">
+                            <span className="text-lg sm:text-xl font-semibold md:text-2xl italic mt-3 text-white dark:text-[#F87171] ">
                                 Full-stack Web Developer & DevOps Engineer
                             </span>
+                            <span className="text-base sm:text-lg md:text-xl text-gray-200 italic mb-1 font-semibold tracking-wide">Building scalable apps, automating deployments</span>
+
                             {/* <span className="text-xl md:text-2xl mx-auto font-medium tracking-wide w-[70%] md:mx-0 md:w-[90%] italic mt-2 text-gray-50 dark:text-gray-300">
                                 Hey, I’m Purushotam Jeswani—Full Stack Developer, problem solver, and creative thinker. I love turning ideas into smooth, scalable solutions while keeping things fun and fresh. Whether it’s coding, DevOps, or pushing the boundaries of what’s possible, I’m all in. Let’s build something cool!
                             </span> */}
+
                         </div>
-                        <Link
-                            href="/contact"
-                            className="inline-block mt-2 mb-2 md:mt-4 px-4 py-2 md:px-6 md:py-3 text-lg md:text-xl font-bold tracking-wider border-2 border-white  rounded-lg text-white dark:text-gray-300 uppercase hover:bg-white hover:text-red-600 dark:hover:bg-gray-300 dark:hover:text-black transition duration-300"
-                        >
-                            Get in touch
-                        </Link>
-                        <div className="flex justify-center md:justify-start items-center mt-4">
+                        <div className="flex flex-col md:flex-row justify-center space-y-4 md:justify-start sm:space-y-2 md:space-x-4 items-center">
+                            <Link
+                                href="/resume"
+                                className="flex justify-center items-center space-x-1 px-6 py-3 text-sm md:text-base font-bold tracking-wider border-2 border-white  rounded-full text-white dark:text-gray-300 uppercase hover:bg-white hover:text-red-600 dark:hover:bg-gray-300 dark:hover:text-black transition duration-300"
+                            >
+                                Download Resume
+                            </Link>
+                            <Link
+                                href="/contact"
+                                className="inline-block px-6 py-3 text-sm md:text-base font-bold tracking-wider border-2 border-white  rounded-full text-white dark:text-gray-300 uppercase hover:bg-white hover:text-red-600 dark:hover:bg-gray-300 dark:hover:text-black transition duration-300"
+                            >
+                                Get in touch
+                            </Link>
+                        </div>
+                        <div className="flex justify-center md:justify-start items-center mt-6">
                             <Socials />
                         </div>
                     </div>
 
                     {/* Right Image Section (only visible on md and above) */}
-                    <div className="hidden md:flex justify-center items-center w-full">
-                        <img
-                            src={profile || "pj_png.png"}
-                            alt="Pj profile"
-                            className="h-[85%] w-full max-w-[400px] rounded-full shadow-lg dark:shadow-gray-800 object-cover"
+                    <div className="hidden md:flex justify-center items-center w-full relative">
+                        <motion.div
+                            initial={{ scale: 1 }}
+                            animate={{ scale: [1, 1.05, 1], rotate: [0, 1, 0], rotate: [0, 360] }}
+                            transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
+                            className="absolute w-[450px] h-[450px] bg-teal-400/30 opacity-20 blur-[160px] rounded-full z-0"
                         />
+
+                        <motion.div
+                            whileHover={{ scale: 1.05, rotate: 1 }}
+                            transition={{ type: "spring", stiffness: 200 }}
+                            className="relative z-10 p-[1.5px] bg-gradient-to-tr from-rose-400/30 to-red-400/30 dark:bg-gradient-to-tr dark:from-cyan-300/20 dark:to-blue-400/20 rounded-[2rem]"
+                        >
+                            <motion.div
+                                animate={{ y: [0, -5, 0] }}
+                                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                                className="absolute top-2 right-2 bg-cyan-600/70 text-white px-2 py-1 rounded-full text-xs shadow-md border border-white/10 backdrop-blur-sm"
+                            >
+                                🚀 Building the web
+                            </motion.div>
+
+                            <motion.div
+                                animate={{ y: [0, 6, 0] }}
+                                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                                className="absolute top-14 right-6 bg-blue-600/70 text-white text-xs px-2 py-1 rounded-full shadow-md border border-white/10 backdrop-blur-sm"
+                            >
+                                🧠 Lifelong Learner
+                            </motion.div>
+
+                            <motion.div
+                                animate={{ y: [0, -5, 0] }}
+                                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                                className="absolute bottom-2 left-2 bg-indigo-600/70 text-white font-semibold text-xs px-2 py-1 rounded-full shadow-md border border-white/10 backdrop-blur-sm"
+                            >
+                                ⚙️ Automating stuff
+                            </motion.div>
+
+                            <img
+                                src={profile || "pj_png.png"}
+                                alt="Pj profile"
+                                className="w-full max-w-[400px] lg:max-w-[400px] rounded-[2rem] lg:rounded-[3rem] object-cover shadow-xl ring-4 ring-white/10 "
+                            />
+                        </motion.div>
+                    </div>
+                    <div className="absolute z-10 top-[115%] left-0 w-full md:col-span-2 flex justify-center items-center animate-bounce text-white text-2xl">
+                        <i className="ph-duotone ph-caret-down"></i>
                     </div>
                 </div>
             </section>
