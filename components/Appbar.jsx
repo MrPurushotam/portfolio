@@ -56,14 +56,14 @@ const Appbar = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowPj(true);
-    }, 1200); // Delay before starting the animation
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, []);
 
 
 
-  const backgroundColor = scrollPosition > 200 ? "bg-gray-200 dark:bg-[#2a2727]" : "bg-red-600 dark:bg-gradient-to-br dark:bg-black";
+  const backgroundColor = scrollPosition > 200 ? "bg-white/60 backdrop-blur-md border-b border-black/10 dark:bg-black/60 dark:backdrop-blur-md dark:border-b dark:border-white/10" : "bg-red-600 dark:bg-black";
   const hoverBackgroundColor = backgroundColor === "bg-gray-200 " ? "hover:bg-gray-100" : "hover:bg-red-200/50";
   const textColor = scrollPosition > 200 ? "text-black dark:text-neutral-200" : "text-white";
 
@@ -80,16 +80,14 @@ const Appbar = () => {
         <Link href={"/"} className={`flex items-center gap-2 text-2xl md:text-3xl xl:text-4xl font-bold italic tracking-wide title-font`}>
           <div className="grid place-items-center">
             <span
-              className={`col-start-1 row-start-1 transition-opacity duration-500 ease-in-out ${
-                showPj ? "opacity-0" : "opacity-100"
-              }`}
+              className={`col-start-1 row-start-1 transition-opacity duration-500 ease-in-out ${showPj ? "opacity-0" : "opacity-100"
+                }`}
             >
               Purushotam Jeswani
             </span>
             <span
-              className={`col-start-1 row-start-1 transition-opacity duration-500 ease-in-out ${
-                showPj ? "opacity-100" : "opacity-0"
-              }`}
+              className={`col-start-1 row-start-1 transition-opacity duration-500 ease-in-out ${showPj ? "opacity-100" : "opacity-0"
+                }`}
             >
               Pj
             </span>

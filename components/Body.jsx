@@ -48,7 +48,7 @@ export function Body({ projects, skills, profile }) {
     }, [projects]);
     // THOUGHT:- error whle the project brief is rendered its rendering at the center which shouldn't be the case figure out a way to fix it 
     return (
-        <div className="w-full h-full relative primary-font">
+        <div className="w-full h-full relative primary-font bg-gray-200/50 dark:bg-[#10151b]">
             {Object.keys(isProjectBriefObject).length > 0 && (
                 <div className="bg-black/50 dark:bg-black/50 z-50 flex justify-center items-center">
                     <BriefProject project={isProjectBriefObject} close={setIsProjectBriefObject} />
@@ -196,42 +196,47 @@ export function Body({ projects, skills, profile }) {
                             />
                         </motion.div>
                     </div>
-                    <div className="absolute z-10 top-[115%] left-0 w-full md:col-span-2 flex justify-center items-center animate-bounce text-white text-2xl">
+                    <div className="absolute z-10 top-[103%] md:top-[115%] left-0 w-full md:col-span-2 flex justify-center items-center animate-bounce text-white text-2xl">
                         <i className="ph-duotone ph-caret-down"></i>
                     </div>
                 </div>
             </section>
 
-
-
-
             {/* About Section */}
-            <section id="about" className="w-full mx-auto flex justify-center py-10 bg-gray-200/50 dark:bg-[#1d1d1c]">
-                <div className="h-auto w-11/12 md:w-3/5 p-3 pt-8 md:pt-16 md:pb-16">
-                    <h2 className="flex items-center text-red-600 dark:text-[#fff4b7] text-xl md:text-3xl my-4 md:my-6 capitalize text-center font-bold tracking-wide master-font">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 md:h-9 mr-2 mb-1" viewBox="0 0 20 20" fill="currentColor">
+            <section id="about" className="w-full h-[85vh] mx-auto flex justify-center items-center py-10 bg-gray-200/50 dark:bg-[#10151b]">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    viewport={{ once: true }}
+                    className="h-auto w-11/12 md:w-3/5 p-3 pt-8 px-8 md:px-12 md:pt-16 md:pb-16 bg-gray-300/30 dark:bg-[#10151b]/50 ring-1 ring-gray-200 dark:ring-0 dark:border  dark:border-[#ffffff1a] rounded-xl shadow-md shadow-black/20"
+                >
+                    <h2 className="flex items-center justify-center text-[#f59e0b] dark:text-[#fff4b7] text-xl md:text-3xl my-4 md:my-6 capitalize text-center font-[730] tracking-wide master-font hover:text-[#fbbf24] dark:hover:text-[#ffd686] transition-colors duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" className=" h-6 md:h-9 mr-2 mb-1" viewBox="0 0 20 20" fill="currentColor">
                             <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                         </svg>
                         About Me
                     </h2>
-                    <p className="text-lg md:text-xl text-justify dark:text-[#d2e3f8] master-font pl-4 tracking-wide">
-                        I thrive on building scalable, high-impact solutions with React, Next.js, Node.js, and AWS. Creativity and experimentation drive my approach—I love pushing boundaries and bringing depth to every project. Development, for me, isn’t just about writing code; it’s about crafting seamless experiences.
+                    <div className="w-12 h-[2px] bg-gray-400 dark:bg-gray-500 mx-auto mt-2 mb-4 rounded-full"></div>
+                    <p className="text-lg md:text-xl text-justify dark:text-[#d2e3f8] master-font pl-4 tracking-wide leading-relaxed">
+                        I thrive on building <b>scalable</b>, high-impact solutions using <b>React</b>, <b>Next.js</b>, <b>Node.js</b>, and <b>Aws</b>. Creativity and experimentation drive my approach — I love pushing boundaries and crafting seamless experiences that go beyond just writing code.
                         <br />
-                        Beyond tech, I’m passionate about geopolitics, reading, and exploring new places (preferably on two wheels!). With a strategic mindset and a fun approach to work, I tackle challenges with enthusiasm. Let’s build something extraordinary!
+                        Beyond tech, I'm deeply curious about geopolitics, enjoy reading, and love exploring new places (preferably on two wheels!). With a strategic mindset and a passion for innovation, I embrace challenges with enthusiasm and a growth-focused mindset. Let’s build something extraordinary together.
                     </p>
-                    <h2 className="flex items-center text-amber-800 dark:text-[#fff4b7] text-xl md:text-3xl my-4 md:my-6 capitalize text-center font-bold tracking-wide master-font">
+                    <h2 className="flex items-center justify-center text-[#f59e0b] dark:text-[#fff4b7] text-xl md:text-3xl my-4 md:my-6 capitalize text-center font-[730] tracking-wide master-font hover:text-[#fbbf24] dark:hover:text-[#ffd686] transition-colors duration-300">
                         <i className="ph-duotone ph-student text-xl md:text-3xl mb-2 mr-2"></i>
                         Education
                     </h2>
+                    <div className="w-12 h-[2px] bg-gray-400 dark:bg-gray-500 mx-auto mt-2 mb-4 rounded-full"></div>
                     <div className="text-xl md:text-3xl text-justify flex flex-col gap-6 dark:text-[#d2e3f8] pl-4 ">
                         <div className="flex flex-col w-full px-2">
                             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center ">
-                                <h2 className="text-3xl font-semibold text-neutral-900 dark:text-[#ffd686]">
+                                <h2 className="text-lg md:text-2xl lg:text-3xl font-semibold text-neutral-900 dark:text-[#ffd686]">
                                     Lovely Professional University, Phagwara, Punjab
                                 </h2>
-                                <p className="text-xl text-gray-700 sm:text-right sm:mt-0 mt-2 dark:text-[#ffd686]">2022-2026</p>
+                                <p className="text-lg md:text-xl  text-gray-700 sm:text-right sm:mt-1 dark:text-[#ffd686]">2022-2026</p>
                             </div>
-                            <p className="text-2xl mt-2">
+                            <p className="text-base md:text-lg mt-2">
                                 Currently, pursuing my B.Tech in Computer Science and Engineering
                             </p>
                         </div>
@@ -239,21 +244,21 @@ export function Body({ projects, skills, profile }) {
                         {/* Lakshmipat Singhania Public School Section */}
                         <div className="flex flex-col w-full px-2">
                             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center ">
-                                <h2 className="text-3xl font-semibold text-neutral-900 dark:text-[#ffd686]">
-                                    Lakshmipat Singhania Public School
+                                <h2 className="text-lg md:text-2xl lg:text-3xl font-semibold text-neutral-900 dark:text-[#ffd686]">
+                                    Lakshmipat Singhania Public School, Odisha
                                 </h2>
-                                <p className="text-xl text-gray-700 sm:text-right sm:mt-0 mt-2 dark:text-[#ffd686]">2019 - 2021</p>
+                                <p className="text-lg md:text-xl text-gray-700 sm:text-right sm:mt-1 dark:text-[#ffd686]">2019 - 2021</p>
                             </div>
-                            <p className="text-2xl mt-2">
+                            <p className="text-base md:text-lg mt-2">
                                 Completed my high school from hometown Rayagada, Odisha.
                             </p>
                         </div>
                     </div>
 
-                </div>
+                </motion.div>
             </section>
 
-            <section id="skills" className="w-full mx-auto flex flex-col justify-center pt-8 pb-7 dark:bg-[#444444] ">
+            <section id="skills" className="w-full mx-auto flex flex-col justify-center pt-8 pb-7">
                 <div className="relative flex mt-8 mb-8 justify-center items-center">
                     <div
                         className="absolute w-11/12 md:w-8/12 h-16 md:h-24 bg-no-repeat bg-contain transform -rotate-6 -top-1 dark:hidden"
@@ -271,7 +276,7 @@ export function Body({ projects, skills, profile }) {
                         }}
                     >
                     </div>
-                    <h2 className="relative text-3xl md:text-6xl font-bold text-center tracking-wider text-white dark:text-black">
+                    <h2 className="relative text-3xl md:text-6xl font-bold text-center tracking-wider underline decoration-wavy decoration-[#fbbf24] text-white dark:text-black">
                         Skills
                     </h2>
                 </div>
@@ -288,7 +293,7 @@ export function Body({ projects, skills, profile }) {
             </section>
 
             {/* Projects Section */}
-            <section id="projects" className="bg-gray-200/50 dark:bg-[#1d1d1c] py-10">
+            <section id="projects" className="bg-gray-200/50 dark:bg-inherit py-10">
                 <div className="w-full space-y-6">
                     <div className="relative flex flex-col justify-center items-center w-10/12 md:w-7/12 mx-auto ">
                         {/* <div className=" w-2/3 mx-auto absolute top-0 left-0 right-0  h-[3px] bg-black bg-gradient-to-r from-transparent via-black to-transparent"></div> */}
