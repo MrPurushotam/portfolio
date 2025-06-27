@@ -3,7 +3,7 @@ import Link from "next/link";
 import ProjectsSection from "./ProjectsSection";
 import SkillComponent from "./SkillComponent";
 import Socials from "./Socials";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import BriefProject from "./BriefProject";
 import Badge from "./Badge";
 import { motion } from "motion/react"
@@ -14,6 +14,13 @@ export function Body({ projects, skills, profile }) {
     const [uniqueLanguages, setUniqueLanguges] = useState([]);
     const [filteredProjects, setFilteredProjects] = useState([]);
     const [paticularLang, setPaticularLang] = useState("");
+    const groupedSkills = useMemo(() => ({
+        frontend: skills.filter(skill => skill.type === 'Frontend'),
+        backend: skills.filter(skill => skill.type === 'Backend'),
+        tool: skills.filter(skill => skill.type === 'Tool'),
+        database: skills.filter(skill => skill.type === 'Database'),
+
+    }), [skills]);
 
     const initializeLanguages = () => {
         const langMap = {};
@@ -46,6 +53,7 @@ export function Body({ projects, skills, profile }) {
     useEffect(() => {
         initializeLanguages();
     }, [projects]);
+
     // THOUGHT:- error whle the project brief is rendered its rendering at the center which shouldn't be the case figure out a way to fix it 
     return (
         <div className="w-full h-full relative primary-font bg-gray-200/50 dark:bg-[#10151b]">
@@ -56,12 +64,12 @@ export function Body({ projects, skills, profile }) {
             )}
 
             {/* Hero Section */}
-            <section id="me" className="min-h-[93vh] h-auto w-full py-3 mx-aufrom-red-to flex justify-center items-center bg-gradient-to-br from-red-500 to-red-600 dark:bg-gradient-to-br dark:from-[#0f2027] dark:via-[#203a43] dark:to-[#2c5364]"
+            <section id="me" className="min-h-[93vh] h-fit w-full py-3 mx-auto from-red-to flex justify-center items-center bg-gradient-to-br from-red-500 to-red-600 dark:bg-gradient-to-br dark:from-[#0f2027] dark:via-[#203a43] dark:to-[#2c5364]"
             >
-                <div className="relative grid grid-cols-1 md:grid-cols-2 w-11/12 mx-auto h-full gap--8 md:gap-4">
+                <div className="relative grid grid-cols-1 md:grid-cols-2 w-11/12 mx-auto h-full md:gap-4">
                     {/* Left Image Section (for small screens, image is above text) */}
 
-                    <div className="flex justify-center items-center md:hidden pt-5 pb-3 mb-2 w-full relative">
+                    <div className="flex justify-center items-center md:hidden pt-5 pb-3 mb-2 w-full relative overflow-hidden">
                         <motion.div
                             initial={{ scale: 1 }}
                             animate={{ scale: [1, 1.05, 1], rotate: [0, 1, 0], rotate: [0, 360] }}
@@ -122,28 +130,28 @@ export function Body({ projects, skills, profile }) {
                                     Purushotam Jeswani
                                 </span>
                             </div>
-                            <span className="text-lg sm:text-xl font-semibold md:text-2xl italic mt-3 text-white dark:text-[#F87171] ">
-                                Full-stack Web Developer & DevOps Engineer
+                            <span className="text-xl sm:text-2xl font-bold md:text-2xl mt-4 text-white dark:text-[#F87171] ">
+                                Full-stack Developer & DevOps Engineer
                             </span>
-                            <span className="text-base sm:text-lg md:text-xl text-gray-200 italic mb-1 font-semibold tracking-wide">Building scalable apps, automating deployments</span>
+                            <span className="text-lg sm:text-xl md:text-2xl text-gray-200 italic -mt-1 mb-1 font-semibold tracking-wide">Building scalable apps, automating deployments</span>
 
                             {/* <span className="text-xl md:text-2xl mx-auto font-medium tracking-wide w-[70%] md:mx-0 md:w-[90%] italic mt-2 text-gray-50 dark:text-gray-300">
                                 Hey, I’m Purushotam Jeswani—Full Stack Developer, problem solver, and creative thinker. I love turning ideas into smooth, scalable solutions while keeping things fun and fresh. Whether it’s coding, DevOps, or pushing the boundaries of what’s possible, I’m all in. Let’s build something cool!
                             </span> */}
 
                         </div>
-                        <div className="flex flex-col md:flex-row justify-center space-y-4 md:justify-start sm:space-y-2 md:space-x-4 items-center">
-                            <Link
-                                href="/resume"
-                                className="flex justify-center items-center space-x-1 px-6 py-3 text-sm md:text-base font-bold tracking-wider border-2 border-white  rounded-full text-white dark:text-gray-300 uppercase hover:bg-white hover:text-red-600 dark:hover:bg-gray-300 dark:hover:text-black transition duration-300"
-                            >
-                                Download Resume
-                            </Link>
+                        <div className="flex flex-row flex-wrap justify-center md:justify-start items-center gap-4 mt-4">
                             <Link
                                 href="/contact"
-                                className="inline-block px-6 py-3 text-sm md:text-base font-bold tracking-wider border-2 border-white  rounded-full text-white dark:text-gray-300 uppercase hover:bg-white hover:text-red-600 dark:hover:bg-gray-300 dark:hover:text-black transition duration-300"
+                                className="flex items-center justify-center gap-2 px-6 py-3 text-sm md:text-base font-bold tracking-wider border-2 border-white rounded-full text-white dark:text-gray-300 uppercase bg-transparent hover:bg-white hover:text-red-600 dark:hover:bg-gray-300 dark:hover:text-black transition duration-300"
                             >
                                 Get in touch
+                            </Link>
+                            <Link
+                                href="/resume"
+                                className="flex items-center justify-center gap-2 px-6 py-3 text-sm md:text-base font-bold tracking-wider border-2 border-white rounded-full text-white dark:text-gray-300 uppercase bg-transparent hover:bg-white hover:text-red-600 dark:hover:bg-gray-300 dark:hover:text-black transition duration-300"
+                            >
+                                <i className="ph-duotone ph-file-arrow-down text-lg md:text-xl"></i> Resume
                             </Link>
                         </div>
                         <div className="flex justify-center md:justify-start items-center mt-6">
@@ -152,7 +160,7 @@ export function Body({ projects, skills, profile }) {
                     </div>
 
                     {/* Right Image Section (only visible on md and above) */}
-                    <div className="hidden md:flex justify-center items-center w-full relative">
+                    <div className="hidden md:flex justify-center items-center w-full relative overflow-hidden">
                         <motion.div
                             initial={{ scale: 1 }}
                             animate={{ scale: [1, 1.05, 1], rotate: [0, 1, 0], rotate: [0, 360] }}
@@ -196,20 +204,20 @@ export function Body({ projects, skills, profile }) {
                             />
                         </motion.div>
                     </div>
-                    <div className="absolute z-10 top-[103%] md:top-[115%] left-0 w-full md:col-span-2 flex justify-center items-center animate-bounce text-white text-2xl">
+                    <div className="absolute z-10 top-[102%] md:top-[115%] left-0 w-full md:col-span-2 flex justify-center items-center animate-bounce text-white text-2xl">
                         <i className="ph-duotone ph-caret-down"></i>
                     </div>
                 </div>
             </section>
 
             {/* About Section */}
-            <section id="about" className="w-full h-[85vh] mx-auto flex justify-center items-center py-10 bg-gray-200/50 dark:bg-[#10151b]">
+            <section id="about" className="w-full min-h-[85vh] h-fit mx-auto flex justify-center items-center py-1 dark:bg-[#10151b]">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
                     viewport={{ once: true }}
-                    className="h-auto w-11/12 md:w-3/5 p-3 pt-8 px-8 md:px-12 md:pt-16 md:pb-16 bg-gray-300/30 dark:bg-[#10151b]/50 ring-1 ring-gray-200 dark:ring-0 dark:border  dark:border-[#ffffff1a] rounded-xl shadow-md shadow-black/20"
+                    className="h-auto max-h-ful w-11/12 md:w-3/5 p-3 pt-8 px-8 md:px-12 md:pt-16 md:pb-16 bg-gray-300/30 dark:bg-[#10151b]/50 ring-1 ring-gray-200 dark:ring-0 dark:border  dark:border-[#ffffff1a] rounded-xl shadow-md shadow-black/20"
                 >
                     <h2 className="flex items-center justify-center text-[#f59e0b] dark:text-[#fff4b7] text-xl md:text-3xl my-4 md:my-6 capitalize text-center font-[730] tracking-wide master-font hover:text-[#fbbf24] dark:hover:text-[#ffd686] transition-colors duration-300">
                         <svg xmlns="http://www.w3.org/2000/svg" className=" h-6 md:h-9 mr-2 mb-1" viewBox="0 0 20 20" fill="currentColor">
@@ -260,7 +268,7 @@ export function Body({ projects, skills, profile }) {
 
             <section id="skills" className="w-full mx-auto flex flex-col justify-center pt-8 pb-7">
                 <div className="relative flex mt-8 mb-8 justify-center items-center">
-                    <div
+                    {/* <div
                         className="absolute w-11/12 md:w-8/12 h-16 md:h-24 bg-no-repeat bg-contain transform -rotate-6 -top-1 dark:hidden"
                         style={{
                             backgroundImage: "url('https://www.pngarts.com/files/10/Paint-Brush-Stroke-PNG-Picture.png')",
@@ -269,31 +277,88 @@ export function Body({ projects, skills, profile }) {
                     >
                     </div>
                     <div
-                        className="absolute w-11/12 md:w-8/12 h-16 md:h-40 bg-no-repeat bg-contain transform rotate-12 -top-18 hidden dark:block mix-blend-lighten"
+                        className="absolute w-11/12 md:w-11/12 h-32 md:h-[16.25rem] bg-no-repeat bg-contain transform -rotate-9 -top-[93px] hidden dark:block mix-blend-lighten"
                         style={{
-                            backgroundImage: "url('https://www.pngkit.com/png/full/19-196298_brush-strokes-paint-brush-line-png.png')",
+                            backgroundImage: "url('./brush-strokes/golden-stroke.png')",
                             backgroundPosition: "center",
                         }}
                     >
-                    </div>
-                    <h2 className="relative text-3xl md:text-6xl font-bold text-center tracking-wider underline decoration-wavy decoration-[#fbbf24] text-white dark:text-black">
+                    </div> */}
+
+                    <h1 className="relative flex items-center flex-row master-font gap-2 text-xl md:text-3xl font-bold text-center tracking-wide text-[#f59e0b] dark:text-[#fff4b7]">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor"
+                            className="w-9 h-9 md:w-12 md:h-12 text-yellow-400">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                                d="M8 9l3 3-3 3m5 0h3" />
+                        </svg>
                         Skills
-                    </h2>
+                    </h1>
                 </div>
-                <div className="w-11/12 md:w-4/5 mx-auto flex flex-wrap gap-4 justify-center md:justify-start p-5">
-                    {skills?.map((skill) => (
-                        <div
-                            className="w-[45%] md:w-[30%] h-fit rounded shadow-md"
-                            key={skill.id}
-                        >
-                            <SkillComponent tag={skill.name} link={skill.imagelink} type={skill.type} />
+                <div className="w-11/12 md:w-4/5 mx-auto p-5 space-y-10">
+                    <div className="flex justify-center flex-col gap-2">
+                        <h2 className="text-xl md:text-2xl font-semibold border-l-4 border-yellow-400 pl-3 mb-4 text-[#facc15] dark:text-[#fcd34d]">
+                            Frontend
+                        </h2>
+                        <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+                            {groupedSkills.frontend.map(skill => (
+                                <div
+                                    key={skill.id}
+                                    className="w-[45%] md:w-[30%] h-fit rounded shadow-md border border-transparent hover:scale-[1.02] hover:border hover:border-yellow-400"
+                                >
+                                    <SkillComponent tag={skill.name} link={skill.imagelink} type={skill.type} />
+                                </div>
+                            ))}
                         </div>
-                    ))}
+                    </div>
+
+                    {/* Backend */}
+                    <div>
+                        <h2 className="text-xl md:text-2xl font-semibold border-l-4 border-yellow-400 pl-3 mb-4 text-[#facc15] dark:text-[#fcd34d]">
+                            Backend
+                        </h2>
+                        <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+                            {groupedSkills.backend.map(skill => (
+                                <div
+                                    key={skill.id}
+                                    className="w-[45%] md:w-[30%] h-fit rounded shadow-md border-transparent hover:scale-[1.02] hover:border hover:border-yellow-400"
+                                >
+                                    <SkillComponent tag={skill.name} link={skill.imagelink} type={skill.type} />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Tools & Databases */}
+                    <div>
+                        <h2 className="text-xl md:text-2xl font-semibold border-l-4 border-yellow-400 pl-3 mb-4 text-[#facc15] dark:text-[#fcd34d]">
+                            Tools & Databases
+                        </h2>
+                        <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+                            {groupedSkills.database.map(skill => (
+                                <div
+                                    key={skill.id}
+                                    className="w-[45%] md:w-[30%] h-fit rounded shadow-md hover:scale-[1.02] border-transparent hover:border hover:border-yellow-400"
+                                >
+                                    <SkillComponent tag={skill.name} link={skill.imagelink} type={skill.type} />
+                                </div>
+                            ))}
+                            {groupedSkills.tool.map(skill => (
+                                <div
+                                    key={skill.id}
+                                    className="w-[45%] md:w-[30%] h-fit rounded shadow-md border-transparent hover:scale-[1.02] hover:border hover:border-yellow-400"
+                                >
+                                    <SkillComponent tag={skill.name} link={skill.imagelink} type={skill.type} />
+                                </div>
+                            ))}
+
+                        </div>
+                    </div>
                 </div>
             </section>
 
             {/* Projects Section */}
-            <section id="projects" className="bg-gray-200/50 dark:bg-inherit py-10">
+            <section id="projects" className="py-10">
                 <div className="w-full space-y-6">
                     <div className="relative flex flex-col justify-center items-center w-10/12 md:w-7/12 mx-auto ">
                         {/* <div className=" w-2/3 mx-auto absolute top-0 left-0 right-0  h-[3px] bg-black bg-gradient-to-r from-transparent via-black to-transparent"></div> */}
