@@ -23,10 +23,7 @@ const ProjectsSection = ({ project, state }) => {
         <div className="w-52 h-52 flex-shrink-0 flex items-center justify-center overflow-hidden rounded-md border border-gray-200 bg-gray-100 shadow-md dark:border-[#444]">
           {project?.resourceType === "video" ? (
             <video
-              src={
-                project?.static_file ||
-                "https://aceyourpaper.com/essays/public/images/loader.gif"
-              }
+              src={project?.static_file}
               muted
               autoPlay
               loop
@@ -34,10 +31,7 @@ const ProjectsSection = ({ project, state }) => {
             />
           ) : (
             <img
-              src={
-                project?.static_file ||
-                "https://aceyourpaper.com/essays/public/images/loader.gif"
-              }
+              src={project?.static_file}
               alt="Project Thumbnail"
               className="w-full h-full object-contain"
             />
@@ -95,7 +89,7 @@ const ProjectsSection = ({ project, state }) => {
                 <span>Live</span>
               </a>
             )}
-            
+
             {project?.brief && (
               <button
                 onClick={() => state(project)}

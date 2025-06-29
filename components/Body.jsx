@@ -165,7 +165,7 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                     </div>
 
                     {/* Right Image Section (only visible on md and above) */}
-                    <div className="hidden md:flex justify-center items-center w-full relative overflow-hidden">
+                    <div className="hidden md:flex justify-center items-center w-full relative">
                         <motion.div
                             initial={{ scale: 1 }}
                             animate={{ scale: [1, 1.05, 1], rotate: [0, 1, 0], rotate: [0, 360] }}
