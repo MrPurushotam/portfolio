@@ -61,7 +61,7 @@ export default async function Home() {
       <div className="flex-1">
         <Body projects={projects} skills={skills} profile={profile} resumeDocId={resumeDocId} />
       </div>
-      <Footer />
+      <Footer resumeDocId={resumeDocId} />
     </div>
   );
 }

@@ -8,7 +8,7 @@ import BriefProject from "./BriefProject";
 import Badge from "./Badge";
 import { motion } from "motion/react"
 
-export function Body({ projects, skills, profile }) {
+export function Body({ projects, skills, profile, resumeDocId }) {
     const [isProjectBriefObject, setIsProjectBriefObject] = useState(false);
     const langCount = useRef({});
     const [uniqueLanguages, setUniqueLanguges] = useState([]);
@@ -67,8 +67,6 @@ export function Body({ projects, skills, profile }) {
             <section id="me" className="min-h-[93vh] h-fit w-full py-3 mx-auto from-red-to flex justify-center items-center bg-gradient-to-br from-red-500 to-red-600 dark:bg-gradient-to-br dark:from-[#0f2027] dark:via-[#203a43] dark:to-[#2c5364]"
             >
                 <div className="relative grid grid-cols-1 md:grid-cols-2 w-11/12 mx-auto h-full md:gap-4">
-                    {/* Left Image Section (for small screens, image is above text) */}
-
                     <div className="flex justify-center items-center md:hidden pt-5 pb-3 mb-2 w-full relative overflow-hidden">
                         <motion.div
                             initial={{ scale: 1 }}
@@ -114,8 +112,6 @@ export function Body({ projects, skills, profile }) {
                         </motion.div>
                     </div>
 
-
-                    {/* Main Content Section */}
                     <div className="flex flex-col justify-center items-center md:items-start text-center md:text-left md:ml-2 lg:ml-28 xl:ml-36">
                         <div className="flex flex-col justify-start md:justify-center">
                             <span className="text-lg md:text-xl italic text-gray-50 dark:text-gray-300 mb-1">Hi, I am</span>
@@ -141,18 +137,27 @@ export function Body({ projects, skills, profile }) {
 
                         </div>
                         <div className="flex flex-row flex-wrap justify-center md:justify-start items-center gap-4 mt-4">
-                            <Link
+                            <button
                                 href="/contact"
                                 className="flex items-center justify-center gap-2 px-6 py-3 text-sm md:text-base font-bold tracking-wider border-2 border-white rounded-full text-white dark:text-gray-300 uppercase bg-transparent hover:bg-white hover:text-red-600 dark:hover:bg-gray-300 dark:hover:text-black transition duration-300"
                             >
                                 Get in touch
-                            </Link>
-                            <Link
-                                href="/resume"
+                            </button>
+                            <button
                                 className="flex items-center justify-center gap-2 px-6 py-3 text-sm md:text-base font-bold tracking-wider border-2 border-white rounded-full text-white dark:text-gray-300 uppercase bg-transparent hover:bg-white hover:text-red-600 dark:hover:bg-gray-300 dark:hover:text-black transition duration-300"
                             >
-                                <i className="ph-duotone ph-file-arrow-down text-lg md:text-xl"></i> Resume
-                            </Link>
+                                <a
+                                    href={"https://drive.google.com/file/d/" + resumeDocId + "/view?usp=sharing"}
+                                    download
+                                    target="_blank"
+                                    rel="noopener noreferrer "
+                                    className={`flex items-center gap-1 `}
+                                >
+                                    <i className="ph-duotone ph-file-arrow-down text-lg md:text-xl"></i> Resume
+                                </a>
+
+
+                            </button>
                         </div>
                         <div className="flex justify-center md:justify-start items-center mt-6">
                             <Socials />
@@ -267,6 +272,7 @@ export function Body({ projects, skills, profile }) {
             </section>
 
             <section id="skills" className="w-full mx-auto flex flex-col justify-center pt-8 pb-7">
+
                 <div className="relative flex mt-8 mb-8 justify-center items-center">
                     {/* <div
                         className="absolute w-11/12 md:w-8/12 h-16 md:h-24 bg-no-repeat bg-contain transform -rotate-6 -top-1 dark:hidden"
@@ -284,8 +290,11 @@ export function Body({ projects, skills, profile }) {
                         }}
                     >
                     </div> */}
-
-                    <h1 className="relative flex items-center flex-row master-font gap-2 text-xl md:text-3xl font-bold text-center tracking-wide text-[#f59e0b] dark:text-[#fff4b7]">
+                    <motion.h2 initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        viewport={{ once: true }} className="relative flex items-center flex-row master-font gap-2 text-xl md:text-3xl font-bold text-center tracking-wide text-[#f59e0b] dark:text-[#fff4b7]"
+                    >
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor"
                             className="w-9 h-9 md:w-12 md:h-12 text-yellow-400">
@@ -293,7 +302,7 @@ export function Body({ projects, skills, profile }) {
                                 d="M8 9l3 3-3 3m5 0h3" />
                         </svg>
                         Skills
-                    </h1>
+                    </motion.h2>
                 </div>
                 <div className="w-11/12 md:w-4/5 mx-auto p-5 space-y-10">
                     <div className="flex justify-center flex-col gap-2">
@@ -301,13 +310,19 @@ export function Body({ projects, skills, profile }) {
                             Frontend
                         </h2>
                         <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                            {groupedSkills.frontend.map(skill => (
-                                <div
-                                    key={skill.id}
-                                    className="w-[45%] md:w-[30%] h-fit rounded shadow-md border border-transparent hover:scale-[1.02] hover:border hover:border-yellow-400"
-                                >
-                                    <SkillComponent tag={skill.name} link={skill.imagelink} type={skill.type} />
-                                </div>
+                            {groupedSkills.frontend.map((skill, i) => (
+                                <>
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.95 }}
+                                        whileInView={{ opacity: 1, scale: 1 }}
+                                        transition={{ delay: i * 0.05, duration: 0.4 }}
+                                        viewport={{ once: true }}
+                                        key={skill.id}
+                                        className="w-[45%] md:w-[30%] h-fit rounded shadow-md border border-transparent hover:scale-[1.02] hover:border hover:border-yellow-400"
+                                    >
+                                        <SkillComponent tag={skill.name} link={skill.imagelink} type={skill.type} />
+                                    </motion.div>
+                                </>
                             ))}
                         </div>
                     </div>
@@ -318,38 +333,49 @@ export function Body({ projects, skills, profile }) {
                             Backend
                         </h2>
                         <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                            {groupedSkills.backend.map(skill => (
-                                <div
+                            {groupedSkills.backend.map((skill, i) => (
+                                <motion.dev
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    whileInView={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: i * 0.05, duration: 0.4 }}
+                                    viewport={{ once: true }}
                                     key={skill.id}
                                     className="w-[45%] md:w-[30%] h-fit rounded shadow-md border-transparent hover:scale-[1.02] hover:border hover:border-yellow-400"
                                 >
                                     <SkillComponent tag={skill.name} link={skill.imagelink} type={skill.type} />
-                                </div>
+                                </motion.dev>
                             ))}
                         </div>
                     </div>
 
-                    {/* Tools & Databases */}
                     <div>
                         <h2 className="text-xl md:text-2xl font-semibold border-l-4 border-yellow-400 pl-3 mb-4 text-[#facc15] dark:text-[#fcd34d]">
                             Tools & Databases
                         </h2>
                         <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                            {groupedSkills.database.map(skill => (
-                                <div
+                            {groupedSkills.database.map((skill, i) => (
+                                <motion.dev
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    whileInView={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: i * 0.05, duration: 0.4 }}
+                                    viewport={{ once: true }}
                                     key={skill.id}
                                     className="w-[45%] md:w-[30%] h-fit rounded shadow-md hover:scale-[1.02] border-transparent hover:border hover:border-yellow-400"
                                 >
                                     <SkillComponent tag={skill.name} link={skill.imagelink} type={skill.type} />
-                                </div>
+                                </motion.dev>
                             ))}
-                            {groupedSkills.tool.map(skill => (
-                                <div
+                            {groupedSkills.tool.map((skill, i) => (
+                                <motion.dev
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    whileInView={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: i * 0.05, duration: 0.4 }}
+                                    viewport={{ once: true }}
                                     key={skill.id}
                                     className="w-[45%] md:w-[30%] h-fit rounded shadow-md border-transparent hover:scale-[1.02] hover:border hover:border-yellow-400"
                                 >
                                     <SkillComponent tag={skill.name} link={skill.imagelink} type={skill.type} />
-                                </div>
+                                </motion.dev>
                             ))}
 
                         </div>
@@ -362,16 +388,22 @@ export function Body({ projects, skills, profile }) {
                 <div className="w-full space-y-6">
                     <div className="relative flex flex-col justify-center items-center w-10/12 md:w-7/12 mx-auto ">
                         {/* <div className=" w-2/3 mx-auto absolute top-0 left-0 right-0  h-[3px] bg-black bg-gradient-to-r from-transparent via-black to-transparent"></div> */}
-                        <h2 className="relative text-3xl md:text-6xl font-bold text-center tracking-wider text-red-500" id="projects">
-                            Projects
-                        </h2>
+                        <motion.h1
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.5 }}
+                            className="relative flex items-center gap-1 text-xl md:text-3xl master-font font-bold text-center tracking-wide text-red-500"
+                            id="projects"
+                        >
+                            <span className="text-white">🚀</span> Projects
+                        </motion.h1>
                         <div className=" w-2/3 mx-auto my-2 h-[3px] bg-black dark:bg-white bg-gradient-to-r from-transparent via-black to-transparent dark:from-white dark:via-red-500 dark:to-white"></div>
                         <div className="w-full sm:w-4/5 md:w-2/3 lg:w-2/3 min-h-16 mx-auto p-2 flex flex-wrap justify-center items-center gap-2">
-                            <Badge text={"All"} type="outline" count={projects?.length} onClick={() => handleBadgeClick("")} className={`${(paticularLang === "") ? "bg-rose-500/90 text-white" : ""}`} />
+                            <Badge text={"All"} type="outline" count={projects?.length} onClick={() => handleBadgeClick("")} className={`hover:scale-[1.05] ${(paticularLang === "") ? "bg-rose-500/90 text-white" : ""}`} />
                             {
                                 uniqueLanguages.map((tech, idx) => {
                                     return (
-                                        <Badge key={idx} text={tech} type="outline" count={langCount.current[tech]} onClick={() => handleBadgeClick(tech)} className={`${paticularLang === tech ? "bg-red-500/90 text-white" : ""}`} />
+                                        <Badge key={idx} text={tech} type="outline" count={langCount.current[tech]} onClick={() => handleBadgeClick(tech)} className={`${paticularLang === tech ? "bg-rose-500/90 text-white" : ""}`} />
                                     )
                                 })
                             }
@@ -385,6 +417,6 @@ export function Body({ projects, skills, profile }) {
                     </div>
                 </div>
             </section>
-        </div>
+        </div >
     );
 }

@@ -1,8 +1,6 @@
-
 import Link from "next/link";
-import ThemeSelect from "./themeSelect";
-const Footer = () => {
 
+const Footer = ({ resumeDocId }) => {
     return (
         <footer className="bg-neutral-800 text-white py-12 md:py-16">
             <div className="w-8/12 md:w-3/5 mx-auto flex flex-col md:flex-row justify-between items-start space-y-5 md:space-y-0 primary-font">
@@ -34,6 +32,16 @@ const Footer = () => {
                             <i className="ph-duotone ph-x-logo text-3xl"></i>
                         </Link>
                     </div>
+                    <a
+                        href={"https://drive.google.com/file/d/" + resumeDocId + "/view?usp=sharing"}
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer "
+                        className="mt-3 inline-flex items-center gap-2 px-4 py-2 border border-gray-400 rounded-md text-lg text-gray-200 hover:text-white hover:border-white transition duration-300 group"
+                    >
+                        <i className="ph-duotone ph-download-simple text-2xl group-hover:animate-bounce"></i>
+                        <span>Download Resume</span>
+                    </a>
                     <div className="text-center text-lg md:text-2xl">
                         <p>&copy; {new Date().getFullYear()} Purushotam Jeswani. All rights reserved.</p>
                     </div>

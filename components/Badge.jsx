@@ -14,16 +14,16 @@ const Badge = ({ text, type = "outline", count = 0,className="" ,...props}) => {
 
   return (
     <div
-      className={`px-2 py-1 sm:px-3 sm:py-1.5 md:px-3 md:py-1 lg:px-2 lg:py-1 xl:px-3 xl:py-1 shadow-md rounded-full ${typeStyle} space-x-1 space-y-1 cursor-pointer select-none ${className}`}
+      className={`px-2 py-1 sm:px-3 sm:py-1.5 md:px-3 md:py-1 lg:px-2 lg:py-1 xl:px-3 xl:py-1 shadow-md rounded-full ${typeStyle} space-x-1 space-y-1 cursor-pointer select-none flex items-center ${className}`}
       {...props}
     >
       <span
-        className="text-base sm:text-base md:text-xl lg:text-xl xl:text-2xl capitalize font-semibold tracking-wider"
+        className="text-base sm:text-base md:text-lg lg:text-xl capitalize font-medium "
       >
         {text}
       </span>
       {count > 0 &&
-        <span className="inline-flex justify-center items-center w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-7 lg:h-7 xl:w-8 xl:h-8 rounded-full bg-white drop-shadow-md text-black font-bold text-sm md:text-base lg:text-base xl:text-lg shadow-md ">
+        <span className=" mb-2 inline-flex justify-center items-center w-5 h-5 rounded-full bg-white drop-shadow-md text-black font-semibold text-sm md:text-base shadow-md ">
           {count}
         </span>
       }
