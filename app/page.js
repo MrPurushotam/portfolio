@@ -7,8 +7,8 @@ export const fetchStaticDataServerSide = async () => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/all`, {
       next: {
-        revalidate: 8 * 3600, // Cache for 1 hour
-        tags: ['projects', 'skills', 'profile', 'resume'] // Tags for selective revalidation
+        revalidate: 8 * 3600,
+        tags: ['projects', 'skills', 'profile', 'resume'] 
       }
     }
     );
@@ -54,10 +54,10 @@ export default async function Home() {
   return (
     <div className="flex flex-col">
       <Appbar />
-      <div className="bg-yellow-500/30 border border-yellow-400 text-yellow-700 px-4 py-1 text-center" role="alert">
+      {/* <div className="bg-yellow-500/30 border border-yellow-400 text-yellow-700 px-4 py-1 text-center" role="alert">
         <p className="font-bold">Under Construction</p>
         <p className="text-sm">This website is currently in the build phase and might break.</p>
-      </div>
+      </div> */}
       <div className="flex-1">
         <Body projects={projects} skills={skills} profile={profile} resumeDocId={resumeDocId} />
       </div>
