@@ -27,7 +27,13 @@ export async function POST(req) {
             const fileStream = Readable.from(fileBuffer);
             const result = await new Promise((resolve, reject) => {
                 const uploadStream = cloudinary.v2.uploader.upload_stream(
-                    { folder: 'projects_static_media', resource_type: 'image' },
+                    {
+                        folder: 'projects_static_media', resource_type: 'image', format: "webp", quality: "auto:good", fetch_format: "auto", flags: "progressive",
+                        eager: [
+                            { format: 'webp', quality: 'auto:good' },
+                            { format: 'jpg', quality: 'auto:good' }
+                        ]
+                    },
                     (error, result) => {
                         if (error) reject(error);
                         else resolve(result);
@@ -74,7 +80,7 @@ export async function DELETE(req) {
 
         const publicId = profile.split('/').pop().split('.')[0];
         try {
-            await cloudinary.v2.uploader.destroy(`project_static_media/${publicId}`);
+            await cloudinary.v2.uploader.destroy(`projects_static_media/${publicId}`);
         } catch (cloudinaryError) {
             console.error("Cloudinary deletion error:", cloudinaryError.message);
             return NextResponse.json({ message: "Failed to delete associated media file.", success: false }, { status: 500 });

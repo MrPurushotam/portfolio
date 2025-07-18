@@ -21,15 +21,15 @@
 
   /* PT Sans */
   .title-font{
-    font-family: "Allison", cursive;
+    font-family: var(--font-allison), cursive;
   }
 
   .master-font {
-    font-family: "League Spartan", 'Times New Roman';
+    font-family: var(--font-league-spartan), 'Times New Roman', sans-serif;
   }
 
   .primary-font {
-    font-family: "Markazi Text", serif;
+    font-family: var(--font-markazi), serif;
   }
 }
 

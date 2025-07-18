@@ -1,12 +1,37 @@
-import { Inter } from "next/font/google";
+import { Inter, Allison, League_Spartan, Markazi_Text } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], display: 'swap', variable: '--font-inter' });
+
+const allison = Allison({
+  subsets: ["latin"],
+  weight: "400",
+  display: 'swap',
+  variable: '--font-allison'
+});
+
+const leagueSpartan = League_Spartan({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  display: 'swap',
+  variable: '--font-league-spartan'
+
+});
+
+const markaziText = Markazi_Text({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: 'swap',
+  variable: '--font-markazi'
+
+});
+
+
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://purushotamjeswani.in';
 export const metadata = {
   metadataBase: new URL(baseUrl),
-  keywords: ['Purushotam', 'Jeswani','purshotam','purushottam','pourushotam', 'Purushotam jeswani portfolio', 'Purushotam jeswani', 'portfolio', 'website developer near me', 'web developer', 'Full-stack web developer', 'React developer portfolio', 'Next.js expert India USA', 'Node.js full-stack development', 'Full-stack developer for hire India', 'Full-stack developer for hire India', 'Docker and AWS web development', 'Prisma and MongoDB projects', 'PostgreSQL database expert', 'Cloudflare R2 integration', 'Full-stack development problem solver', 'Full-stack job-ready', 'Hiring React and Next.js developers', 'Skilled full-stack engineer portfolio',],
+  keywords: ['Purushotam', 'Jeswani', 'purshotam', 'purushottam', 'pourushotam', 'Purushotam jeswani portfolio', 'Purushotam jeswani', 'portfolio', 'website developer near me', 'web developer', 'Full-stack web developer', 'React developer portfolio', 'Next.js expert India USA', 'Node.js full-stack development', 'Full-stack developer for hire India', 'Full-stack developer for hire India', 'Docker and AWS web development', 'Prisma and MongoDB projects', 'PostgreSQL database expert', 'Cloudflare R2 integration', 'Full-stack development problem solver', 'Full-stack job-ready', 'Hiring React and Next.js developers', 'Skilled full-stack engineer portfolio',],
   title: {
     default: "Purushotam Jeswani Portfolio",
     template: `%s | Purushotam Jeswani`
@@ -23,7 +48,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${inter.variable} ${allison.variable} ${leagueSpartan.variable} ${markaziText.variable}`}>
       <head>
         <meta name="description" content={metadata.description} />
         <meta name="keywords" content={metadata.keywords.join(", ")} />
@@ -44,14 +69,30 @@ export default function RootLayout({ children }) {
         ))}
         <link rel="canonical" href={baseUrl} />
 
-        <meta name="google-site-verification" content="Hyq7_rXCrzF3ib_AhDf781L1pYQmFT7oZilFhKZVWCY" />
+        <meta name="google-site-verification" content=" Hyq7_rXCrzF3ib_AhDf781L1pYQmFT7oZilFhKZVWCY" />
 
-        {/*Rest broswer defined css  */}
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"></link>
-        <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
-        <link href="https://fonts.googleapis.com/css2?family=Allison&family=League+Spartan:wght@100..900&display=swap&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap&family=Cormorant:ital,wght@0,300..700;1,300..700&family=Markazi+Text:wght@400..700&family=Passero+One&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"></link>
+        <link
+          rel="preload"
+          href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+          as="style"
+          onLoad="this.onload=null;this.rel='stylesheet'"
+        />
+        <noscript>
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+        </noscript>
+
+        <link
+          rel="preload"
+          href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css"
+          as="style"
+          onLoad="this.onload=null;this.rel='stylesheet'"
+        />
+        <noscript>
+          <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css" />
+        </noscript>
+
+        <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+        <link rel="dns-prefetch" href="https://unpkg.com" />
       </head>
       <body className={inter.className}>
         {children}

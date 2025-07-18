@@ -1,11 +1,12 @@
 "use client"
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import Spinner from './Spinner';
 
 const LoginPage = () => {
   const router = useRouter()
-  const [formData, setFormData] = useState({ email: '', password: ''});
-
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [loading, setLoading] = useState(false);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -45,12 +46,12 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[68vh] bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white border border-gray-300 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center text-gray-900">Sign In</h2>
+    <div className="flex items-center justify-center min-h-[68vh] bg-gray-100 dark:bg-black/80">
+      <div className="w-full max-w-md p-8 space-y-6 bg-white dark:bg-neutral-700 border dark:shadow-md dark:shadow-blue-600 border-gray-300 rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-gray-100">Sign In</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-100">
               Email
             </label>
             <input
@@ -66,7 +67,7 @@ const LoginPage = () => {
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-100">
               Password
             </label>
             <input
@@ -84,8 +85,9 @@ const LoginPage = () => {
           <button
             type="submit"
             className="w-full px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none"
+            disabled={loading}
           >
-            Sign In
+            {true ? <Spinner /> : "Sign In"}
           </button>
         </form>
       </div>
