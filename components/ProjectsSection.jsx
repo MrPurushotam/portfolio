@@ -3,6 +3,8 @@
 import Link from "next/link";
 import Badge from "./Badge";
 import { motion } from "framer-motion";
+import { GithubLogoIcon } from "@phosphor-icons/react/dist/ssr";
+import { DotsThreeOutlineVerticalIcon, ShareIcon } from "@phosphor-icons/react";
 
 const ProjectsSection = ({ project, state }) => {
   const cardVariants = {
@@ -74,7 +76,7 @@ const ProjectsSection = ({ project, state }) => {
                 rel="noopener noreferrer"
                 className="flex items-center space-x-1 font-medium  hover:underline"
               >
-                <i className="ph-duotone ph-github-logo"></i>
+                <GithubLogoIcon/>
                 <span>Github</span>
               </a>
             )}
@@ -85,7 +87,7 @@ const ProjectsSection = ({ project, state }) => {
                 rel="noopener noreferrer"
                 className="flex items-center space-x-1 font-medium  hover:underline"
               >
-                <i className="ph-duotone ph-share"></i>
+                <ShareIcon/>
                 <span>Live</span>
               </a>
             )}
@@ -95,7 +97,7 @@ const ProjectsSection = ({ project, state }) => {
                 onClick={() => state(project)}
                 className="flex items-center space-x-1 font-mediumhover:underline"
               >
-                <i className="ph-duotone ph-dots-three-outline-vertical"></i>
+                <DotsThreeOutlineVerticalIcon/>
                 <span>Brief</span>
               </button>
             )}

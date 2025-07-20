@@ -1,4 +1,6 @@
 "use client"
+import { PaperPlaneIcon, PaperPlaneTiltIcon, XLogoIcon } from '@phosphor-icons/react';
+import { EnvelopeIcon, GithubLogoIcon, LinkedinLogoIcon } from '@phosphor-icons/react/dist/ssr';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
@@ -55,16 +57,16 @@ const ContactPage = () => {
 
                         <div className="flex flex-wrap gap-4 mt-8">
                             <Link href="mailto:work.purushotam@gmail.com" target='_blank' className="border-2 border-transparent  p-4 rounded-full hover:scale-105 transition-colors">
-                                <i className="ph-duotone ph-envelope text-3xl"></i>
+                                <EnvelopeIcon size={22} />
                             </Link>
                             <Link href="https://www.github.com/MrPurushotam" target='_blank' className="border-2 border-transparent p-4 rounded-full hover:scale-105 transition-colors">
-                                <i className="ph-duotone ph-github-logo text-3xl"></i>
+                                <GithubLogoIcon size={22} />
                             </Link>
                             <Link href="https://www.linkedin.com/in/purushotamjeswani" target='_blank' className="border-2 border-transparent p-4 rounded-full hover:scale-105 transition-colors">
-                                <i className="ph-duotone ph-linkedin-logo text-3xl "></i>
+                                <LinkedinLogoIcon size={22} />
                             </Link>
                             <Link href="https://x.com/purushotam___j" target='_blank' className="border-2 border-transparent p-4 rounded-full hover:scale-105 transition-colors">
-                                <i className="ph-duotone ph-x-logo text-3xl"></i>
+                                <XLogoIcon size={22} />
                             </Link>
                         </div>
                     </div>
@@ -134,13 +136,16 @@ const ContactPage = () => {
                                         <>
                                             <span className="opacity-0">Send Message</span>
                                             <div className="absolute inset-0 flex items-center justify-center">
-                                                <i className="ph-duotone ph-paper-plane-tilt text-xl animate-button-fly"></i>
+                                                <PaperPlaneIcon
+                                                    size={18}
+                                                    className='animate-button-fly'
+                                                />
                                             </div>
                                         </>
                                     ) : (
                                         <>
                                             Send Message
-                                            <i className="ph-duotone ph-paper-plane-tilt text-lg transition-transform group-hover:translate-x-1"></i>
+                                            <PaperPlaneTiltIcon size={18} className=" transition-transform group-hover:translate-x-1" />
                                         </>
                                     )}
                                 </button>

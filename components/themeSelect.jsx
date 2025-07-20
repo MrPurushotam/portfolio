@@ -1,4 +1,5 @@
 "use client"
+import { MonitorIcon, MoonIcon } from "@phosphor-icons/react/dist/ssr";
 import { useEffect, useState } from "react";
 import React from 'react'
 
@@ -34,19 +35,19 @@ const ThemeSelect = () => {
                     onClick={() => handleThemeChange("light")}
                     className={`flex-1 text-center text-lg ${theme === "light" ? "font-bold text-black" : "text-gray-500"}`}
                 >
-                    <i className="ph-duotone ph-sun text-2xl" style={{ verticalAlign: 'middle' }}></i>
+                    <Sun style={{ verticalAlign: 'middle' }} />
                 </button>
                 <button
                     onClick={() => handleThemeChange("dark")}
                     className={`flex-1 text-center text-lg ${theme === "dark" ? "font-bold text-black" : "text-gray-500"}`}
                 >
-                    <i className="ph-duotone ph-moon text-2xl" style={{ verticalAlign: 'middle' }}></i>
+                    <MoonIcon style={{ verticalAlign: 'middle' }} />
                 </button>
                 <button
                     onClick={() => handleThemeChange("system")}
                     className={`flex-1 text-center text-lg ${theme === "system" ? "font-bold text-black" : "text-gray-500"}`}
                 >
-                    <i className="ph-duotone ph-monitor text-2xl" style={{ verticalAlign: 'middle' }}></i>
+                    <MonitorIcon style={{ verticalAlign: 'middle' }} />
                 </button>
             </div>
         </div>

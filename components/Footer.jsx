@@ -1,3 +1,6 @@
+"use client"
+import { DownloadSimpleIcon } from "@phosphor-icons/react";
+import { GithubLogoIcon, LinkedinLogoIcon, XLogoIcon } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 
 const Footer = ({ resumeDocId }) => {
@@ -12,8 +15,8 @@ const Footer = ({ resumeDocId }) => {
                             target="_blank"
                             className="text-3xl hover:text-gray-300 transition duration-300"
                             aria-label="GitHub"
-                        >
-                            <i className="ph-duotone ph-github-logo text-3xl"></i>
+                        >   
+                            <GithubLogoIcon size={20} />
                         </Link>
                         <Link
                             href="https://linkedin.com/in/purushotamjeswani"
@@ -21,7 +24,7 @@ const Footer = ({ resumeDocId }) => {
                             className="text-3xl hover:text-gray-300 transition duration-300"
                             aria-label="LinkedIn"
                         >
-                            <i className="ph-duotone ph-linkedin-logo text-3xl"></i>
+                            <LinkedinLogoIcon size={20}/>
                         </Link>
                         <Link
                             href="https://twitter.com/purushotam___j"
@@ -29,7 +32,7 @@ const Footer = ({ resumeDocId }) => {
                             className="text-3xl hover:text-gray-300 transition duration-300"
                             aria-label="Twitter"
                         >
-                            <i className="ph-duotone ph-x-logo text-3xl"></i>
+                            <XLogoIcon size={20}/>
                         </Link>
                     </div>
                     <a
@@ -39,7 +42,7 @@ const Footer = ({ resumeDocId }) => {
                         rel="noopener noreferrer "
                         className="mt-3 inline-flex items-center gap-2 px-4 py-2 border border-gray-400 rounded-md text-lg text-gray-200 hover:text-white hover:border-white transition duration-300 group"
                     >
-                        <i className="ph-duotone ph-download-simple text-2xl group-hover:animate-bounce"></i>
+                        <DownloadSimpleIcon className="group-hover:animate-bounce" />
                         <span>Download Resume</span>
                     </a>
                     <div className="text-center text-lg md:text-2xl">

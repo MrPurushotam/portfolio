@@ -1,6 +1,8 @@
 "use client"
 import React, { useEffect, useRef, useState } from 'react'
 import Spinner from './Spinner';
+import { AxeIcon, ImageIcon, MonitorIcon } from '@phosphor-icons/react';
+import { XCircleIcon } from '@phosphor-icons/react/dist/ssr';
 
 const extractNotionLink = (link) => {
     const parts = link.split('/');
@@ -143,160 +145,179 @@ const UpdateProjects = React.memo(({ setProjects, close, updating }) => {
     }, [updating])
 
     return (
-        <div className='absolute inset-0 flex items-center justify-center h-full w-full bg-black/20 z-5'>
-            <div ref={outDivRef} className='relative w-11/12 max-w-4xl p-6 border border-gray-300 rounded-lg shadow-lg bg-white space-y-6'>
+        <div className='fixed inset-0 flex items-center justify-center h-screen w-screen bg-black/50 z-50 overflow-y-auto p-4'>
+            <div ref={outDivRef} className='relative w-full max-w-4xl max-h-[90vh] p-6 border border-gray-300 rounded-lg shadow-lg bg-white overflow-y-auto my-auto'>
                 {loading &&
-                    <div className="absolute inset-0 flex items-center justify-center bg-white/40 z-[60]">
+                    <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-[60] rounded-lg">
                         <Spinner />
                     </div>
                 }
-
-                <i className="sticky top-[5%] left-[90%] ph-duotone ph-x text-2xl hover:text-red-500"
+                <button
+                    className="absolute top-4 right-4 z-10 p-1 hover:bg-gray-100 rounded-full transition-colors"
                     onClick={() => {
                         setFormdata({
+                            id: null,
                             title: "",
                             description: "",
                             techstack: "",
                             brief: false,
-                            describe: ""
+                            describe: "",
+                            static_file: "",
+                            resourceType: "",
+                            githubLink: "",
+                            liveLink: ""
                         });
                         close("");
-                    }}></i>
-                <h2 className='text-xl font-bold text-center text-gray-900'>{updating ? "Update Projects" : "Add Project"}</h2>
+                    }}
+                >
+                    <AxeIcon size={20} className="text-gray-500 hover:text-red-500" />
+                </button>
 
-                <div className="border-4 border-dashed border-gray-700 p-3 flex justify-center items-center h-32 w-full rounded-md cursor-pointer relative">
-                    {
-                        formdata.static_file ?
-                            <div className="relative">
-                                {
-                                    formdata.resourceType === "video" ?
-                                        <video src={formdata.static_file} alt="Preview" className="h-28 w-fit object-fit rounded-md flex justify-center items-center" controls />
-                                        :
-                                        <img src={formdata.static_file} alt="Preview" className="h-28 w-fit object-fit rounded-md flex justify-center items-center" />
-                                }
-                                <i
-                                    className="absolute top-0 right-0 ph-duotone ph-x-circle text-lg text-red-500 cursor-pointer"
-                                    onClick={() => setFormdata(prev => ({ ...prev, static_file: "" }))}
-                                ></i>
-                            </div>
-                            :
-                            <>
-                                <input
-                                    type="file"
-                                    accept="image/*, video/*"
-                                    className="absolute inset-0 opacity-0 cursor-pointer"
-                                    onChange={handleFileChange}
-                                />
-                                {file ? (
-                                    <div className="relative">
-                                        {file.type.startsWith("image/") ? (
-                                            <img src={URL.createObjectURL(file)} alt="Preview" className="h-24 w-24 object-cover rounded-md" />
-                                        ) : (
-                                            <video src={URL.createObjectURL(file)} controls className="h-24 w-24 rounded-md" />
-                                        )}
-                                        <i
-                                            className="absolute top-0 right-0 ph-duotone ph-x-circle text-lg text-red-500 cursor-pointer"
-                                            onClick={() => setFile(null)}
-                                        ></i>
-                                    </div>
-                                ) : (
-                                    <div className="text-gray-500 text-sm font-semibold text-center flex flex-col justify-center items-center space-y-1">
-                                        <span className='flex items-center space-x-2'><i className="ph-duotone ph-image text-2xl"></i> Upload Image / <i className="ph-duotone ph-monitor-arrow-up text-2xl"></i> Video</span>
-                                        <span>(44px X 44px) would go well</span>
-                                    </div>
-                                )}
+                <div className="space-y-6 pt-8">
+                    <h2 className='text-xl font-bold text-center text-gray-900'>{updating ? "Update Project" : "Add Project"}</h2>
 
-                            </>
-                    }
-                </div>
-                <div>
-                    <label className='block text-gray-700 font-semibold mb-2'>Project Title</label>
-                    <input
-                        type="text"
-                        placeholder="Enter project title"
-                        className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500'
-                        name="title"
-                        onChange={handleFormData}
-                        value={formdata.title}
-                    />
-                </div>
-                <div>
-                    <label className='block text-gray-700 font-semibold mb-2'>Tech Stack (comma separated)</label>
-                    <input
-                        type="text"
-                        placeholder="React, Node.js, etc."
-                        className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500'
-                        name="techstack"
-                        onChange={handleFormData}
-                        value={formdata.techstack}
-                    />
-                </div>
-                <div>
-                    <label className='block text-gray-700 font-semibold mb-2'>Project Description</label>
-                    <textarea
-                        placeholder="Enter a brief project description"
-                        className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500'
-                        name="description"
-                        onChange={handleFormData}
-                        value={formdata.description}
-                    />
-                </div>
-                <div>
-                    <label className='flex items-center space-x-2'>
-                        <input
-                            type="checkbox"
-                            className='form-checkbox h-4 w-4 text-indigo-600'
-                            name="brief"
-                            onChange={handleFormData}
-                            checked={formdata.brief}
-                        />
-                        <span className='text-gray-700'>Show Detailed Description</span>
-                    </label>
-                </div>
+                    <div className="border-4 border-dashed border-gray-700 p-3 flex justify-center items-center min-h-[8rem] w-full rounded-md cursor-pointer relative">
+                        {
+                            formdata.static_file ?
+                                <div className="relative max-w-full max-h-28 overflow-hidden">
+                                    {
+                                        formdata.resourceType === "video" ?
+                                            <video src={formdata.static_file} alt="Preview" className="max-h-28 max-w-full object-contain rounded-md" controls />
+                                            :
+                                            <img src={formdata.static_file} alt="Preview" className="max-h-28 max-w-full object-contain rounded-md" />
+                                    }
+                                    <button
+                                        className="absolute -top-2 -right-2 bg-white rounded-full shadow-md hover:shadow-lg transition-shadow"
+                                        onClick={() => setFormdata(prev => ({ ...prev, static_file: "" }))}
+                                    >
+                                        <XCircleIcon size={20} className="text-red-500" />
+                                    </button>
+                                </div>
+                                :
+                                <>
+                                    <input
+                                        type="file"
+                                        accept="image/*, video/*"
+                                        className="absolute inset-0 opacity-0 cursor-pointer"
+                                        onChange={handleFileChange}
+                                    />
+                                    {file ? (
+                                        <div className="relative max-w-full max-h-24 overflow-hidden">
+                                            {file.type.startsWith("image/") ? (
+                                                <img src={URL.createObjectURL(file)} alt="Preview" className="max-h-24 max-w-full object-contain rounded-md" />
+                                            ) : (
+                                                <video src={URL.createObjectURL(file)} controls className="max-h-24 max-w-full object-contain rounded-md" />
+                                            )}
+                                            <button
+                                                className="absolute -top-2 -right-2 bg-white rounded-full shadow-md hover:shadow-lg transition-shadow"
+                                                onClick={() => setFile(null)}
+                                            >
+                                                <XCircleIcon size={20} className="text-red-500" />
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <div className="text-gray-500 text-sm font-semibold text-center flex flex-col justify-center items-center space-y-1">
+                                            <span className='flex items-center space-x-2'>
+                                                <ImageIcon size={16} /> Upload Image /
+                                                <MonitorIcon size={16} />Video
+                                            </span>
+                                            <span>(44px X 44px) would go well</span>
+                                        </div>
+                                    )}
+                                </>
+                        }
+                    </div>
 
-                {/* Conditionally render the describe field if 'brief' is true */}
-                {formdata.brief && (
                     <div>
-                        <label className='block text-gray-700 font-semibold mb-2'>Detailed Description</label>
-                        <textarea
-                            placeholder="Enter detailed project description"
+                        <label className='block text-gray-700 font-semibold mb-2'>Project Title</label>
+                        <input
+                            type="text"
+                            placeholder="Enter project title"
                             className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500'
-                            name="describe"
+                            name="title"
                             onChange={handleFormData}
-                            value={formdata.describe}
+                            value={formdata.title}
                         />
                     </div>
-                )}
+                    <div>
+                        <label className='block text-gray-700 font-semibold mb-2'>Tech Stack (comma separated)</label>
+                        <input
+                            type="text"
+                            placeholder="React, Node.js, etc."
+                            className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500'
+                            name="techstack"
+                            onChange={handleFormData}
+                            value={formdata.techstack}
+                        />
+                    </div>
+                    <div>
+                        <label className='block text-gray-700 font-semibold mb-2'>Project Description</label>
+                        <textarea
+                            placeholder="Enter a brief project description"
+                            className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 min-h-[80px] resize-y'
+                            name="description"
+                            onChange={handleFormData}
+                            value={formdata.description}
+                        />
+                    </div>
+                    <div>
+                        <label className='flex items-center space-x-2'>
+                            <input
+                                type="checkbox"
+                                className='form-checkbox h-4 w-4 text-indigo-600'
+                                name="brief"
+                                onChange={handleFormData}
+                                checked={formdata.brief}
+                            />
+                            <span className='text-gray-700'>Show Detailed Description</span>
+                        </label>
+                    </div>
 
-                <div>
-                    <label className='block text-gray-700 font-semibold mb-2'>Live Link</label>
-                    <input
-                        type="text"
-                        placeholder="Enter live link"
-                        className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500'
-                        name="liveLink"
-                        onChange={handleFormData}
-                        value={formdata.liveLink}
-                    />
+                    {/* Conditionally render the describe field if 'brief' is true */}
+                    {formdata.brief && (
+                        <div>
+                            <label className='block text-gray-700 font-semibold mb-2'>Detailed Description</label>
+                            <textarea
+                                placeholder="Enter detailed project description"
+                                className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 min-h-[100px] resize-y'
+                                name="describe"
+                                onChange={handleFormData}
+                                value={formdata.describe}
+                            />
+                        </div>
+                    )}
+
+                    <div>
+                        <label className='block text-gray-700 font-semibold mb-2'>Live Link</label>
+                        <input
+                            type="url"
+                            placeholder="Enter live link"
+                            className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500'
+                            name="liveLink"
+                            onChange={handleFormData}
+                            value={formdata.liveLink}
+                        />
+                    </div>
+
+                    <div>
+                        <label className='block text-gray-700 font-semibold mb-2'>Github Link</label>
+                        <input
+                            type="url"
+                            placeholder="Enter GitHub link"
+                            className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500'
+                            name="githubLink"
+                            onChange={handleFormData}
+                            value={formdata.githubLink}
+                        />
+                    </div>
+
+                    <button
+                        onClick={handleSubmit}
+                        disabled={loading}
+                        className='w-full text-lg font-semibold tracking-wider px-3 py-2 rounded-md shadow-md bg-sky-500 hover:bg-sky-600 text-white disabled:bg-sky-400 disabled:cursor-not-allowed transition-colors'>
+                        {loading ? 'Processing...' : (updating ? "Update Project" : "Add Project")}
+                    </button>
                 </div>
-
-                <div>
-                    <label className='block text-gray-700 font-semibold mb-2'>Github Link</label>
-                    <input
-                        type="text"
-                        placeholder="Enter GitHub link"
-                        className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500'
-                        name="githubLink"
-                        onChange={handleFormData}
-                        value={formdata.githubLink}
-                    />
-                </div>
-
-                <button
-                    onClick={handleSubmit}
-                    className='w-full text-lg font-semibold tracking-wider px-3 py-2 rounded-md shadow-md bg-sky-500 hover:bg-sky-600 text-white disabled:bg-sky-800'>
-                    {updating ? "Update Projects" : "Add Project"}
-                </button>
             </div>
         </div>
     );

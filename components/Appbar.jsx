@@ -1,8 +1,9 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import ThemeSelect from "./themeSelect";
 import ThemeSelectAppbar from "./ThemeSelectUpdated";
+import { XIcon } from "@phosphor-icons/react";
+import { MagnifyingGlassIcon } from "@phosphor-icons/react/dist/ssr";
 
 const Appbar = () => {
   const [isHidden, setIsHidden] = useState(false);
@@ -125,9 +126,9 @@ const Appbar = () => {
             aria-label="Toggle Menu"
           >
             {isDropdownOpen ? (
-              <i className="ph-duotone ph-x text-3xl"></i>
+              <XIcon size={22} />
             ) : (
-              <i className="ph-duotone ph-list-magnifying-glass text-3xl"></i>
+              <MagnifyingGlassIcon size={22} />
             )}
           </button>
           {isDropdownOpen && (

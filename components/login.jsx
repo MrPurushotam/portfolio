@@ -17,6 +17,7 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const { email, password } = formData;
 
@@ -32,8 +33,7 @@ const LoginPage = () => {
       if (resp.ok) {
         const data = await resp.json();
         console.log('Login Success:', data);
-        window.localStorage.setItem('auth', true)
-        router.push("/admin")
+        router.push("/admin");
       } else {
         const errorData = await resp.json();
         console.error('Login Error:', errorData.message);
@@ -42,6 +42,8 @@ const LoginPage = () => {
     } catch (error) {
       console.error('Request Error:', error);
       alert('Something went wrong! Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -63,6 +65,7 @@ const LoginPage = () => {
               required
               className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
               placeholder="Enter your email"
+              autoComplete="email"
               autoSave="on"
             />
           </div>
@@ -79,15 +82,16 @@ const LoginPage = () => {
               required
               className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
               placeholder="Enter your password"
-              autoSave='on'
+              autoComplete="current-password"
+              autoSave="on"
             />
           </div>
           <button
             type="submit"
-            className="w-full px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none"
+            className="w-full px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none flex items-center justify-center"
             disabled={loading}
           >
-            {true ? <Spinner /> : "Sign In"}
+            {loading ? <Spinner color="white" /> : "Sign In"}
           </button>
         </form>
       </div>

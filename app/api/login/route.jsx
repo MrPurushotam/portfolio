@@ -20,9 +20,9 @@ export const POST = async (req) => {
             headers.append('Set-Cookie', serialize('session_token', token, {
                 httpOnly: true,
                 path: '/',
-                sameSite: 'strict',
+                sameSite: 'lax',
                 secure: process.env.NODE_ENV === 'production',
-                maxAge:60*60
+                maxAge: 60 * 60 // 1 hour
             }));
 
             return new Response(JSON.stringify({ message: "Logged in.", success: true }), {

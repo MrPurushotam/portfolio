@@ -1,5 +1,6 @@
 import { Inter, Allison, League_Spartan, Markazi_Text } from "next/font/google";
 import "./globals.css";
+import Provider from "@/utils/Provider";
 
 const inter = Inter({ subsets: ["latin"], display: 'swap', variable: '--font-inter' });
 
@@ -48,55 +49,47 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable} ${allison.variable} ${leagueSpartan.variable} ${markaziText.variable}`}>
-      <head>
-        <meta name="description" content={metadata.description} />
-        <meta name="keywords" content={metadata.keywords.join(", ")} />
-        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="shortcut icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <meta name="apple-mobile-web-app-title" content="PJ Portolio" />
-        <link rel="manifest" href="/site.webmanifest" />
+    <Provider>
+      <html lang="en" className={`${inter.variable} ${allison.variable} ${leagueSpartan.variable} ${markaziText.variable}`}>
+        <head>
+          <meta name="description" content={metadata.description} />
+          <meta name="keywords" content={metadata.keywords.join(", ")} />
+          <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+          <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+          <link rel="shortcut icon" href="/favicon.ico" />
+          <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+          <meta name="apple-mobile-web-app-title" content="PJ Portolio" />
+          <link rel="manifest" href="/site.webmanifest" />
 
-        <meta property="og:title" content={metadata.openGraph.title} />
-        <meta property="og:description" content={metadata.openGraph.description} />
-        <meta property="og:image:alt" content="Professional portfolio of Purushotam Jeswani showcasing full-stack development expertise" />
-        <meta property="og:type" content={metadata.openGraph.type} />
-        <meta property="og:url" content={metadata.openGraph.url} />
-        {metadata.openGraph?.images?.map((image, index) => (
-          <meta key={index} property="og:image" content={image} />
-        ))}
-        <link rel="canonical" href={baseUrl} />
+          <meta property="og:title" content={metadata.openGraph.title} />
+          <meta property="og:description" content={metadata.openGraph.description} />
+          <meta property="og:image:alt" content="Professional portfolio of Purushotam Jeswani showcasing full-stack development expertise" />
+          <meta property="og:type" content={metadata.openGraph.type} />
+          <meta property="og:url" content={metadata.openGraph.url} />
+          {metadata.openGraph?.images?.map((image, index) => (
+            <meta key={index} property="og:image" content={image} />
+          ))}
+          <link rel="canonical" href={baseUrl} />
 
-        <meta name="google-site-verification" content=" Hyq7_rXCrzF3ib_AhDf781L1pYQmFT7oZilFhKZVWCY" />
+          <meta name="google-site-verification" content=" Hyq7_rXCrzF3ib_AhDf781L1pYQmFT7oZilFhKZVWCY" />
 
-        <link
-          rel="preload"
-          href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
-          as="style"
-          onLoad="this.onload=null;this.rel='stylesheet'"
-        />
-        <noscript>
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
-        </noscript>
+          <link
+            rel="preload"
+            href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+            as="style"
+            onLoad="this.onload=null;this.rel='stylesheet'"
+          />
+          <noscript>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+          </noscript>
 
-        <link
-          rel="preload"
-          href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css"
-          as="style"
-          onLoad="this.onload=null;this.rel='stylesheet'"
-        />
-        <noscript>
-          <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css" />
-        </noscript>
-
-        <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
-        <link rel="dns-prefetch" href="https://unpkg.com" />
-      </head>
-      <body className={inter.className}>
-        {children}
-      </body>
-    </html>
+          <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+          <link rel="dns-prefetch" href="https://unpkg.com" />
+        </head>
+        <body className={inter.className}>
+          {children}
+        </body>
+      </html>
+    </Provider>
   );
 }

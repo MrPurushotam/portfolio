@@ -7,6 +7,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import BriefProject from "./BriefProject";
 import Badge from "./Badge";
 import { motion } from "motion/react"
+import { DownloadSimpleIcon, FileArrowDownIcon, FileArrowUpIcon, StudentIcon } from "@phosphor-icons/react";
+import { CaretDownIcon, Student } from "@phosphor-icons/react/dist/ssr";
 
 export function Body({ projects, skills, profile, resumeDocId }) {
     const [isProjectBriefObject, setIsProjectBriefObject] = useState(false);
@@ -63,7 +65,6 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                 </div>
             )}
 
-            {/* Hero Section */}
             <section id="me" className="min-h-[93vh] h-fit w-full py-3 mx-auto from-red-to flex justify-center items-center bg-gradient-to-br from-red-500 to-red-600 dark:bg-gradient-to-br dark:from-[#0f2027] dark:via-[#203a43] dark:to-[#2c5364]"
             >
                 <div className="relative grid grid-cols-1 md:grid-cols-2 w-11/12 mx-auto h-full md:gap-4">
@@ -153,7 +154,7 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                                     rel="noopener noreferrer "
                                     className={`flex items-center gap-1 `}
                                 >
-                                    <i className="ph-duotone ph-file-arrow-down text-lg md:text-xl"></i> Resume
+                                    <FileArrowDownIcon className=" w-5 h-5 md:w-6 md:h-6" />Resume
                                 </a>
 
 
@@ -210,7 +211,7 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                         </motion.div>
                     </div>
                     <div className="absolute z-10 top-[102%] md:top-[115%] left-0 w-full md:col-span-2 flex justify-center items-center animate-bounce text-white text-2xl">
-                        <i className="ph-duotone ph-caret-down"></i>
+                        <CaretDownIcon />
                     </div>
                 </div>
             </section>
@@ -237,7 +238,7 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                         Beyond tech, I'm deeply curious about geopolitics, enjoy reading, and love exploring new places (preferably on two wheels!). With a strategic mindset and a passion for innovation, I embrace challenges with enthusiasm and a growth-focused mindset. Let’s build something extraordinary together.
                     </p>
                     <h2 className="flex items-center justify-center text-[#f59e0b] dark:text-[#fff4b7] text-xl md:text-3xl my-4 md:my-6 capitalize text-center font-[730] tracking-wide master-font hover:text-[#fbbf24] dark:hover:text-[#ffd686] transition-colors duration-300">
-                        <i className="ph-duotone ph-student text-xl md:text-3xl mb-2 mr-2"></i>
+                        <StudentIcon className="w-4 h-4 md:w-8 md:h-8 mb-2 mr-2 " />
                         Education
                     </h2>
                     <div className="w-12 h-[2px] bg-gray-400 dark:bg-gray-500 mx-auto mt-2 mb-4 rounded-full"></div>

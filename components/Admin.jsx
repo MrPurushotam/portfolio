@@ -5,6 +5,7 @@ import UpdateSkill from "./UpdateSkill";
 import { useRouter } from "next/navigation";
 import useCurrentTime from "./currentTime";
 import { ReactSortable } from "react-sortablejs";
+import { ArrowCounterClockwiseIcon, NotePencilIcon, PencilSimple, PencilSimpleIcon, TrashSimpleIcon } from "@phosphor-icons/react";
 const Admin = () => {
     const time = useCurrentTime();
     const [edit, setEdit] = useState("")
@@ -217,8 +218,9 @@ const Admin = () => {
                     <div className="flex items-center justify-between">
                         <h2 className="text-xl font-semibold tracking-wider">Projects</h2>
                         <div className="flex gap-2 items-center p-1">
-                            <i className="ph-duotone ph-arrow-counter-clockwise text-2xl hover:text-sky-600 rounded-md" onClick={() => revalidate("projects")}></i>
-                            <i className="ph-duotone ph-pencil-simple text-2xl hover:text-sky-600 " onClick={() => setEdit("projects")}></i>
+                            <ArrowCounterClockwiseIcon size={18} className="text-2xl hover:text-sky-600 rounded-md" onClick={() => revalidate("projects")} />
+
+                            <PencilSimpleIcon size={18} className="text-2xl hover:text-sky-600" onClick={() => setEdit("projects")} />
                         </div>
                     </div>
                     <ReactSortable
@@ -236,9 +238,8 @@ const Admin = () => {
                                 <div key={fields.id} data-id={fields.id} className="flex flex-col justify-center items-center w-32 h-32 rounded-md shadow-sm border-2 border-amber-900 capitalize ">
                                     {fields.title}
                                     <div className="flex space-x-1 py-1">
-                                        <i className="ph-duotone ph-note-pencil text-xl font-semibold hover:text-green-600 z-1" title="Edit Projects" onClick={() => handleEdit("projects", fields.id)}></i>
-                                        <i className="ph-duotone ph-trash-simple text-xl font-semibold hover:text-red-600 z-1" title="Delete Project" onClick={() => handleDelete("project", fields.id)}></i>
-
+                                        <NotePencilIcon size={18} className="text-xl font-semibold hover:text-green-600 z-1" title="Edit Projects" onClick={() => handleEdit("projects", fields.id)} />
+                                        <TrashSimpleIcon size={18} className="text-xl font-semibold hover:text-red-600 z-1" title="Delete Project" onClick={() => handleDelete("project", fields.id)} />
                                     </div>
                                 </div>
                             )
@@ -257,8 +258,10 @@ const Admin = () => {
                     <div className="flex items-center justify-between ">
                         <h2 className="text-xl font-semibold tracking-wider">Skills</h2>
                         <div className="flex gap-2 items-center p-1">
-                            <i className="ph-duotone ph-arrow-counter-clockwise text-2xl hover:text-sky-600 rounded-md" onClick={() => revalidate("skills")}></i>
-                            <i className="ph-duotone ph-pencil-simple text-2xl hover:text-sky-600" onClick={() => { setEdit("skills") }}></i>
+                            <ArrowCounterClockwiseIcon size={18} className="text-2xl hover:text-sky-600 rounded-md" onClick={() => revalidate("skills")} />
+
+                            <PencilSimpleIcon size={18} className="text-2xl hover:text-sky-600" onClick={() => setEdit("skills")} />
+
                         </div>
                     </div>
                     <ReactSortable
@@ -276,9 +279,8 @@ const Admin = () => {
                                 <div key={skill.id} className="flex justify-center items-center flex-col w-32 h-32 rounded-md shadow-sm border-2 border-amber-900 capitalize">
                                     {skill.name}
                                     <div className="flex space-x-1 py-1">
-                                        <i className="ph-duotone ph-note-pencil text-xl font-semibold hover:text-green-600 z-1" title="Edit Skills" onClick={() => { handleEdit("skills", skill.id) }}></i>
-                                        <i className="ph-duotone ph-trash-simple text-xl font-semibold hover:text-red-600 z-1" title="Delete Skills" onClick={() => handleDelete("skill", skill.id)}></i>
-
+                                        <NotePencilIcon size={18} className="text-xl font-semibold hover:text-green-600 z-1" title="Edit Projects" onClick={() => handleEdit("skills", skills.id)} />
+                                        <TrashSimpleIcon size={18} className="text-xl font-semibold hover:text-red-600 z-1" title="Delete Project" onClick={() => handleDelete("skills", skills.id)} />
                                     </div>
                                 </div>
                             )
@@ -303,9 +305,11 @@ const Admin = () => {
                         onChange={handleResumeLinkInput}
                         value={resumeDocId}
                     />
-                    <i className="ph-duotone ph-arrow-counter-clockwise text-2xl hover:text-sky-600 rounded-md" onClick={() => revalidate("resume")}></i>
-                    <button className={`bg-cyan-500 text-white font-semibold  text-xl px-3 py-2 my-4 rounded-md shaodwmd disabled:bg-cyan-700 hover:bg-cyan-700`}
-                        disabled={resumeDocId === initalData.current.resumeDocId} onClick={handleResumeDocIdUpdate} >Update</button>
+                    <div className="flex flex-row items-center my-2 gap-2">
+                        <ArrowCounterClockwiseIcon size={20} className="text-2xl hover:text-sky-600 rounded-md" onClick={() => revalidate("resume")} />
+                        <button className={`bg-cyan-500 text-white font-semibold  text-xl px-3 py-2 my-4 rounded-md shaodwmd disabled:bg-cyan-700 hover:bg-cyan-700`}
+                            disabled={resumeDocId === initalData.current.resumeDocId} onClick={handleResumeDocIdUpdate} >Update</button>
+                    </div>
                 </div>
 
                 <div className="w-11/12 mx-auto h-auto">
@@ -323,9 +327,12 @@ const Admin = () => {
                         multiple={false}
                         accept="image/jpeg,image/png,image/jpg"
                     />
-                    <i className="ph-duotone ph-arrow-counter-clockwise text-2xl hover:text-sky-600 rounded-md" onClick={() => revalidate("profile")}></i>
-                    <button className={`bg-cyan-500 text-white font-semibold text-xl px-3 py-2 my-4 rounded-md shadow-md disabled:bg-cyan-700 hover:bg-cyan-700`}
-                        disabled={profileUrl === profileUrlRef.current || !profileUrl} onClick={uploadProfile}>Update Profile</button>
+                    <div className="flex flex-row items-center my-2 gap-2">
+                        <ArrowCounterClockwiseIcon size={20} className=" hover:text-sky-600 rounded-md" onClick={() => revalidate("profile")} />
+                        <button className={`bg-cyan-500 text-white font-semibold text-xl px-3 py-2 rounded-md shadow-md disabled:bg-cyan-700 hover:bg-cyan-700`}
+                            disabled={profileUrl === profileUrlRef.current || !profileUrl} onClick={uploadProfile}>Update Profile</button>
+
+                    </div>
                 </div>
             </div>
         </div>

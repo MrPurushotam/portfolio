@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
 import Spinner from './Spinner';
+import { AxeIcon } from '@phosphor-icons/react';
 
 const UpdateSkill = ({ setSkills, close, updating }) => {
     const outDivRef = useRef(null);
@@ -117,7 +118,10 @@ const UpdateSkill = ({ setSkills, close, updating }) => {
                             <Spinner />
                         </div>
                     }
-                    <i className="sticky top-[5%] left-[90%] ph-duotone ph-x text-2xl hover:text-red-500"
+
+                    <AxeIcon
+                        size={20}
+                        className="sticky top-[5%] left-[90%] hover:text-red-500"
                         onClick={() => {
                             setFormdata({
                                 imagelink: "",
@@ -126,8 +130,9 @@ const UpdateSkill = ({ setSkills, close, updating }) => {
                                 id: null
                             });
                             close("");
-                        }}>
-                    </i>
+                        }}
+                    />
+
                     <h2 className="text-xl font-bold text-center text-gray-900">{updating ? "Update Skill" : "Add Skill"}</h2>
                     <div>
                         <label className="block text-gray-700 font-semibold mb-2">Skill Name</label>
