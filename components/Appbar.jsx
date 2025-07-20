@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import ThemeSelectAppbar from "./ThemeSelectUpdated";
-import { XIcon } from "@phosphor-icons/react";
+import { ListIcon, XIcon } from "@phosphor-icons/react";
 import { MagnifyingGlassIcon } from "@phosphor-icons/react/dist/ssr";
 
 const Appbar = () => {
@@ -119,7 +119,7 @@ const Appbar = () => {
           <ThemeSelectAppbar />
         </div>
 
-        <div className="md:hidden flex items-center relative">
+        <div className="md:hidden flex items-center relative gap-3">
           <ThemeSelectAppbar />
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -128,7 +128,7 @@ const Appbar = () => {
             {isDropdownOpen ? (
               <XIcon size={22} />
             ) : (
-              <MagnifyingGlassIcon size={22} />
+              <ListIcon  size={22} />
             )}
           </button>
           {isDropdownOpen && (

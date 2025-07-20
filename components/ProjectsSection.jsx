@@ -1,12 +1,12 @@
 "use client";
-
-import Link from "next/link";
 import Badge from "./Badge";
 import { motion } from "framer-motion";
 import { GithubLogoIcon } from "@phosphor-icons/react/dist/ssr";
 import { DotsThreeOutlineVerticalIcon, ShareIcon } from "@phosphor-icons/react";
+import { useState } from "react";
 
 const ProjectsSection = ({ project, state }) => {
+  const [viewDesc, setViewDesc] = useState(project?.description.length < 200);
   const cardVariants = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
@@ -65,8 +65,16 @@ const ProjectsSection = ({ project, state }) => {
               )
             })}
           </div>
-          <p className="text-2xl text-gray-600 dark:text-white line-clamp-2 ">
-            {project?.description}
+          <p className=" flex flex-col gap-1">
+            <p className={`text-xl md:text-2xl font-thin tracking-normal leading-6 text-gray-600 dark:text-gray-50`}>
+              {viewDesc ? project?.description : project?.description.substring(0, 200)}
+              {
+                <span className="ml-1 mt-1 text-gray-500 dark:text-gray-300 underline hover:text-gray-400" onClick={() => setViewDesc(prev => !prev)} >
+                  {viewDesc ? "View Less" : "View More"}
+                  {/* <DotsThreeIcon size={18} /> */}
+                </span>
+              }
+            </p>
           </p>
           <div className="flex items-center space-x-4 text-2xl text-blue-600 dark:text-[#2C8BCF] ">
             {project?.githubLink && (
@@ -76,7 +84,7 @@ const ProjectsSection = ({ project, state }) => {
                 rel="noopener noreferrer"
                 className="flex items-center space-x-1 font-medium  hover:underline"
               >
-                <GithubLogoIcon/>
+                <GithubLogoIcon />
                 <span>Github</span>
               </a>
             )}
@@ -87,7 +95,7 @@ const ProjectsSection = ({ project, state }) => {
                 rel="noopener noreferrer"
                 className="flex items-center space-x-1 font-medium  hover:underline"
               >
-                <ShareIcon/>
+                <ShareIcon />
                 <span>Live</span>
               </a>
             )}
@@ -97,7 +105,7 @@ const ProjectsSection = ({ project, state }) => {
                 onClick={() => state(project)}
                 className="flex items-center space-x-1 font-mediumhover:underline"
               >
-                <DotsThreeOutlineVerticalIcon/>
+                <DotsThreeOutlineVerticalIcon />
                 <span>Brief</span>
               </button>
             )}

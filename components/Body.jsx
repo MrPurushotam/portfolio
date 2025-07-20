@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import ProjectsSection from "./ProjectsSection";
 import SkillComponent from "./SkillComponent";
 import Socials from "./Socials";
@@ -7,8 +6,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import BriefProject from "./BriefProject";
 import Badge from "./Badge";
 import { motion } from "motion/react"
-import { DownloadSimpleIcon, FileArrowDownIcon, FileArrowUpIcon, StudentIcon } from "@phosphor-icons/react";
-import { CaretDownIcon, Student } from "@phosphor-icons/react/dist/ssr";
+import {  FileArrowDownIcon, StudentIcon } from "@phosphor-icons/react";
+import { CaretDownIcon} from "@phosphor-icons/react/dist/ssr";
 
 export function Body({ projects, skills, profile, resumeDocId }) {
     const [isProjectBriefObject, setIsProjectBriefObject] = useState(false);
@@ -79,12 +78,12 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                         <motion.div
                             whileHover={{ scale: 1.05, rotate: 1 }}
                             transition={{ type: "spring", stiffness: 200 }}
-                            className="relative z-10 p-[1.5px] bg-gradient-to-tr from-rose-400/30 to-red-400/30 dark:bg-gradient-to-tr dark:from-cyan-300/20 dark:to-blue-400/20 rounded-[2rem]"
+                            className="relative z-10 p-[1.5px] bg-gradient-to-tr from-rose-400/30 to-red-400/30 dark:bg-gradient-to-tr dark:from-cyan-300/20 dark:to-blue-400/20 rounded-[2rem] overflow-hidden"
                         >
                             <motion.div
                                 animate={{ y: [0, -5, 0] }}
                                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                                className="absolute top-2 right-2 bg-cyan-600/70 text-white px-2 py-1 rounded-full text-xs shadow-md border border-white/10 backdrop-blur-sm"
+                                className="absolute top-2 right-2 bg-cyan-600/70 text-white px-2 py-1 rounded-full text-xs shadow-md border border-white/10 backdrop-blur-sm whitespace-nowrap"
                             >
                                 🚀 Building the web
                             </motion.div>
@@ -92,7 +91,7 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                             <motion.div
                                 animate={{ y: [0, 6, 0] }}
                                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                                className="absolute top-14 right-6 bg-blue-600/70 text-white text-xs px-2 py-1 rounded-full shadow-md border border-white/10 backdrop-blur-sm"
+                                className="absolute top-14 right-6 bg-blue-600/70 text-white text-xs px-2 py-1 rounded-full shadow-md border border-white/10 backdrop-blur-sm whitespace-nowrap"
                             >
                                 🧠 Lifelong Learner
                             </motion.div>
@@ -100,7 +99,7 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                             <motion.div
                                 animate={{ y: [0, -5, 0] }}
                                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                                className="absolute bottom-2 left-2 bg-indigo-600/70 text-white font-semibold text-xs px-2 py-1 rounded-full shadow-md border border-white/10 backdrop-blur-sm"
+                                className="absolute bottom-2 left-2 bg-indigo-600/70 text-white font-semibold text-xs px-2 py-1 rounded-full shadow-md border border-white/10 backdrop-blur-sm whitespace-nowrap"
                             >
                                 ⚙️ Automating stuff
                             </motion.div>
@@ -156,8 +155,6 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                                 >
                                     <FileArrowDownIcon className=" w-5 h-5 md:w-6 md:h-6" />Resume
                                 </a>
-
-
                             </button>
                         </div>
                         <div className="flex justify-center md:justify-start items-center mt-6">
@@ -166,23 +163,23 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                     </div>
 
                     {/* Right Image Section (only visible on md and above) */}
-                    <div className="hidden md:flex justify-center items-center w-full relative">
+                    <div className="hidden md:flex justify-center items-center w-full relative overflow-hidden">
                         <motion.div
                             initial={{ scale: 1 }}
                             animate={{ scale: [1, 1.05, 1], rotate: [0, 1, 0], rotate: [0, 360] }}
                             transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
-                            className="absolute w-[450px] h-[450px] bg-teal-400/30 opacity-20 blur-[160px] rounded-full z-0"
+                            className="absolute w-[450px] h-[450px] bg-teal-400/30 opacity-20 blur-[160px] rounded-full z-5"
                         />
 
                         <motion.div
                             whileHover={{ scale: 1.05, rotate: 1 }}
                             transition={{ type: "spring", stiffness: 200 }}
-                            className="relative z-10 p-[1.5px] bg-gradient-to-tr from-rose-400/30 to-red-400/30 dark:bg-gradient-to-tr dark:from-cyan-300/20 dark:to-blue-400/20 rounded-[2rem]"
+                            className="relative z-10 p-[1.5px] bg-gradient-to-tr from-rose-400/30 to-red-400/30 dark:bg-gradient-to-tr dark:from-cyan-300/20 dark:to-blue-400/20 rounded-[2rem] overflow-hidden"
                         >
                             <motion.div
                                 animate={{ y: [0, -5, 0] }}
                                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                                className="absolute top-2 right-2 bg-cyan-600/70 text-white px-2 py-1 rounded-full text-xs shadow-md border border-white/10 backdrop-blur-sm"
+                                className="absolute top-2 right-2 bg-cyan-600/70 text-white px-2 py-1 rounded-full text-xs shadow-md border border-white/10 backdrop-blur-sm whitespace-nowrap"
                             >
                                 🚀 Building the web
                             </motion.div>
@@ -190,7 +187,7 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                             <motion.div
                                 animate={{ y: [0, 6, 0] }}
                                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                                className="absolute top-14 right-6 bg-blue-600/70 text-white text-xs px-2 py-1 rounded-full shadow-md border border-white/10 backdrop-blur-sm"
+                                className="absolute top-14 right-6 bg-blue-600/70 text-white text-xs px-2 py-1 rounded-full shadow-md border border-white/10 backdrop-blur-sm whitespace-nowrap"
                             >
                                 🧠 Lifelong Learner
                             </motion.div>
@@ -198,7 +195,7 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                             <motion.div
                                 animate={{ y: [0, -5, 0] }}
                                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                                className="absolute bottom-2 left-2 bg-indigo-600/70 text-white font-semibold text-xs px-2 py-1 rounded-full shadow-md border border-white/10 backdrop-blur-sm"
+                                className="absolute bottom-2 left-2 bg-indigo-600/70 text-white font-semibold text-xs px-2 py-1 rounded-full shadow-md border border-white/10 backdrop-blur-sm whitespace-nowrap"
                             >
                                 ⚙️ Automating stuff
                             </motion.div>
@@ -210,14 +207,14 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                             />
                         </motion.div>
                     </div>
-                    <div className="absolute z-10 top-[102%] md:top-[115%] left-0 w-full md:col-span-2 flex justify-center items-center animate-bounce text-white text-2xl">
+                    <div className="absolute z-10 top-[102%] md:top-[108%] left-0 w-full md:col-span-2 flex justify-center items-center animate-bounce text-white text-2xl">
                         <CaretDownIcon />
                     </div>
                 </div>
             </section>
 
             {/* About Section */}
-            <section id="about" className="w-full min-h-[85vh] h-fit mx-auto flex justify-center items-center py-1 dark:bg-[#10151b]">
+            <section id="about" className="w-full min-h-[85vh] h-fit mx-auto flex justify-center items-center p-8 dark:bg-[#10151b]">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -399,7 +396,7 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                             <span className="text-white">🚀</span> Projects
                         </motion.h1>
                         <div className=" w-2/3 mx-auto my-2 h-[3px] bg-black dark:bg-white bg-gradient-to-r from-transparent via-black to-transparent dark:from-white dark:via-red-500 dark:to-white"></div>
-                        <div className="w-full sm:w-4/5 md:w-2/3 lg:w-2/3 min-h-16 mx-auto p-2 flex flex-wrap justify-center items-center gap-2">
+                        <div className="w-full sm:w-full min-h-16 mx-auto p-2 flex flex-wrap justify-center items-center gap-2">
                             <Badge text={"All"} type="outline" count={projects?.length} onClick={() => handleBadgeClick("")} className={`hover:scale-[1.05] ${(paticularLang === "") ? "bg-rose-500/90 text-white" : ""}`} />
                             {
                                 uniqueLanguages.map((tech, idx) => {

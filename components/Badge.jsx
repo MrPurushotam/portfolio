@@ -1,32 +1,31 @@
-const Badge = ({ text, type = "outline", count = 0,className="" ,...props}) => {
+const Badge = ({ text, type = "outline", count = 0, className = "", ...props }) => {
   let typeStyle = "";
   if (type === "one") {
-    typeStyle = "bg-slate-900 text-white";
+    typeStyle = "bg-blue-500 text-white dark:bg-blue-600 dark:text-white";
   } else if (type === "outline") {
-    typeStyle = "border-2 border-slate-900 dark:border-[#f5e8c7] text-black dark:text-[#f5e8c7] ";
+    typeStyle = "border border-gray-300 text-gray-700 dark:border-gray-600 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800";
   } else if (type === "two") {
-    typeStyle = "bg-green-500 text-white";
+    typeStyle = "bg-emerald-500 text-white dark:bg-emerald-600 dark:text-white";
   } else if (type === "three") {
-    typeStyle = "bg-blue-500 text-white";
+    typeStyle = "bg-violet-500 text-white dark:bg-violet-600 dark:text-white";
   } else if (type === "four") {
-    typeStyle = "bg-yellow-500 text-white";
+    typeStyle = "bg-orange-500 text-white dark:bg-orange-600 dark:text-white";
   }
+
 
   return (
     <div
-      className={`px-2 py-1 sm:px-3 sm:py-1.5 md:px-3 md:py-1 lg:px-2 lg:py-1 xl:px-3 xl:py-1 shadow-md rounded-full ${typeStyle} space-x-1 space-y-1 cursor-pointer select-none flex items-center ${className}`}
+      className={`px-2 py-0.5 rounded-md ${typeStyle} cursor-pointer select-none flex items-center gap-1 transition-colors duration-200 ${className}`}
       {...props}
     >
-      <span
-        className="text-base sm:text-base md:text-lg lg:text-xl capitalize font-medium "
-      >
+      <span className="text-sm md:text-base font-medium">
         {text}
       </span>
-      {count > 0 &&
-        <span className=" mb-2 inline-flex justify-center items-center w-5 h-5 rounded-full bg-white drop-shadow-md text-black font-semibold text-sm md:text-base shadow-md ">
+      {count > 0 && (
+        <span className="inline-flex justify-center items-center w-3 h-3 rounded-full bg-white text-black font-medium text-xs">
           {count}
         </span>
-      }
+      )}
     </div>
   );
 };
