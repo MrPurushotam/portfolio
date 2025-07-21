@@ -220,7 +220,7 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
                     viewport={{ once: true }}
-                    className="h-auto max-h-ful w-11/12 md:w-3/5 p-3 pt-8 px-8 md:px-12 md:pt-16 md:pb-16 bg-gray-300/30 dark:bg-[#10151b]/50 ring-1 ring-gray-200 dark:ring-0 dark:border  dark:border-[#ffffff1a] rounded-xl shadow-md shadow-black/20"
+                    className="h-auto max-h-ful w-11/12 md:w-4/5 p-3 pt-8 px-8 md:px-12 md:pt-16 md:pb-16 bg-gray-300/30 dark:bg-[#10151b]/50 ring-1 ring-gray-200 dark:ring-0 dark:border  dark:border-[#ffffff1a] rounded-xl shadow-md shadow-black/20"
                 >
                     <h2 className="flex items-center justify-center text-[#f59e0b] dark:text-[#fff4b7] text-xl md:text-3xl my-4 md:my-6 capitalize text-center font-[730] tracking-wide master-font hover:text-[#fbbf24] dark:hover:text-[#ffd686] transition-colors duration-300">
                         <svg xmlns="http://www.w3.org/2000/svg" className=" h-6 md:h-9 mr-2 mb-1" viewBox="0 0 20 20" fill="currentColor">
@@ -332,7 +332,7 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                         </h2>
                         <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
                             {groupedSkills.backend.map((skill, i) => (
-                                <motion.dev
+                                <motion.div
                                     initial={{ opacity: 0, scale: 0.95 }}
                                     whileInView={{ opacity: 1, scale: 1 }}
                                     transition={{ delay: i * 0.05, duration: 0.4 }}
@@ -341,7 +341,7 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                                     className="w-[45%] md:w-[30%] h-fit rounded shadow-md border-transparent hover:scale-[1.02] hover:border hover:border-yellow-400"
                                 >
                                     <SkillComponent tag={skill.name} link={skill.imagelink} type={skill.type} />
-                                </motion.dev>
+                                </motion.div>
                             ))}
                         </div>
                     </div>
@@ -352,7 +352,7 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                         </h2>
                         <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
                             {groupedSkills.database.map((skill, i) => (
-                                <motion.dev
+                                <motion.div
                                     initial={{ opacity: 0, scale: 0.95 }}
                                     whileInView={{ opacity: 1, scale: 1 }}
                                     transition={{ delay: i * 0.05, duration: 0.4 }}
@@ -361,10 +361,10 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                                     className="w-[45%] md:w-[30%] h-fit rounded shadow-md hover:scale-[1.02] border-transparent hover:border hover:border-yellow-400"
                                 >
                                     <SkillComponent tag={skill.name} link={skill.imagelink} type={skill.type} />
-                                </motion.dev>
+                                </motion.div>
                             ))}
                             {groupedSkills.tool.map((skill, i) => (
-                                <motion.dev
+                                <motion.div
                                     initial={{ opacity: 0, scale: 0.95 }}
                                     whileInView={{ opacity: 1, scale: 1 }}
                                     transition={{ delay: i * 0.05, duration: 0.4 }}
@@ -373,7 +373,7 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                                     className="w-[45%] md:w-[30%] h-fit rounded shadow-md border-transparent hover:scale-[1.02] hover:border hover:border-yellow-400"
                                 >
                                     <SkillComponent tag={skill.name} link={skill.imagelink} type={skill.type} />
-                                </motion.dev>
+                                </motion.div>
                             ))}
 
                         </div>

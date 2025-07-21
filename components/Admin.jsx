@@ -279,8 +279,9 @@ const Admin = () => {
                                 <div key={skill.id} className="flex justify-center items-center flex-col w-32 h-32 rounded-md shadow-sm border-2 border-amber-900 capitalize">
                                     {skill.name}
                                     <div className="flex space-x-1 py-1">
-                                        <NotePencilIcon size={18} className="text-xl font-semibold hover:text-green-600 z-1" title="Edit Projects" onClick={() => handleEdit("skills", skills.id)} />
-                                        <TrashSimpleIcon size={18} className="text-xl font-semibold hover:text-red-600 z-1" title="Delete Project" onClick={() => handleDelete("skills", skills.id)} />
+                                        <NotePencilIcon size={18} className="text-xl font-semibold hover:text-green-600 z-1" title="Edit Projects" onClick={() => handleEdit("skills", skill.id)} />
+
+                                        <TrashSimpleIcon size={18} className="text-xl font-semibold hover:text-red-600 z-1" title="Delete Project" onClick={() => handleDelete("skills", skill.id)} />
                                     </div>
                                 </div>
                             )

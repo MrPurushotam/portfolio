@@ -21,6 +21,7 @@ const UpdateSkill = ({ setSkills, close, updating }) => {
             id: null
         }
     );
+    console.log(formdata,updating)
 
     const handleFormData = (e) => {
         const { name, value } = e.target;
@@ -84,8 +85,10 @@ const UpdateSkill = ({ setSkills, close, updating }) => {
             }
         };
         document.addEventListener("mousedown", handleOutsideClick);
+        document.body.style.overflow = 'hidden';        
         return () => {
             document.removeEventListener("mousedown", handleOutsideClick);
+            document.body.style.overflow = 'unset';
         };
     }, [close]);
 
@@ -111,8 +114,8 @@ const UpdateSkill = ({ setSkills, close, updating }) => {
     }, [updating])
     return (
         <>
-            <div className="absolute inset-0 flex items-center justify-center bg-black/20 z-50 overflow-hidden h-full w-full">
-                <div ref={outDivRef} className="relative w-11/12 max-w-4xl p-6 border border-gray-300 rounded-lg shadow-lg bg-white space-y-6">
+            <div className="fixed inset-0 flex items-center justify-center bg-black/20 z-50 h-screen w-screen overflow-auto">
+                <div ref={outDivRef} className="relative w-full max-w-4xl mx-4 p-6 border border-gray-300 rounded-lg shadow-lg bg-white space-y-6 max-h-[90vh] overflow-y-auto">
                     {loading &&
                         <div className="absolute inset-0 flex items-center justify-center bg-white/40 z-[60]">
                             <Spinner />
@@ -121,7 +124,7 @@ const UpdateSkill = ({ setSkills, close, updating }) => {
 
                     <AxeIcon
                         size={20}
-                        className="sticky top-[5%] left-[90%] hover:text-red-500"
+                        className="sticky top-[5%] left-[97%] hover:text-red-500"
                         onClick={() => {
                             setFormdata({
                                 imagelink: "",
