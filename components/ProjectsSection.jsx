@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { GithubLogoIcon } from "@phosphor-icons/react/dist/ssr";
 import { DotsThreeOutlineVerticalIcon, ShareIcon } from "@phosphor-icons/react";
 import { useState } from "react";
+import RenderedContent from "./RenderedContent";
 
 const ProjectsSection = ({ project, state }) => {
   const [viewDesc, setViewDesc] = useState(project?.description.length < 200);
@@ -21,12 +22,12 @@ const ProjectsSection = ({ project, state }) => {
       viewport={{ once: true }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
       className="group w-full p-6 border-2 border-gray-200 dark:border-gray-600 hover:border-blue-400 dark:hover:border-blue-500 rounded-2xl shadow-lg hover:shadow-2xl bg-gradient-to-br from-white to-gray-50 dark:from-[#1e1e1e] dark:to-[#2a2a2a] transition-all duration-300 relative overflow-hidden">
-      
+
       {/* Subtle background pattern */}
       <div className="absolute inset-0 opacity-5 dark:opacity-10">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20"></div>
       </div>
-      
+
       <div className="relative flex flex-col lg:flex-row gap-6 items-start">
         <div className="w-full lg:w-60 h-60 flex-shrink-0 relative overflow-hidden rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-600">
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
@@ -83,7 +84,8 @@ const ProjectsSection = ({ project, state }) => {
 
           <div className="relative">
             <p className="text-lg lg:text-xl font-light leading-relaxed text-gray-600 dark:text-gray-300">
-              {viewDesc ? project?.description : project?.description.substring(0, 200)}
+              {/* {viewDesc ? project?.description : project?.description.substring(0, 200)} */}
+              <RenderedContent html={viewDesc ? project?.description : project?.description.substring(0, 200)} />
               {
                 <span className="ml-1 mt-1 text-gray-500 dark:text-gray-300 underline hover:text-gray-400" onClick={() => setViewDesc(prev => !prev)} >
                   {viewDesc ? "View Less" : "View More"}

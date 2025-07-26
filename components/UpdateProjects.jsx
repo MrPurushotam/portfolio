@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import Spinner from './Spinner';
 import { AxeIcon, ImageIcon, MonitorIcon } from '@phosphor-icons/react';
 import { XCircleIcon } from '@phosphor-icons/react/dist/ssr';
+import TipTapEditor from './TiptapEditor';
 
 const extractNotionLink = (link) => {
     const parts = link.split('/');
@@ -46,7 +47,7 @@ const UpdateProjects = React.memo(({ setProjects, close, updating }) => {
         const updatedData = {
             ...formdata,
             techstack: techstackArray,
-            describe: extractNotionLink(formdata.describe), // Use the new function here
+            describe: extractNotionLink(formdata.describe),
             githubLink: formdata.githubLink,
             liveLink: formdata.liveLink
         };
@@ -55,7 +56,7 @@ const UpdateProjects = React.memo(({ setProjects, close, updating }) => {
             formData.append("id", updatedData.id);
             formData.append("title", updatedData.title);
             formData.append("description", updatedData.description);
-            formData.append("techstack", JSON.stringify(updatedData.techstack)); // Convert array to JSON string
+            formData.append("techstack", JSON.stringify(updatedData.techstack));
             formData.append("brief", updatedData.brief);
             formData.append("describe", updatedData.describe || "");
             formData.append("githubLink", updatedData.githubLink || "");
@@ -252,12 +253,9 @@ const UpdateProjects = React.memo(({ setProjects, close, updating }) => {
                     </div>
                     <div>
                         <label className='block text-gray-700 font-semibold mb-2'>Project Description</label>
-                        <textarea
-                            placeholder="Enter a brief project description"
-                            className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 min-h-[80px] resize-y'
-                            name="description"
-                            onChange={handleFormData}
+                        <TipTapEditor
                             value={formdata.description}
+                            onChange={(val) => handleFormData({ target: { name: 'description', value: val } })}
                         />
                     </div>
                     <div>

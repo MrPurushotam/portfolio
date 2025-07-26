@@ -265,7 +265,6 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                             </p>
                         </div>
                     </div>
-
                 </motion.div>
             </section>
 
