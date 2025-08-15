@@ -1,6 +1,4 @@
 import ContactPage from "@/components/ContactPage"
-import Appbar from "@/components/Appbar";
-import Footer from "@/components/Footer"
 
 export const metadata = {
   title: 'Contact',
@@ -12,15 +10,9 @@ export const metadata = {
     type: 'website'
   }
 };
-const page = () => {
+const page = async () => {
   return (
-    <div className="flex flex-col">
-      <Appbar />
-      <div className="flex-1">
-        <ContactPage />
-      </div>
-      <Footer />
-    </div>
+    <ContactPage />
   )
 }
 

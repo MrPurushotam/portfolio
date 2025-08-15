@@ -1,14 +1,24 @@
 import { Body } from "@/components/Body";
-import Appbar from "@/components/Appbar";
-import Footer from "@/components/Footer";
 import { revalidatePath } from 'next/cache';
+
+
+export const metadata = {
+  title: 'Home | Purushotam Jeswani',
+  description: 'Explore my portfolio showcasing full-stack development expertise in React, Next.js, Node.js, and AWS. See innovative projects and skills tailored for tech roles in India and the USA.',
+  openGraph: {
+    title: 'Purushotam Jeswani - Full-Stack Developer Portfolio',
+    description: 'Discover innovative projects and expertise in full-stack development, including React, Next.js, Docker, Prisma, and AWS. Connect with Purushotam Jeswani today!',
+    images: ['/favicon-96x96.png'],
+    type: 'website'
+  }
+};
 
 export const fetchStaticDataServerSide = async () => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/all`, {
       next: {
         revalidate: 8 * 3600,
-        tags: ['projects', 'skills', 'profile', 'resume'] 
+        tags: ['projects', 'skills', 'profile', 'resume']
       }
     }
     );
@@ -37,31 +47,16 @@ export const fetchStaticDataServerSide = async () => {
   }
 };
 
-export const metadata = {
-  title: 'Home | Purushotam Jeswani',
-  description: 'Explore my portfolio showcasing full-stack development expertise in React, Next.js, Node.js, and AWS. See innovative projects and skills tailored for tech roles in India and the USA.',
-  openGraph: {
-    title: 'Purushotam Jeswani - Full-Stack Developer Portfolio',
-    description: 'Discover innovative projects and expertise in full-stack development, including React, Next.js, Docker, Prisma, and AWS. Connect with Purushotam Jeswani today!',
-    images: ['/favicon-96x96.png'],
-    type: 'website'
-  }
-};
+
+{/* <div className="bg-yellow-500/30 border border-yellow-400 text-yellow-700 px-4 py-1 text-center" role="alert">
+  <p className="font-bold">Under Construction</p>
+  <p className="text-sm">This website is currently in the build phase and might break.</p>
+</div> */}
 
 export default async function Home() {
   const data = await fetchStaticDataServerSide();
   const { projects, skills, profile, resumeDocId } = data.props;
   return (
-    <div className="flex flex-col">
-      <Appbar />
-      {/* <div className="bg-yellow-500/30 border border-yellow-400 text-yellow-700 px-4 py-1 text-center" role="alert">
-        <p className="font-bold">Under Construction</p>
-        <p className="text-sm">This website is currently in the build phase and might break.</p>
-      </div> */}
-      <div className="flex-1">
-        <Body projects={projects} skills={skills} profile={profile} resumeDocId={resumeDocId} />
-      </div>
-      <Footer resumeDocId={resumeDocId} />
-    </div>
+    <Body key={1212} projects={projects} skills={skills} profile={profile} resumeDocId={resumeDocId} />
   );
 }

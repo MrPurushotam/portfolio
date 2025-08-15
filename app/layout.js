@@ -1,6 +1,8 @@
 import { Inter, Allison, League_Spartan, Markazi_Text } from "next/font/google";
 import "./globals.css";
 import Provider from "@/utils/Provider";
+import Appbar from "@/components/Appbar";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"], display: 'swap', variable: '--font-inter' });
 
@@ -27,6 +29,39 @@ const markaziText = Markazi_Text({
 
 });
 
+export const fetchStaticDataServerSide = async () => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/all`, {
+      next: {
+        revalidate: 8 * 3600,
+        tags: ['projects', 'skills', 'profile', 'resume']
+      }
+    }
+    );
+    if (!res.ok) {
+      throw new Error('Failed to fetch data');
+    }
+    const data = await res.json();
+    return {
+      props: {
+        projects: data.projects || [],
+        skills: data.skills || [],
+        profile: data.profile || {},
+        resumeDocId: data.resumeDocId || '',
+      },
+    };
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return {
+      props: {
+        projects: [],
+        skills: [],
+        profile: {},
+        resumeDocId: '',
+      },
+    };
+  }
+};
 
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://purushotamjeswani.in';
@@ -47,7 +82,9 @@ export const metadata = {
   }
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const data = await fetchStaticDataServerSide();
+  const { resumeDocId } = data.props;
   return (
     <Provider>
       <html lang="en" className={`${inter.variable} ${allison.variable} ${leagueSpartan.variable} ${markaziText.variable}`}>
@@ -87,7 +124,13 @@ export default function RootLayout({ children }) {
           <link rel="dns-prefetch" href="https://unpkg.com" />
         </head>
         <body className={inter.className}>
-          {children}
+          <div className="flex flex-col">
+            <Appbar />
+            <div className="flex-1">
+              {children}
+            </div>
+            <Footer resumeDocId={resumeDocId} />
+          </div>
         </body>
       </html>
     </Provider>
