@@ -8,6 +8,7 @@ import Badge from "./Badge";
 import { motion } from "motion/react"
 import {  FileArrowDownIcon, StudentIcon } from "@phosphor-icons/react";
 import { CaretDownIcon} from "@phosphor-icons/react/dist/ssr";
+import Link from "next/link";
 
 export function Body({ projects, skills, profile, resumeDocId }) {
     const [isProjectBriefObject, setIsProjectBriefObject] = useState(false);
@@ -137,12 +138,12 @@ export function Body({ projects, skills, profile, resumeDocId }) {
 
                         </div>
                         <div className="flex flex-row flex-wrap justify-center md:justify-start items-center gap-4 mt-4">
-                            <button
+                            <Link
                                 href="/contact"
                                 className="flex items-center justify-center gap-2 px-6 py-3 text-sm md:text-base font-bold tracking-wider border-2 border-white rounded-full text-white dark:text-gray-300 uppercase bg-transparent hover:bg-white hover:text-red-600 dark:hover:bg-gray-300 dark:hover:text-black transition duration-300"
                             >
                                 Get in touch
-                            </button>
+                            </Link>
                             <button
                                 className="flex items-center justify-center gap-2 px-6 py-3 text-sm md:text-base font-bold tracking-wider border-2 border-white rounded-full text-white dark:text-gray-300 uppercase bg-transparent hover:bg-white hover:text-red-600 dark:hover:bg-gray-300 dark:hover:text-black transition duration-300"
                             >
@@ -308,18 +309,16 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                         </h2>
                         <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
                             {groupedSkills.frontend.map((skill, i) => (
-                                <>
-                                    <motion.div
-                                        initial={{ opacity: 0, scale: 0.95 }}
-                                        whileInView={{ opacity: 1, scale: 1 }}
-                                        transition={{ delay: i * 0.05, duration: 0.4 }}
-                                        viewport={{ once: true }}
-                                        key={skill.id}
-                                        className="w-[45%] md:w-[30%] h-fit rounded shadow-md border border-transparent hover:scale-[1.02] hover:border hover:border-yellow-400"
-                                    >
-                                        <SkillComponent tag={skill.name} link={skill.imagelink} type={skill.type} />
-                                    </motion.div>
-                                </>
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    whileInView={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: i * 0.05, duration: 0.4 }}
+                                    viewport={{ once: true }}
+                                    key={skill.id}
+                                    className="w-[45%] md:w-[30%] h-fit rounded shadow-md border border-transparent hover:scale-[1.02] hover:border hover:border-yellow-400"
+                                >
+                                    <SkillComponent tag={skill.name} link={skill.imagelink} type={skill.type} />
+                                </motion.div>
                             ))}
                         </div>
                     </div>
@@ -384,7 +383,7 @@ export function Body({ projects, skills, profile, resumeDocId }) {
             <section id="projects" className="py-10">
                 <div className="w-full space-y-6">
                     <div className="relative flex flex-col justify-center items-center w-10/12 md:w-7/12 mx-auto ">
-                        {/* <div className=" w-2/3 mx-auto absolute top-0 left-0 right-0  h-[3px] bg-black bg-gradient-to-r from-transparent via-black to-transparent"></div> */}
+                        {/* <div className=" w-2/3 mx-auto absolute top-0 left-0 right-0  h={[3px]} bg-black bg-gradient-to-r from-transparent via-black to-transparent"></div> */}
                         <motion.h1
                             initial={{ opacity: 0, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
