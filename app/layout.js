@@ -122,6 +122,7 @@ export default async function RootLayout({ children }) {
 
           <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
           <link rel="dns-prefetch" href="https://unpkg.com" />
+          <script defer src="https://cloud.umami.is/script.js" data-website-id="ec3938ba-2480-4751-ba61-cf71aee6d9e8"></script>
         </head>
         <body className={inter.className}>
           <div className="flex flex-col">
