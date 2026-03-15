@@ -16,13 +16,17 @@ export function Body({ projects, skills, profile, resumeDocId }) {
     const [uniqueLanguages, setUniqueLanguges] = useState([]);
     const [filteredProjects, setFilteredProjects] = useState([]);
     const [paticularLang, setPaticularLang] = useState("");
-    const groupedSkills = useMemo(() => ({
-        frontend: skills.filter(skill => skill.type === 'Frontend'),
-        backend: skills.filter(skill => skill.type === 'Backend'),
-        tool: skills.filter(skill => skill.type === 'Tool'),
-        database: skills.filter(skill => skill.type === 'Database'),
-
-    }), [skills]);
+    const groupedSkills = useMemo(() => {
+        const groups = {};
+        skills.forEach(skill => {
+            const type = skill.type ? skill.type.toLowerCase() : 'other';
+            if (!groups[type]) {
+                groups[type] = [];
+            }
+            groups[type].push(skill);
+        });
+        return groups;
+    }, [skills]);
 
     const initializeLanguages = () => {
         const langMap = {};
@@ -106,7 +110,7 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                     className="absolute w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-yellow-300/40 dark:bg-rose-500/30 opacity-60 dark:opacity-20 blur-[130px] rounded-full z-0 bottom-[10%] right-[10%] pointer-events-none"
                 />
 
-                <div className="relative grid grid-cols-1 md:grid-cols-2 layout-container h-full md:gap-4">
+                <div className="relative grid grid-cols-1 md:grid-cols-2 layout-container h-full md:gap-4 z-10">
                     <div className="flex justify-center items-center md:hidden pt-5 pb-3 mb-2 w-full relative overflow-hidden">
                         <motion.div
                             whileHover={{ scale: 1.05, rotate: 1 }}
@@ -149,15 +153,15 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                         <div className="flex flex-col justify-start md:justify-center">
                             <span className="text-lg md:text-xl italic text-gray-50 dark:text-gray-300 mb-1">Hi, I am</span>
                             <div className="relative inline-block w-fit mx-auto md:mx-0 group">
-                                <svg 
+                                <svg
                                     className="absolute inset-0 w-[110%] h-[130%] -left-[5%] -top-[15%] text-white dark:text-[#E2E8F0] z-0 -rotate-2"
-                                    viewBox="0 0 300 100" 
-                                    preserveAspectRatio="none" 
+                                    viewBox="0 0 300 100"
+                                    preserveAspectRatio="none"
                                     fill="none"
                                     xmlns="http://www.w3.org/2000/svg"
                                 >
                                     {/* Main thick stroke */}
-                                    <motion.path 
+                                    <motion.path
                                         initial={{ pathLength: 0 }}
                                         animate={{ pathLength: 1 }}
                                         transition={{ duration: 0.8, ease: "easeOut" }}
@@ -167,7 +171,7 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                                         d="M 10 50 Q 150 35 290 50"
                                     />
                                     {/* Top bristle stroke */}
-                                    <motion.path 
+                                    <motion.path
                                         initial={{ pathLength: 0 }}
                                         animate={{ pathLength: 1 }}
                                         transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
@@ -177,7 +181,7 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                                         d="M 15 25 Q 140 10 280 25"
                                     />
                                     {/* Bottom bristle stroke */}
-                                    <motion.path 
+                                    <motion.path
                                         initial={{ pathLength: 0 }}
                                         animate={{ pathLength: 1 }}
                                         transition={{ duration: 0.7, ease: "easeOut", delay: 0.15 }}
@@ -282,7 +286,7 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                         About Me
                     </h2>
                     <div className="w-12 h-[2px] bg-gray-400 dark:bg-gray-500 mx-auto rounded-full mb-2"></div>
-                    
+
                     <p className="text-base md:text-lg text-justify text-gray-800 dark:text-[#d2e3f8] tracking-wide leading-relaxed">
                         I thrive on building <b className="text-[#fcd34d] dark:text-[#fff4b7]">scalable</b>, high-impact solutions using <b className="text-[#fcd34d] dark:text-[#fff4b7]">React</b>, <b className="text-[#fcd34d] dark:text-[#fff4b7]">Next.js</b>, <b className="text-[#fcd34d] dark:text-[#fff4b7]">Node.js</b>, and <b className="text-[#fcd34d] dark:text-[#fff4b7]">AWS</b>. Creativity and experimentation drive my approach — I love pushing boundaries and crafting seamless experiences that go beyond just writing code.
                     </p>
@@ -304,11 +308,11 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                         Education
                     </h2>
                     <div className="w-12 h-[2px] bg-gray-400 dark:bg-gray-500 mx-auto rounded-full mb-4"></div>
-                    
+
                     <div className="flex flex-col gap-2 relative pl-2 md:pl-10">
                         {/* Vertical Timeline Line */}
                         <div className="absolute left-[17px] md:left-[49px] top-6 bottom-4 w-0.5 bg-gradient-to-b from-gray-400/40 to-gray-400/10 dark:from-[#ffd686]/40 dark:to-transparent"></div>
-                        
+
                         {/* Timeline Item 1 */}
                         <div className="relative flex items-start gap-5 group">
                             <div className="flex flex-col items-center pt-1.5 relative z-10 w-fit">
@@ -320,7 +324,7 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                                 <time className="text-sm text-gray-600 dark:text-gray-500 mb-2">2022 - 2026 • Phagwara, Punjab</time>
                             </div>
                         </div>
-                        
+
                         {/* Timeline Item 2 */}
                         <div className="relative flex items-start gap-5 group">
                             <div className="flex flex-col items-center pt-1.5 relative z-10 w-fit">
@@ -341,22 +345,6 @@ export function Body({ projects, skills, profile, resumeDocId }) {
             <section id="skills" className="w-full mx-auto flex flex-col justify-center pt-8 pb-7">
 
                 <div className="relative flex mt-8 mb-8 justify-center items-center">
-                    {/* <div
-                        className="absolute w-11/12 md:w-8/12 h-16 md:h-24 bg-no-repeat bg-contain transform -rotate-6 -top-1 dark:hidden"
-                        style={{
-                            backgroundImage: "url('https://www.pngarts.com/files/10/Paint-Brush-Stroke-PNG-Picture.png')",
-                            backgroundPosition: "center",
-                        }}
-                    >
-                    </div>
-                    <div
-                        className="absolute w-11/12 md:w-11/12 h-32 md:h-[16.25rem] bg-no-repeat bg-contain transform -rotate-9 -top-[93px] hidden dark:block mix-blend-lighten"
-                        style={{
-                            backgroundImage: "url('./brush-strokes/golden-stroke.png')",
-                            backgroundPosition: "center",
-                        }}
-                    >
-                    </div> */}
                     <motion.h2 initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
@@ -372,79 +360,27 @@ export function Body({ projects, skills, profile, resumeDocId }) {
                     </motion.h2>
                 </div>
                 <div className="layout-container p-5 space-y-10">
-                    <div className="flex justify-center flex-col gap-2">
-                        <h2 className="text-xl md:text-2xl font-semibold border-l-4 border-text-gray-900 pl-3 mb-4 text-gray-900 dark:text-[#fcd34d] master-font">
-                            Frontend
-                        </h2>
-                        <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                            {groupedSkills.frontend.map((skill, i) => (
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0.95 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: i * 0.05, duration: 0.4 }}
-                                    viewport={{ once: true }}
-                                    key={skill.id}
-                                    className="w-[45%] md:w-[30%] h-fit rounded shadow-md border border-transparent hover:scale-[1.02] hover:border hover:border-yellow-400"
-                                >
-                                    <SkillComponent tag={skill.name} link={skill.imagelink} type={skill.type} />
-                                </motion.div>
-                            ))}
+                    {Object.keys(groupedSkills).map((type) => (
+                        <div key={type} className="flex justify-center flex-col gap-2">
+                            <h2 className="text-xl md:text-2xl font-semibold border-l-4 border-gray-900 pl-3 mb-4 text-gray-900 dark:text-[#fcd34d] master-font capitalize">
+                                {type}
+                            </h2>
+                            <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
+                                {groupedSkills[type].map((skill, i) => (
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.95 }}
+                                        whileInView={{ opacity: 1, scale: 1 }}
+                                        transition={{ delay: i * 0.05, duration: 0.4 }}
+                                        viewport={{ once: true }}
+                                        key={skill.id}
+                                        className="w-[45%] sm:w-[28%] md:w-[22%] lg:w-[16%] h-fit"
+                                    >
+                                        <SkillComponent tag={skill.name} link={skill.imagelink} type={skill.type} />
+                                    </motion.div>
+                                ))}
+                            </div>
                         </div>
-                    </div>
-
-                    {/* Backend */}
-                    <div>
-                        <h2 className="text-xl md:text-2xl font-semibold border-l-4 border-grey-900 pl-3 mb-4 text-grey-900 dark:text-[#fcd34d] master-font">
-                            Backend
-                        </h2>
-                        <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                            {groupedSkills.backend.map((skill, i) => (
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0.95 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: i * 0.05, duration: 0.4 }}
-                                    viewport={{ once: true }}
-                                    key={skill.id}
-                                    className="w-[45%] md:w-[30%] h-fit rounded shadow-md border-transparent hover:scale-[1.02] hover:border hover:border-yellow-400"
-                                >
-                                    <SkillComponent tag={skill.name} link={skill.imagelink} type={skill.type} />
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div>
-                        <h2 className="text-xl md:text-2xl font-semibold border-l-4 border-grey-900 pl-3 mb-4 text-grey-900 dark:text-[#fcd34d] master-font">
-                            Tools & Databases
-                        </h2>
-                        <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                            {groupedSkills.database.map((skill, i) => (
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0.95 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: i * 0.05, duration: 0.4 }}
-                                    viewport={{ once: true }}
-                                    key={skill.id}
-                                    className="w-[45%] md:w-[30%] h-fit rounded shadow-md hover:scale-[1.02] border-transparent hover:border hover:border-yellow-400"
-                                >
-                                    <SkillComponent tag={skill.name} link={skill.imagelink} type={skill.type} />
-                                </motion.div>
-                            ))}
-                            {groupedSkills.tool.map((skill, i) => (
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0.95 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: i * 0.05, duration: 0.4 }}
-                                    viewport={{ once: true }}
-                                    key={skill.id}
-                                    className="w-[45%] md:w-[30%] h-fit rounded shadow-md border-transparent hover:scale-[1.02] hover:border hover:border-yellow-400"
-                                >
-                                    <SkillComponent tag={skill.name} link={skill.imagelink} type={skill.type} />
-                                </motion.div>
-                            ))}
-
-                        </div>
-                    </div>
+                    ))}
                 </div>
             </section>
 

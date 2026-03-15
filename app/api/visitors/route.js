@@ -1,0 +1,63 @@
+import { NextResponse } from 'next/server';
+
+const workspaceName = process.env.COUNTER_WORKSPACE;
+const projectName = process.env.COUNTER_NAME;
+const apiKey = process.env.COUNTER_APIKEY;
+
+export async function POST() {
+    try {
+        const res = await fetch(`https://api.counterapi.dev/v2/${workspaceName}/${projectName}/up`, {
+            cache: 'no-store',
+            headers: {
+                Authorization: `Bearer ${apiKey}`,
+                "Content-Type": "application/json"
+            }
+        });
+
+
+        if (!res.ok) {
+            console.error("Failed Response Object ", res);
+            return NextResponse.json(
+                { error: "Failed to fetch from counter service" },
+                { status: res.status }
+            );
+        }
+
+        const data = await res.json();
+        return NextResponse.json({ visitors: data.data.up_count });
+    } catch (error) {
+        console.error("Visitor counter backend error:", error);
+        return NextResponse.json(
+            { error: "Internal server error" },
+            { status: 500 }
+        );
+    }
+}
+
+export async function GET() {
+    try {
+        const res = await fetch(`https://api.counterapi.dev/v2/${workspaceName}/${projectName}/`, {
+            cache: 'no-store',
+            headers: {
+                Authorization: process.env.COUNTER_APIKEY,
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (!res.ok) {
+            return NextResponse.json(
+                { error: "Failed to fetch from counter service" },
+                { status: res.status }
+            );
+        }
+
+        const data = await res.json();
+        return NextResponse.json({ visitors: data.data.up_count });
+    } catch (error) {
+        console.error("Visitor counter backend error:", error);
+        return NextResponse.json(
+            { error: "Internal server error" },
+            { status: 500 }
+        );
+    }
+}

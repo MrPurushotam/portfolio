@@ -1,9 +1,56 @@
 "use client"
-import { DownloadSimpleIcon } from "@phosphor-icons/react";
+import { DownloadSimpleIcon, UsersIcon } from "@phosphor-icons/react";
 import { GithubLogoIcon, LinkedinLogoIcon, XLogoIcon } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+
+const getOrdinalSuffix = (i) => {
+    const j = i % 10,
+        k = i % 100;
+    if (j == 1 && k != 11) {
+        return "st";
+    }
+    if (j == 2 && k != 12) {
+        return "nd";
+    }
+    if (j == 3 && k != 13) {
+        return "rd";
+    }
+    return "th";
+};
 
 const Footer = ({ resumeDocId }) => {
+    const [visitorCount, setVisitorCount] = useState(null);
+
+    useEffect(() => {
+        const cachedCount = localStorage.getItem("visitorCount");
+        if (cachedCount) {
+            setVisitorCount(parseInt(cachedCount, 10));
+        }
+
+        const fetchVisitorCount = async () => {
+            try {
+                const res = await fetch("/api/visitors", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.visitors) {
+                        setVisitorCount(data.visitors);
+                        localStorage.setItem("visitorCount", data.visitors);
+                    }
+                }
+            } catch (error) {
+                console.error("Failed to fetch visitor count from backend:", error);
+            }
+        };
+
+        fetchVisitorCount();
+    }, []);
+
     const quickLinks = [
         { name: "About", href: "/#about" },
         { name: "Skills", href: "/#skills" },
@@ -96,8 +143,16 @@ const Footer = ({ resumeDocId }) => {
                     </div>
                 </div>
 
-                <div className="pt-6 border-t border-neutral-800 flex justify-center items-center w-full text-sm sm:text-base text-gray-500">
-                    <p className="text-center">&copy; {new Date().getFullYear()} Purushotam Jeswani. All rights reserved.</p>
+                <div className="pt-6 border-t border-neutral-800 flex flex-col md:flex-row justify-between items-center w-full text-sm sm:text-base text-gray-500 gap-4">
+                    <p className="text-center md:text-left">&copy; {new Date().getFullYear()} Purushotam Jeswani. All rights reserved.</p>
+
+                    {/* Global Visitor Counter */}
+                    <div className="flex items-center gap-2 px-4 py-2 text-gray-300">
+                        <UsersIcon weight="fill" />
+                        <span className="font-mono text-sm sm:text-base font-medium">
+                            {visitorCount !== null ? `You're the ${visitorCount.toLocaleString()}${getOrdinalSuffix(visitorCount)} visitor` : "Welcome visitor!"}
+                        </span>
+                    </div>
                 </div>
             </div>
         </footer>

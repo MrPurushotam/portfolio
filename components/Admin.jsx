@@ -204,7 +204,7 @@ const Admin = () => {
     return (
         <div className="w-full min-h-screen py-5 px-2 bg-white">
             {(edit === "projects" || editData?.type === "projects") && <UpdateProjects setProjects={setProjects} close={editData?.type === "projects" ? setEditData : setEdit} updating={editData?.id || null} />}
-            {(edit === "skills" || editData?.type === "skills") && <UpdateSkill setSkills={setSkills} close={editData?.type === "skills" ? setEditData : setEdit} updating={editData?.id || null} />}
+            {(edit === "skill" || editData?.type === "skill") && <UpdateSkill setSkills={setSkills} close={editData?.type === "skill" ? setEditData : setEdit} updating={editData?.id || null} />}
             <div className="flex flex-col justify-center w-[80%] py-3 px-8 border-2 border-black mx-auto space-y-4 rounded-md">
                 <div className="flex justify-between pt-7">
                     <h3 className="text-sm text-gray-900 font-semibold tracking-wider">{time}</h3>
@@ -279,9 +279,9 @@ const Admin = () => {
                                 <div key={skill.id} className="flex justify-center items-center flex-col w-32 h-32 rounded-md shadow-sm border-2 border-amber-900 capitalize">
                                     {skill.name}
                                     <div className="flex space-x-1 py-1">
-                                        <NotePencilIcon size={18} className="text-xl font-semibold hover:text-green-600 z-1" title="Edit Projects" onClick={() => handleEdit("skills", skill.id)} />
+                                        <NotePencilIcon size={18} className="text-xl font-semibold hover:text-green-600 z-1" title="Edit Projects" onClick={() => handleEdit("skill", skill.id)} />
 
-                                        <TrashSimpleIcon size={18} className="text-xl font-semibold hover:text-red-600 z-1" title="Delete Project" onClick={() => handleDelete("skills", skill.id)} />
+                                        <TrashSimpleIcon size={18} className="text-xl font-semibold hover:text-red-600 z-1" title="Delete Project" onClick={() => handleDelete("skill", skill.id)} />
                                     </div>
                                 </div>
                             )

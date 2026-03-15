@@ -50,6 +50,7 @@ const Settings = ({ isOpen = false, onClose = () => { } }) => {
         };
         setPreferences(newPreferences);
         localStorage.setItem("user-preference", JSON.stringify(newPreferences));
+        window.dispatchEvent(new Event("user-preference-updated"));
     };
 
     const handlePetPreference = () => {
@@ -59,6 +60,7 @@ const Settings = ({ isOpen = false, onClose = () => { } }) => {
         };
         setPreferences(newPreferences);
         localStorage.setItem("user-preference", JSON.stringify(newPreferences));
+        window.dispatchEvent(new Event("user-preference-updated"));
     };
 
     if (!mounted || !isOpen) return null;
