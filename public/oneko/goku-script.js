@@ -1,6 +1,6 @@
-// goku-oneko.js — based on oneko.js with Goku base form sprite sheet
-// Sprite sheet dimensions: 1086 x 3042px
-// Individual sprite size: ~32x32px
+// goku-oneko.js — Goku pixel art cursor follower
+// Sprite sheet: 192x128px | 6 cols x 4 rows | 32x32px per cell
+// No padding, no crop math — pure clean grid!
 
 (function oneko() {
     const isReducedMotion =
@@ -11,93 +11,84 @@
 
     const nekoEl = document.createElement('div');
 
-    let nekoPosX = 32;
-    let nekoPosY = 32;
-
+    let nekoPosX = 110;
+    let nekoPosY = 110;
     let mousePosX = 0;
     let mousePosY = 0;
-
     let frameCount = 0;
     let idleTime = 0;
     let idleAnimation = null;
     let idleAnimationFrame = 0;
-
     const nekoSpeed = 10;
 
-    // ─────────────────────────────────────────────────────────────────
-    // SPRITE MAP — coordinates in pixels [x, y] from top-left of sheet
-    // Each sprite is 32x32px. These map to base-form Goku rows.
-    //
-    // Row 0 (y=0):   Walking right / run cycle
-    // Row 1 (y=32):  Walking left  / run cycle
-    // Row 2 (y=64):  Walking down  / run cycle
-    // Row 3 (y=96):  Walking up    / run cycle
-    // Row 4 (y=128): Idle / standing
-    // Row 5 (y=160): Alert / power-up pose
-    // Row 6 (y=192): Scratch / attack animation
-    // Row 7 (y=224): Tired / powering down
-    // Row 8 (y=256): Sleeping / sitting
-    //
-    // Adjust x values if frames shift — each frame is 32px wide.
-    // ─────────────────────────────────────────────────────────────────
-    const SPRITE_W = 32;
-    const SPRITE_H = 32;
+    // ─── Sheet config ─────────────────────────────────────────
+    const CELL = 32;     // cell size in px (both width and height)
+    const SCALE = 1;      // display at 2x → 64x64px on screen
+    const DISPLAY = CELL * SCALE;   // 128px
 
-    // Helper: convert grid col/row to pixel coords
-    function px(col, row) {
-        return [col * SPRITE_W, row * SPRITE_H];
-    }
+    // Sheet rendered size
+    const BG_W = 192 * SCALE;   // 768px
+    const BG_H = 128 * SCALE;   // 512px
 
-    // Each array entry is [pixelX, pixelY] — absolute coords on the sheet
+    // Simple grid position → scaled pixel offset
+    const px = (col, row) => [col * CELL * SCALE, row * CELL * SCALE];
+    // ──────────────────────────────────────────────────────────
+
     const spriteSets = {
-        idle: [px(0, 4), px(1, 4)],
-        alert: [px(0, 5)],
-        scratchSelf: [px(0, 6), px(1, 6), px(2, 6)],
-        scratchWallN: [px(3, 6), px(4, 6)],
-        scratchWallS: [px(5, 6), px(6, 6)],
-        scratchWallE: [px(7, 6), px(8, 6)],
-        scratchWallW: [px(9, 6), px(10, 6)],
-        tired: [px(0, 7)],
-        sleeping: [px(0, 8), px(1, 8)],
+        // Row 3: special states
+        idle: [px(0, 3)],
+        alert: [px(1, 3)],
+        scratchSelf: [px(2, 3), px(2, 3), px(2, 3)],
+        scratchWallN: [px(2, 3), px(2, 3)],
+        scratchWallS: [px(2, 3), px(2, 3)],
+        scratchWallE: [px(2, 3), px(2, 3)],
+        scratchWallW: [px(2, 3), px(2, 3)],
+        tired: [px(3, 3)],
+        sleeping: [px(4, 3), px(5, 3)],
 
-        // Movement — 2 alternating walk frames per direction
-        E: [px(0, 0), px(1, 0)],   // moving right
-        W: [px(0, 1), px(1, 1)],   // moving left
-        S: [px(0, 2), px(1, 2)],   // moving down
-        N: [px(0, 3), px(1, 3)],   // moving up
-        NE: [px(2, 0), px(3, 0)],
-        NW: [px(2, 1), px(3, 1)],
-        SE: [px(2, 2), px(3, 2)],
-        SW: [px(2, 3), px(3, 3)],
+        // Row 0: walk RIGHT — 6 frames
+        E: [px(0, 0), px(1, 0), px(2, 0), px(3, 0), px(4, 0), px(5, 0)],
+        // Row 1: walk LEFT — 6 frames
+        W: [px(0, 1), px(1, 1), px(2, 1), px(3, 1), px(4, 1), px(5, 1)],
+        // Row 2: walk DOWN — 6 frames
+        S: [px(0, 2), px(1, 2), px(2, 2), px(3, 2), px(4, 2), px(5, 2)],
+        // No dedicated UP row — reuse walk right (back similarity)
+        N: [px(0, 0), px(1, 0), px(2, 0), px(3, 0), px(4, 0), px(5, 0)],
+        // Diagonals — alternate between the two cardinal directions
+        NE: [px(0, 0), px(1, 0), px(2, 0)],
+        NW: [px(0, 1), px(1, 1), px(2, 1)],
+        SE: [px(0, 2), px(1, 2), px(2, 2)],
+        SW: [px(0, 1), px(1, 2), px(0, 2)],
     };
 
     function init() {
         nekoEl.id = 'oneko';
         nekoEl.ariaHidden = true;
-        nekoEl.style.width = `${SPRITE_W}px`;
-        nekoEl.style.height = `${SPRITE_H}px`;
+        nekoEl.style.width = `${DISPLAY}px`;
+        nekoEl.style.height = `${DISPLAY}px`;
+        nekoEl.style.overflow = 'hidden';
         nekoEl.style.position = 'fixed';
         nekoEl.style.pointerEvents = 'none';
         nekoEl.style.imageRendering = 'pixelated';
-        nekoEl.style.left = `${nekoPosX - SPRITE_W / 2}px`;
-        nekoEl.style.top = `${nekoPosY - SPRITE_H / 2}px`;
+        nekoEl.style.left = `${nekoPosX - DISPLAY / 2}px`;
+        nekoEl.style.top = `${nekoPosY - DISPLAY / 2}px`;
         nekoEl.style.zIndex = 2147483647;
 
-        // ← Point this to your Goku sprite sheet file
         let nekoFile = './goku.png';
         const curScript = document.currentScript;
         if (curScript && curScript.dataset.cat) {
             nekoFile = curScript.dataset.cat;
         }
+
         nekoEl.style.backgroundImage = `url(${nekoFile})`;
-        // Keep background-size as the natural sheet size
-        nekoEl.style.backgroundSize = `1086px 3042px`;
+        nekoEl.style.backgroundSize = `${BG_W}px ${BG_H}px`;
+        nekoEl.style.backgroundRepeat = 'no-repeat';
 
         document.body.appendChild(nekoEl);
 
-        document.addEventListener('mousemove', function (event) {
-            mousePosX = event.clientX;
-            mousePosY = event.clientY;
+        document.addEventListener('mousemove', (e) => {
+            mousePosX = e.clientX;
+            mousePosY = e.clientY;
         });
 
         window.requestAnimationFrame(onAnimationFrame);
@@ -115,7 +106,6 @@
         window.requestAnimationFrame(onAnimationFrame);
     }
 
-    // setSprite now uses absolute pixel coords instead of multiplied offsets
     function setSprite(name, frame) {
         const sprite = spriteSets[name][frame % spriteSets[name].length];
         nekoEl.style.backgroundPosition = `-${sprite[0]}px -${sprite[1]}px`;
@@ -128,7 +118,6 @@
 
     function idle() {
         idleTime += 1;
-
         if (idleTime > 10 && Math.floor(Math.random() * 200) === 0 && idleAnimation == null) {
             let available = ['sleeping', 'scratchSelf'];
             if (nekoPosX < 32) available.push('scratchWallW');
@@ -193,8 +182,8 @@
         nekoPosX = Math.min(Math.max(16, nekoPosX), window.innerWidth - 16);
         nekoPosY = Math.min(Math.max(16, nekoPosY), window.innerHeight - 16);
 
-        nekoEl.style.left = `${nekoPosX - SPRITE_W / 2}px`;
-        nekoEl.style.top = `${nekoPosY - SPRITE_H / 2}px`;
+        nekoEl.style.left = `${nekoPosX - DISPLAY / 2}px`;
+        nekoEl.style.top = `${nekoPosY - DISPLAY / 2}px`;
     }
 
     init();

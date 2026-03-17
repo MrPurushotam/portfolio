@@ -1,6 +1,7 @@
-// sketch-oneko.js — Black & white sketch cat
+// purple-oneko.js — Purple cat sprite with hiss sound on cursor interaction
 // Sprite sheet: 256x128px | 8 cols x 4 rows | 32x32px per cell
-// Classic oneko layout — no audio
+// Original oneko.js sprite layout — no remapping needed!
+// Sound: provide your own hiss audio file (mp3/ogg/wav)
 
 (function oneko() {
     const isReducedMotion =
@@ -9,20 +10,65 @@
 
     if (isReducedMotion) return;
 
-    // ─── Config ───────────────────────────────────────────────
-    const CAT_FILE = './sketch-cat.png'; // your sprite sheet filename
-    const SCALE = 1;                  // 32 * 3 = 96px display size
-    const SPEED = 10;
+    // ─── Config — edit these ──────────────────────────────────
+    const CAT_FILE = './oneko-vaporwave.gif'; // your sprite sheet
+    const SOUND_FILE = '/oneko/cat-meow.wav';   // absolute path to audio file
+    const SCALE = 1;                  // display size: 32 * 3 = 96px
+    const SPEED = 10;                 // movement speed in px
     // ──────────────────────────────────────────────────────────
 
     const CELL = 32;
     const DISPLAY = CELL * SCALE;
     const BG_W = 256 * SCALE;
-    const BG_H = 128 * SCALE;
+    const BG_H = 128 * SCALE;           // 384px
 
+    // ─── Audio setup (Web Audio API for zero-latency) ────────
+    const curScriptRef = document.currentScript;
+    const soundAttr = curScriptRef && curScriptRef.dataset.sound;
+    const isSoundEnabled = soundAttr !== "off";
+
+    let audioCtx = null;
+    let audioBuffer = null;
+
+    // Pre-decode audio so playback is instant
+    if (isSoundEnabled) {
+        try {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            fetch(SOUND_FILE)
+                .then(res => res.arrayBuffer())
+                .then(data => audioCtx.decodeAudioData(data))
+                .then(buffer => { audioBuffer = buffer; })
+                .catch(() => { });
+        } catch (e) { }
+    }
+
+    let lastHissTime = 0;
+    const HISS_COOLDOWN = 800;
+
+    function playHiss() {
+        if (!isSoundEnabled || !audioCtx || !audioBuffer) return;
+        const now = Date.now();
+        if (now - lastHissTime > HISS_COOLDOWN) {
+            // Resume context if suspended (browser autoplay policy)
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const source = audioCtx.createBufferSource();
+            const gain = audioCtx.createGain();
+            gain.gain.value = 0.08; // subtle volume
+            source.buffer = audioBuffer;
+            source.connect(gain).connect(audioCtx.destination);
+            source.start(0);
+            lastHissTime = now;
+        }
+    }
+    // ──────────────────────────────────────────────────────────
+
+    // ─── Sprite map — classic oneko layout ───────────────────
     const px = (col, row) => [col * CELL * SCALE, row * CELL * SCALE];
 
     const spriteSets = {
+        idle: [[-3, -3]].map(([c, r]) => px(Math.abs(c) % 8, Math.abs(r) % 4)),
+
+        // Using original oneko coordinate system directly
         idle: [px(3, 3)],
         alert: [px(7, 3)],
         scratchSelf: [px(5, 0), px(6, 0), px(7, 0)],
@@ -32,6 +78,7 @@
         scratchWallW: [px(4, 0), px(4, 1)],
         tired: [px(3, 2)],
         sleeping: [px(2, 0), px(2, 1)],
+
         N: [px(1, 2), px(1, 3)],
         NE: [px(0, 2), px(0, 3)],
         E: [px(3, 0), px(3, 1)],
@@ -41,6 +88,7 @@
         W: [px(4, 2), px(4, 3)],
         NW: [px(1, 0), px(1, 1)],
     };
+    // ──────────────────────────────────────────────────────────
 
     const nekoEl = document.createElement('div');
     let nekoPosX = 32, nekoPosY = 32;
@@ -49,6 +97,7 @@
     let idleTime = 0;
     let idleAnimation = null;
     let idleAnimationFrame = 0;
+    let isFollowing = false; // track when cat starts moving after idle
 
     function init() {
         nekoEl.id = 'oneko';
@@ -63,6 +112,7 @@
         nekoEl.style.top = `${nekoPosY - DISPLAY / 2}px`;
         nekoEl.style.zIndex = 2147483647;
 
+        // Allow data-cat override from script tag
         const curScript = document.currentScript;
         const nekoFile = (curScript && curScript.dataset.cat) ? curScript.dataset.cat : CAT_FILE;
 
@@ -104,6 +154,7 @@
 
     function idle() {
         idleTime += 1;
+        isFollowing = false;
 
         if (idleTime > 10 && Math.floor(Math.random() * 200) === 0 && idleAnimation == null) {
             let available = ['sleeping', 'scratchSelf'];
@@ -151,10 +202,20 @@
 
         if (idleTime > 1) {
             setSprite('alert', 0);
+            // 🔊 Hiss when woken from idle and cursor is RIGHT ON TOP of cat
+            if (idleTime > 5 && distance < 80) {
+                playHiss();
+            }
             idleTime = Math.min(idleTime, 7);
             idleTime -= 1;
             return;
         }
+
+        // 🔊 Hiss when cursor moves directly over the cat while it's moving
+        if (!isFollowing && distance < 60) {
+            playHiss();
+        }
+        isFollowing = true;
 
         let direction = '';
         direction += diffY / distance > 0.5 ? 'N' : '';

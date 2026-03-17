@@ -1,12 +1,15 @@
 "use client"
 import React, { useState, useEffect } from 'react'
 import { createPortal } from "react-dom";
-import { XIcon, MoonIcon, SunIcon, MonitorIcon } from "@phosphor-icons/react";
+import { XIcon, MoonIcon, SunIcon, MonitorIcon, SpeakerHighIcon, SpeakerSlashIcon } from "@phosphor-icons/react";
+import { ONEKO_CHARACTERS, DEFAULT_CHARACTER_ID } from "@/lib/onekoCharacters";
 
 const Settings = ({ isOpen = false, onClose = () => { } }) => {
     const [preferences, setPreferences] = useState({
         theme: "system",
-        isAnnoyedByPet: false
+        isAnnoyedByPet: false,
+        selectedCharacter: DEFAULT_CHARACTER_ID,
+        petSoundEnabled: true,
     });
 
     const [mounted, setMounted] = useState(false);
@@ -16,12 +19,19 @@ const Settings = ({ isOpen = false, onClose = () => { } }) => {
         if (savedPreferences) {
             try {
                 const parsed = JSON.parse(savedPreferences);
-                setPreferences(parsed);
+                setPreferences(prev => ({
+                    ...prev,
+                    ...parsed,
+                    selectedCharacter: parsed.selectedCharacter || DEFAULT_CHARACTER_ID,
+                    petSoundEnabled: parsed.petSoundEnabled !== undefined ? parsed.petSoundEnabled : true,
+                }));
             } catch (error) {
                 console.error("Error parsing user-preference:", error);
                 setPreferences({
                     theme: "system",
-                    isAnnoyedByPet: false
+                    isAnnoyedByPet: false,
+                    selectedCharacter: DEFAULT_CHARACTER_ID,
+                    petSoundEnabled: true,
                 });
             }
         }
@@ -43,25 +53,30 @@ const Settings = ({ isOpen = false, onClose = () => { } }) => {
         }
     };
 
-    const handleThemeChange = (selectedTheme) => {
-        const newPreferences = {
-            ...preferences,
-            theme: selectedTheme
-        };
+    const savePreferences = (newPreferences) => {
         setPreferences(newPreferences);
         localStorage.setItem("user-preference", JSON.stringify(newPreferences));
         window.dispatchEvent(new Event("user-preference-updated"));
     };
 
-    const handlePetPreference = () => {
-        const newPreferences = {
-            ...preferences,
-            isAnnoyedByPet: !preferences.isAnnoyedByPet
-        };
-        setPreferences(newPreferences);
-        localStorage.setItem("user-preference", JSON.stringify(newPreferences));
-        window.dispatchEvent(new Event("user-preference-updated"));
+    const handleThemeChange = (selectedTheme) => {
+        savePreferences({ ...preferences, theme: selectedTheme });
     };
+
+    const handlePetPreference = () => {
+        savePreferences({ ...preferences, isAnnoyedByPet: !preferences.isAnnoyedByPet });
+    };
+
+    const handleCharacterChange = (characterId) => {
+        savePreferences({ ...preferences, selectedCharacter: characterId });
+    };
+
+    const handleSoundToggle = () => {
+        savePreferences({ ...preferences, petSoundEnabled: !preferences.petSoundEnabled });
+    };
+
+    const selectedCharData = ONEKO_CHARACTERS.find(c => c.id === preferences.selectedCharacter);
+    const anyCharHasSound = ONEKO_CHARACTERS.some(c => c.audioFile);
 
     if (!mounted || !isOpen) return null;
 
@@ -139,6 +154,69 @@ const Settings = ({ isOpen = false, onClose = () => { } }) => {
                                 </div>
                             </button>
                         </div>
+                        {!preferences.isAnnoyedByPet && (
+                            <>
+                                {/* Character Selector */}
+                                <div className="space-y-3">
+                                    <label className="text-sm font-light text-gray-700 dark:text-gray-300 tracking-wide">
+                                        Pet Character
+                                    </label>
+                                    <div className="grid grid-cols-2 gap-3">
+                                        {ONEKO_CHARACTERS.map((char) => (
+                                            <button
+                                                key={char.id}
+                                                onClick={() => handleCharacterChange(char.id)}
+                                                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${preferences.selectedCharacter === char.id
+                                                    ? "bg-black/10 dark:bg-white/10 border border-black/20 dark:border-white/20"
+                                                    : "bg-transparent border border-transparent hover:bg-black/5 dark:hover:bg-white/5"
+                                                    }`}
+                                            >
+                                                <div
+                                                    className="w-10 h-10 rounded-md flex-shrink-0"
+                                                    style={{
+                                                        backgroundImage: `url(${char.spriteSheet})`,
+                                                        backgroundSize: 'cover',
+                                                        backgroundPosition: 'center',
+                                                        imageRendering: 'pixelated',
+                                                    }}
+                                                />
+                                                <div className="text-left">
+                                                    <span className="text-sm text-gray-700 dark:text-gray-300 block">{char.name}</span>
+                                                    {char.audioFile && (
+                                                        <span className="text-[10px] text-gray-400 dark:text-gray-500">Has sound effects</span>
+                                                    )}
+                                                </div>
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {anyCharHasSound && (
+                                    <div className="space-y-3">
+                                        <button
+                                            disabled={!selectedCharData?.audioFile}
+                                            onClick={handleSoundToggle}
+                                            className={`w-full flex items-center justify-between px-4 py-3 rounded-lg transition-all duration-200 ${!selectedCharData?.audioFile ? "opacity-40 cursor-not-allowed" : "hover:bg-black/5 dark:hover:bg-white/5"}`}
+                                        >
+                                            <div className="flex items-center gap-2">
+                                                {preferences.petSoundEnabled
+                                                    ? <SpeakerHighIcon size={18} className="text-gray-500 dark:text-gray-400" weight="duotone" />
+                                                    : <SpeakerSlashIcon size={18} className="text-gray-500 dark:text-gray-400" weight="duotone" />
+                                                }
+                                                <span className="text-sm text-gray-700 dark:text-gray-300">Pet sound effects</span>
+                                            </div>
+                                            <div className={`w-10 h-6 rounded-full transition-all duration-300 ${preferences.petSoundEnabled
+                                                ? "bg-gray-900 dark:bg-gray-100"
+                                                : "bg-gray-300 dark:bg-gray-600"
+                                                }`}>
+                                                <div className={`w-5 h-5 rounded-full bg-white dark:bg-black m-0.5 transition-transform duration-300 ${preferences.petSoundEnabled ? "translate-x-4" : "translate-x-0"
+                                                    }`} />
+                                            </div>
+                                        </button>
+                                    </div>
+                                )}
+                            </>
+                        )}
                     </div>
 
                     <div className="my-6 border-t border-gray-200 dark:border-gray-800" />
