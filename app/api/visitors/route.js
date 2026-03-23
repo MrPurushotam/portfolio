@@ -5,9 +5,20 @@ const projectName = process.env.COUNTER_NAME;
 const apiKey = process.env.COUNTER_APIKEY;
 const env = process.env.NODE_ENV || 'prod';
 
+function validateEnv() {
+    return workspaceName && projectName && apiKey;
+}
+
 export async function POST() {
     try {
-        if (env != 'prod' || env != 'production') {
+        if (!validateEnv()) {
+            return NextResponse.json(
+                { error: "Server misconfiguration" },
+                { status: 500 }
+            );
+        }
+
+        if (env != 'prod' && env != 'production') {
             return NextResponse.json({ visitors: NaN });;
         };
 
@@ -40,10 +51,17 @@ export async function POST() {
 
 export async function GET() {
     try {
+        if (!validateEnv()) {
+            return NextResponse.json(
+                { error: "Server misconfiguration" },
+                { status: 500 }
+            );
+        }
+
         const res = await fetch(`https://api.counterapi.dev/v2/${workspaceName}/${projectName}/`, {
             cache: 'no-store',
             headers: {
-                Authorization: process.env.COUNTER_APIKEY,
+                Authorization: `Bearer ${apiKey}`,
                 "Content-Type": "application/json"
             }
         });
