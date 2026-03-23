@@ -146,10 +146,10 @@ const Settings = ({ isOpen = false, onClose = () => { } }) => {
                             >
                                 <span className="text-sm text-gray-700 dark:text-gray-300">Annoyed by pet?</span>
                                 <div className={`w-10 h-6 rounded-full transition-all duration-300 ${preferences.isAnnoyedByPet
-                                    ? "bg-gray-300 dark:bg-gray-600"
-                                    : "bg-gray-900 dark:bg-gray-100"
+                                    ? "bg-gray-900 dark:bg-gray-100"
+                                    : "bg-gray-300 dark:bg-gray-600"
                                     }`}>
-                                    <div className={`w-5 h-5 rounded-full bg-white dark:bg-black m-0.5 transition-transform duration-300 ${preferences.isAnnoyedByPet ? "translate-x-0" : "translate-x-4"
+                                    <div className={`w-5 h-5 rounded-full bg-white dark:bg-black m-0.5 transition-transform duration-300 ${preferences.isAnnoyedByPet ? "translate-x-4" : "translate-x-0"
                                         }`} />
                                 </div>
                             </button>

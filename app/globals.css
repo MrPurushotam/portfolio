@@ -168,6 +168,34 @@
       rgba(255, 20, 0, 0.1));
 }
 
+@keyframes discoColors {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
+@keyframes dudeFlip {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: translateY(-100px) rotate(180deg) scale(1.5);
+  }
+
+  100% {
+    transform: translateY(0) rotate(360deg) scale(1);
+  }
+}
+
+.animate-dude-flip {
+  animation: dudeFlip 1s ease-in-out forwards;
+}
+
 .notion-dark .notion-page {
   --notion-font: inherit;
   --notion-gray: rgb(155, 155, 155);

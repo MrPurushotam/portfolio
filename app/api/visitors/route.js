@@ -3,9 +3,14 @@ import { NextResponse } from 'next/server';
 const workspaceName = process.env.COUNTER_WORKSPACE;
 const projectName = process.env.COUNTER_NAME;
 const apiKey = process.env.COUNTER_APIKEY;
+const env = process.env.NODE_ENV || 'prod';
 
 export async function POST() {
     try {
+        if (env != 'prod' || env != 'production') {
+            return NextResponse.json({ visitors: NaN });;
+        };
+
         const res = await fetch(`https://api.counterapi.dev/v2/${workspaceName}/${projectName}/up`, {
             cache: 'no-store',
             headers: {
@@ -13,7 +18,6 @@ export async function POST() {
                 "Content-Type": "application/json"
             }
         });
-
 
         if (!res.ok) {
             console.error("Failed Response Object ", res);

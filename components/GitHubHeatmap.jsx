@@ -1,62 +1,7 @@
-"use client";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
-
-const COLOR_THEMES = {
-    flame: {
-        label: "🔥 Flame",
-        colors: {
-            NONE: { light: "#f3f4f6", dark: "#1a1a2e" },
-            FIRST_QUARTILE: { light: "#fed7aa", dark: "#7c2d12" },
-            SECOND_QUARTILE: { light: "#fb923c", dark: "#c2410c" },
-            THIRD_QUARTILE: { light: "#ea580c", dark: "#ea580c" },
-            FOURTH_QUARTILE: { light: "#c2410c", dark: "#fb923c" },
-        },
-    },
-    ocean: {
-        label: "🌊 Ocean",
-        colors: {
-            NONE: { light: "#f3f4f6", dark: "#1a1a2e" },
-            FIRST_QUARTILE: { light: "#bae6fd", dark: "#164e63" },
-            SECOND_QUARTILE: { light: "#38bdf8", dark: "#0e7490" },
-            THIRD_QUARTILE: { light: "#0284c7", dark: "#22d3ee" },
-            FOURTH_QUARTILE: { light: "#0c4a6e", dark: "#67e8f9" },
-        },
-    },
-    forest: {
-        label: "🌿 Forest",
-        colors: {
-            NONE: { light: "#f3f4f6", dark: "#1a1a2e" },
-            FIRST_QUARTILE: { light: "#bbf7d0", dark: "#14532d" },
-            SECOND_QUARTILE: { light: "#4ade80", dark: "#15803d" },
-            THIRD_QUARTILE: { light: "#16a34a", dark: "#22c55e" },
-            FOURTH_QUARTILE: { light: "#15803d", dark: "#4ade80" },
-        },
-    },
-    grape: {
-        label: "🍇 Grape",
-        colors: {
-            NONE: { light: "#f3f4f6", dark: "#1a1a2e" },
-            FIRST_QUARTILE: { light: "#e9d5ff", dark: "#3b0764" },
-            SECOND_QUARTILE: { light: "#c084fc", dark: "#7e22ce" },
-            THIRD_QUARTILE: { light: "#9333ea", dark: "#a855f7" },
-            FOURTH_QUARTILE: { light: "#6b21a8", dark: "#c084fc" },
-        },
-    },
-    sunset: {
-        label: "☀️ Sunset",
-        colors: {
-            NONE: { light: "#f3f4f6", dark: "#1a1a2e" },
-            FIRST_QUARTILE: { light: "#fef08a", dark: "#713f12" },
-            SECOND_QUARTILE: { light: "#facc15", dark: "#a16207" },
-            THIRD_QUARTILE: { light: "#f59e0b", dark: "#f59e0b" },
-            FOURTH_QUARTILE: { light: "#d97706", dark: "#fbbf24" },
-        },
-    },
-};
-
-const MONTH_LABELS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-const DAY_LABELS = ["", "Mon", "", "Wed", "", "Fri", ""];
+import { COLOR_THEMES, MONTH_LABELS, DAY_LABELS } from "@/lib/githubHeatmapConfig";
+import { GithubLogoIcon } from "@phosphor-icons/react";
 
 function getThemeColor(level, theme, isDark) {
     const mode = isDark ? "dark" : "light";
@@ -121,7 +66,6 @@ export default function GitHubHeatmap() {
     const tooltipRef = useRef(null);
     const themePickerRef = useRef(null);
 
-    // Detect dark mode
     useEffect(() => {
         const checkDark = () => {
             setIsDark(document.documentElement.classList.contains("dark"));
@@ -132,7 +76,6 @@ export default function GitHubHeatmap() {
         return () => observer.disconnect();
     }, []);
 
-    // Close theme picker when clicking outside
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (themePickerRef.current && !themePickerRef.current.contains(e.target)) {
@@ -162,11 +105,14 @@ export default function GitHubHeatmap() {
 
     const handleCellHover = useCallback((e, day) => {
         const rect = e.target.getBoundingClientRect();
-        const containerRect = containerRef.current?.getBoundingClientRect();
-        if (!containerRect) return;
+        const container = containerRef.current;
+
+        if (!container) return;
+
+        const containerRect = container.getBoundingClientRect();
         setTooltip({
-            x: rect.left - containerRect.left + rect.width / 2,
-            y: rect.top - containerRect.top - 8,
+            x: rect.left - containerRect.left + container.scrollLeft + rect.width / 2,
+            y: rect.top - containerRect.top + container.scrollTop - 8,
             date: day.date,
             count: day.contributionCount,
         });
@@ -225,10 +171,8 @@ export default function GitHubHeatmap() {
         >
             {/* Header */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                <h2 className="flex items-center text-[#f59e0b] dark:text-[#fff4b7] text-2xl md:text-3xl capitalize font-[730] tracking-wide master-font hover:text-[#fbbf24] dark:hover:text-[#ffd686] transition-colors duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 md:h-8 mr-2 pb-0.5" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-                    </svg>
+                <h2 className="flex items-center gap-3 text-[#f59e0b] dark:text-[#fff4b7] text-2xl md:text-3xl capitalize font-[730] tracking-wide master-font hover:text-[#fbbf24] dark:hover:text-[#ffd686] transition-colors duration-300">
+                    <GithubLogoIcon size="1em" weight="fill" />
                     GitHub Activity
                 </h2>
 
@@ -314,7 +258,7 @@ export default function GitHubHeatmap() {
             </div>
 
             {/* Heatmap Grid */}
-            <div ref={containerRef} className="relative overflow-x-auto pb-2 -mx-2 px-2">
+            <div ref={containerRef} className="relative overflow-x-auto pb-2 -mx-2 px-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 <svg width={svgWidth} height={svgHeight} className="block" role="img" aria-label="GitHub contribution heatmap">
                     {/* Month labels */}
                     {monthPositions.map(({ month, weekIndex }) => (
@@ -382,15 +326,15 @@ export default function GitHubHeatmap() {
                     {tooltip && (
                         <motion.div
                             ref={tooltipRef}
-                            initial={{ opacity: 0, y: 4 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 4 }}
-                            transition={{ duration: 0.1 }}
-                            className="absolute z-50 pointer-events-none px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 shadow-lg whitespace-nowrap"
+                            initial={{ opacity: 0, scale: 0.95, x: "-50%", y: "-80%" }}
+                            animate={{ opacity: 1, scale: 1, x: "-50%", y: "-100%" }}
+                            exit={{ opacity: 0, scale: 0.95, x: "-50%", y: "-80%" }}
+                            transition={{ duration: 0.15 }}
+                            className="absolute z-[100] pointer-events-none px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 shadow-lg whitespace-nowrap"
                             style={{
                                 left: tooltip.x,
                                 top: tooltip.y,
-                                transform: "translate(-50%, -100%)",
+                                transformOrigin: "bottom center",
                             }}
                         >
                             <span className="font-bold">{tooltip.count} contribution{tooltip.count !== 1 ? "s" : ""}</span>{" "}
