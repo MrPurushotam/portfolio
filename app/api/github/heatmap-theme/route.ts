@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
         await writeData(data);
         const etag = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex');
 
-        revalidateTag('githubHeatmapTheme');
+        revalidateTag('githubHeatmapTheme', 'max');
 
         return NextResponse.json({ message: "Github Heatmap Theme updated successfully.", success: true }, { status: 200, headers: { 'ETag': etag } });
     } catch (error) {
