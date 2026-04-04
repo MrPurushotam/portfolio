@@ -7,6 +7,7 @@ const defaultData = {
     resumeDocId: "",
     profile: "",
     githubHeatmapTheme: "ocean",
+    experience: [],
 };
 
 export async function readData(nextOptions) {
@@ -18,7 +19,7 @@ export async function readData(nextOptions) {
             },
             next: nextOptions || {
                 revalidate: 24 * 3600,
-                tags: ['projects', 'skills', 'profile', 'resume', 'githubHeatmapTheme']
+                tags: ['projects', 'skills', 'profile', 'resume', 'githubHeatmapTheme', 'experience']
             }
         });
 
@@ -34,6 +35,7 @@ export async function readData(nextOptions) {
             resumeDocId: data.resumeDocId || "",
             profile: data.profile || "",
             githubHeatmapTheme: data.githubHeatmapTheme || "ocean",
+            experience: data.experience || [],
         };
     } catch (error) {
         console.error('Error reading data:', error.message);

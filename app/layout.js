@@ -107,14 +107,9 @@ export default async function RootLayout({ children }) {
           <meta name="google-site-verification" content=" Hyq7_rXCrzF3ib_AhDf781L1pYQmFT7oZilFhKZVWCY" />
 
           <link
-            rel="preload"
+            rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
-            as="style"
-            onLoad="this.onload=null;this.rel='stylesheet'"
           />
-          <noscript>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
-          </noscript>
 
           <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com " />
           <link rel="dns-prefetch" href="https://unpkg.com" />

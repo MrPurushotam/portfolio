@@ -18,7 +18,7 @@ const fetchStaticDataServerSide = async () => {
     const [data, githubHeatmapData] = await Promise.all([
       readData({
         revalidate: 24 * 3600,
-        tags: ['projects', 'skills', 'profile', 'resume', 'githubHeatmapTheme']
+        tags: ['projects', 'skills', 'profile', 'resume', 'githubHeatmapTheme', 'experience']
       }),
       fetchGitHubContributions().catch(err => {
         console.error('Error fetching GitHub data:', err);
@@ -34,6 +34,7 @@ const fetchStaticDataServerSide = async () => {
         resumeDocId: data.resumeDocId || '',
         githubHeatmapTheme: data.githubHeatmapTheme || 'ocean',
         githubHeatmapData,
+        experience: data.experience || [],
       },
     };
   } catch (error) {
@@ -46,6 +47,7 @@ const fetchStaticDataServerSide = async () => {
         resumeDocId: '',
         githubHeatmapTheme: 'ocean',
         githubHeatmapData: null,
+        experience: [],
       },
     };
   }
@@ -59,8 +61,8 @@ const fetchStaticDataServerSide = async () => {
 
 export default async function Home() {
   const data = await fetchStaticDataServerSide();
-  const { projects, skills, profile, resumeDocId, githubHeatmapTheme, githubHeatmapData } = data.props;
+  const { projects, skills, profile, resumeDocId, githubHeatmapTheme, githubHeatmapData, experience } = data.props;
   return (
-    <Body key={Date.now()} projects={projects} skills={skills} profile={profile} resumeDocId={resumeDocId} githubHeatmapTheme={githubHeatmapTheme} githubHeatmapData={githubHeatmapData} />
+    <Body projects={projects} skills={skills} profile={profile} resumeDocId={resumeDocId} githubHeatmapTheme={githubHeatmapTheme} githubHeatmapData={githubHeatmapData} experience={experience} />
   );
 }

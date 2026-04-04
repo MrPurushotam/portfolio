@@ -7,16 +7,20 @@ import BriefProject from "./BriefProject";
 import Badge from "./Badge";
 import GitHubHeatmap from "./GitHubHeatmap";
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
-import { FileArrowDownIcon, StudentIcon } from "@phosphor-icons/react";
+import { FileArrowDownIcon, StudentIcon, CaretDoubleDownIcon } from "@phosphor-icons/react";
 import { CaretDownIcon } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
+import ExperienceSection from "./ExperienceSection";
 
-export function Body({ projects, skills, profile, resumeDocId, githubHeatmapTheme, githubHeatmapData }) {
+export function Body({ projects, skills, profile, resumeDocId, githubHeatmapTheme, githubHeatmapData, experience }) {
     const [isProjectBriefObject, setIsProjectBriefObject] = useState(false);
     const langCount = useRef({});
     const [uniqueLanguages, setUniqueLanguges] = useState([]);
     const [filteredProjects, setFilteredProjects] = useState([]);
     const [paticularLang, setPaticularLang] = useState("");
+    const [isAutoMode, setIsAutoMode] = useState(true);
+    const [autoModeIndex, setAutoModeIndex] = useState(0);
+    const [showAllProjects, setShowAllProjects] = useState(false);
     const groupedSkills = useMemo(() => {
         const groups = {};
         skills.forEach(skill => {
@@ -45,9 +49,11 @@ export function Body({ projects, skills, profile, resumeDocId, githubHeatmapThem
 
     const handleBadgeClick = (language) => {
         setPaticularLang(language)
+        setShowAllProjects(false);
         sortProjects(language);
     };
     const sortProjects = (language) => {
+        setIsAutoMode(false);
         if (!language) {
             setFilteredProjects(projects);
         } else {
@@ -57,6 +63,18 @@ export function Body({ projects, skills, profile, resumeDocId, githubHeatmapThem
             setFilteredProjects(filtered);
         }
     };
+
+    useEffect(() => {
+        if (!isAutoMode || !filteredProjects || filteredProjects.length === 0) return;
+
+        const maxProjectsToAutoOpen = Math.min(filteredProjects.length, 5);
+
+        const timer = setInterval(() => {
+            setAutoModeIndex((prev) => (prev + 1) % maxProjectsToAutoOpen);
+        }, 5500);
+
+        return () => clearInterval(timer);
+    }, [isAutoMode, filteredProjects]);
     useEffect(() => {
         initializeLanguages();
     }, [projects]);
@@ -89,9 +107,6 @@ export function Body({ projects, skills, profile, resumeDocId, githubHeatmapThem
     const orbX = useTransform(smoothX, [-1, 1], [30, -30]);
     const orbY = useTransform(smoothY, [-1, 1], [30, -30]);
 
-    // Badge parallax mapping removed based on user feedback
-
-    // THOUGHT:- error whle the project brief is rendered its rendering at the center which shouldn't be the case figure out a way to fix it 
     return (
         <div className="w-full h-full relative primary-font bg-gray-200/50 dark:bg-[#10151b] text-base sm:text-lg">
             {Object.keys(isProjectBriefObject).length > 0 && (
@@ -334,6 +349,8 @@ export function Body({ projects, skills, profile, resumeDocId, githubHeatmapThem
                     </div>
                 </motion.div>
 
+                <ExperienceSection experience={experience} />
+
                 <GitHubHeatmap defaultTheme={githubHeatmapTheme} initialData={githubHeatmapData} />
             </section>
 
@@ -405,8 +422,36 @@ export function Body({ projects, skills, profile, resumeDocId, githubHeatmapThem
                     </div>
 
                     <div className="layout-container space-y-4 p-5">
-                        {filteredProjects?.map((project) => (
-                            <ProjectsSection key={project.id} project={project} state={setIsProjectBriefObject} />
+                        {(showAllProjects ? filteredProjects : filteredProjects?.slice(0, 5))?.map((project, index) => (
+                            <ProjectsSection
+                                key={project.id}
+                                project={project}
+                                state={setIsProjectBriefObject}
+                                index={index}
+                                isAutoOpen={autoModeIndex === index}
+                                isAutoMode={isAutoMode}
+                                disableAutoMode={() => setIsAutoMode(false)}
+                            />
+                        ))}
+
+                        {filteredProjects?.length > 5 && (!showAllProjects ? (
+                            <div className="flex items-center justify-center w-full mt-8 group cursor-pointer" onClick={() => setShowAllProjects(true)}>
+                                <div className="flex-1 h-[1px] bg-gray-300 dark:bg-gray-800 transition-colors group-hover:bg-blue-300 dark:group-hover:bg-blue-800"></div>
+                                <button className="flex items-center gap-2 px-6 py-2 text-gray-500 dark:text-gray-400 font-medium group-hover:text-blue-500 transition-colors tracking-wide">
+                                    Show more
+                                    <CaretDoubleDownIcon className="mt-1 w-5 h-5" />
+                                </button>
+                                <div className="flex-1 h-[1px] bg-gray-300 dark:bg-gray-800 transition-colors group-hover:bg-blue-300 dark:group-hover:bg-blue-800"></div>
+                            </div>
+                        ) : (
+                            <div className="flex items-center justify-center w-full mt-8 group cursor-pointer" onClick={() => setShowAllProjects(false)}>
+                                <div className="flex-1 h-[1px] bg-gray-300 dark:bg-gray-800 transition-colors group-hover:bg-blue-300 dark:group-hover:bg-blue-800"></div>
+                                <button className="flex items-center gap-2 px-6 py-2 text-gray-500 dark:text-gray-400 font-medium group-hover:text-blue-500 transition-colors tracking-wide">
+                                    Show less
+                                    <CaretDoubleDownIcon className="mt-1 w-5 h-5 rotate-180" />
+                                </button>
+                                <div className="flex-1 h-[1px] bg-gray-300 dark:bg-gray-800 transition-colors group-hover:bg-blue-300 dark:group-hover:bg-blue-800"></div>
+                            </div>
                         ))}
                     </div>
                 </div>
