@@ -1,5 +1,10 @@
 import { NextResponse } from 'next/server';
 
+/**
+ * Enforces session-based routing and API access rules for incoming requests.
+ * @param {import('next/server').NextRequest} req - Incoming Next.js request.
+ * @returns {import('next/server').NextResponse} A response that redirects authenticated users away from /login to /admin, redirects unauthenticated users from /admin to /login, returns a 401 JSON for blocked private API routes when unauthenticated (except `GET /api/resume`), or continues the request chain.
+ */
 export function middleware(req) {
     const sessionCookie = req.cookies.get('session_token');
     const tokenValue = sessionCookie?.value;

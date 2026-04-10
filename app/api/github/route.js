@@ -1,6 +1,15 @@
 import { NextResponse } from 'next/server';
 import { fetchGitHubContributions } from '@/lib/githubContributions';
 
+/**
+ * Handle GET requests for GitHub contributions and return JSON responses.
+ *
+ * @returns {NextResponse} A response containing contribution data on success; on error returns a JSON error object with one of:
+ * - `{ error: 'GITHUB_TOKEN / USERNAME is not configured.' }` (400)
+ * - `{ error: 'Failed to fetch from GitHub API' }` (502)
+ * - `{ error: 'GitHub GraphQL query failed' }` (400)
+ * - `{ error: 'Internal server error' }` (500)
+ */
 export async function GET() {
     try {
         const data = await fetchGitHubContributions();

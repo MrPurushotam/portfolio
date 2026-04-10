@@ -50,6 +50,14 @@
     let idleAnimation = null;
     let idleAnimationFrame = 0;
 
+    /**
+     * Create and configure the on-screen cat element, attach input handling, and start the animation loop.
+     *
+     * Initializes the DOM element used for the sprite (id "oneko"), applies sizing and rendering styles,
+     * sets the background sprite-sheet (using the current script's `data-cat` attribute when present, otherwise the default),
+     * appends the element to document.body, registers a mousemove listener that updates pointer coordinates,
+     * and requests the first animation frame.
+     */
     function init() {
         nekoEl.id = 'oneko';
         nekoEl.ariaHidden = true;
@@ -82,6 +90,16 @@
 
     let lastFrameTimestamp;
 
+    /**
+     * Advance the simulation when enough time has elapsed and schedule the next animation frame.
+     *
+     * If the tracked cat element is no longer in the document the function returns early.
+     * Updates to the simulation are performed at most once per ~100 milliseconds; when that
+     * interval has passed the frame() function is invoked and the timestamp of the last
+     * processed frame is updated. The function always requests the next animation callback.
+     *
+     * @param {number} timestamp - High-resolution timestamp supplied by requestAnimationFrame.
+     */
     function onAnimationFrame(timestamp) {
         if (!nekoEl.isConnected) return;
         if (!lastFrameTimestamp) lastFrameTimestamp = timestamp;
@@ -92,16 +110,34 @@
         window.requestAnimationFrame(onAnimationFrame);
     }
 
+    /**
+     * Selects the sprite frame for the given animation name and applies it to the cat element's background position.
+     * @param {string} name - Key of the sprite set (e.g., 'idle', 'N', 'sleeping').
+     * @param {number} frame - Frame index; cycles through the sprite set when exceeding available frames.
+     */
     function setSprite(name, frame) {
         const sprite = spriteSets[name][frame % spriteSets[name].length];
         nekoEl.style.backgroundPosition = `-${sprite[0]}px -${sprite[1]}px`;
     }
 
+    /**
+     * Reset the cat's idle animation state to no active idle action and set its idle frame counter to 0.
+     */
     function resetIdleAnimation() {
         idleAnimation = null;
         idleAnimationFrame = 0;
     }
 
+    /**
+     * Advances the cat's idle behavior: increments idle counters, randomly selects an idle action when appropriate, and updates the visible idle animation frame.
+     *
+     * When the cat has been idle for more than 10 ticks there is a 1-in-200 chance to start an idle action; choices include `sleeping`, `scratchSelf`, and wall-scratching variants added if the cat is within 32px of the corresponding window edge. While an idle action is active this function drives its frames:
+     * - `sleeping`: shows `tired` for the first 8 frames, then cycles `sleeping` frames; the sleeping action resets after 192 frames.
+     * - `scratchWall*` and `scratchSelf`: animate for up to 9 frames then reset.
+     * - default: shows the `idle` sprite and does not advance an idle action.
+     *
+     * This function has no return value; it updates module-level state (idleTime, idleAnimation, idleAnimationFrame) and the displayed sprite via setSprite/resetIdleAnimation.
+     */
     function idle() {
         idleTime += 1;
 
@@ -135,6 +171,11 @@
         idleAnimationFrame += 1;
     }
 
+    /**
+     * Advance the cat simulation by one step: update timers, choose an animation state, and move the cat toward the pointer.
+     *
+     * Updates internal animation/frame counters, switches to an idle or alert animation when the pointer is near or the cat was idle, otherwise selects a directional movement sprite and moves the cat position toward the current mouse coordinates. After movement the position is clamped to the viewport and the element's left/top are updated.
+     */
     function frame() {
         frameCount += 1;
         const diffX = nekoPosX - mousePosX;

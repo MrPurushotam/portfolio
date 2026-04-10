@@ -45,6 +45,13 @@
     let lastHissTime = 0;
     const HISS_COOLDOWN = 800;
 
+    /**
+     * Plays the cat "hiss" sound when audio resources are available and the cooldown has elapsed.
+     *
+     * If sound is disabled or required audio resources are missing, the function does nothing.
+     * When playback proceeds, a suspended AudioContext will be resumed as needed and a buffered
+     * source is started; playback is rate-limited by the configured cooldown.
+     */
     function playHiss() {
         if (!isSoundEnabled || !audioCtx || !audioBuffer) return;
         const now = Date.now();
@@ -97,7 +104,11 @@
     let idleTime = 0;
     let idleAnimation = null;
     let idleAnimationFrame = 0;
-    let isFollowing = false; // track when cat starts moving after idle
+    let isFollowing = false; /**
+     * Initialize and insert the cat element into the page, attach mouse tracking, and start the animation loop.
+     *
+     * Configures the element's accessibility attributes, fixed pixelated styling, background image (overridden by the current script's `data-cat` if present), size, and positioning; appends the element to document.body; registers a `mousemove` listener that updates internal mouse coordinates; and schedules the animation loop via `requestAnimationFrame`.
+     */
 
     function init() {
         nekoEl.id = 'oneko';
@@ -132,6 +143,10 @@
 
     let lastFrameTimestamp;
 
+    /**
+     * Drive the animation loop while the cat element is attached, invoking frame updates at ~100ms intervals.
+     * @param {DOMHighResTimeStamp} timestamp - The current time supplied by requestAnimationFrame.
+     */
     function onAnimationFrame(timestamp) {
         if (!nekoEl.isConnected) return;
         if (!lastFrameTimestamp) lastFrameTimestamp = timestamp;
@@ -142,16 +157,38 @@
         window.requestAnimationFrame(onAnimationFrame);
     }
 
+    /**
+     * Selects and applies a sprite frame for the on-screen cat element.
+     * @param {string} name - Key in `spriteSets` identifying the animation or direction (e.g., "idle", "N", "sleeping").
+     * @param {number} frame - Frame counter used to pick which cell to display; wraps modulo the available frames for the chosen set.
+     */
     function setSprite(name, frame) {
         const sprite = spriteSets[name][frame % spriteSets[name].length];
         nekoEl.style.backgroundPosition = `-${sprite[0]}px -${sprite[1]}px`;
     }
 
+    /**
+     * Clear the current idle animation and reset its frame counter.
+     *
+     * This sets `idleAnimation` to `null` and `idleAnimationFrame` to `0`, preparing idle logic to select a new animation on the next idle update.
+     */
     function resetIdleAnimation() {
         idleAnimation = null;
         idleAnimationFrame = 0;
     }
 
+    /**
+     * Advance the cat's idle timer and update its idle animation and sprite based on position and chance.
+     *
+     * Increments the idle counter and clears active following. After the cat has been idle for a short
+     * while, there is a small random chance to start one of several idle animations: `sleeping`,
+     * `scratchSelf`, or a wall-scratch variant (`scratchWallN`, `scratchWallS`, `scratchWallE`,
+     * `scratchWallW`) when the cat is near the corresponding viewport edge. While `sleeping` is active,
+     * the `tired` sprite is shown for the initial frames, then `sleeping` frames are advanced until the
+     * sleep animation completes. For scratch animations the corresponding sprite frames are advanced
+     * until the scratch animation completes. If no special idle animation is active, the default `idle`
+     * sprite is used.
+     */
     function idle() {
         idleTime += 1;
         isFollowing = false;
@@ -186,6 +223,11 @@
         idleAnimationFrame += 1;
     }
 
+    /**
+     * Advance the cat's animation and movement for one tick: decide between idle behavior or following the cursor, update animation state and position, and refresh the DOM sprite.
+     *
+     * This function increments the animation counter, chooses idle or movement behavior based on the cursor distance, may trigger a hiss sound when the cursor approaches, updates directional sprite frames while moving toward the cursor, clamps the cat's position to the viewport, and writes the new position to the DOM element.
+     */
     function frame() {
         frameCount += 1;
         const diffX = nekoPosX - mousePosX;

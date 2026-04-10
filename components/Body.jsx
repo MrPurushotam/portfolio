@@ -12,6 +12,18 @@ import { CaretDownIcon } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import ExperienceSection from "./ExperienceSection";
 
+/**
+ * Render the main portfolio body: hero, about, education, experience, skills, projects, and interactive UI (language badges, project filtering, auto-open cycling, and pointer-driven motion effects).
+ *
+ * @param {Object[]} props.projects - Array of project objects; each project is expected to include a `techstack` field that is a JSON-encoded array of technology strings.
+ * @param {Object[]} props.skills - Array of skill objects (each may include `id`, `name`, `type`, `imagelink`).
+ * @param {string} props.profile - URL or path to the profile image.
+ * @param {string} props.resumeDocId - Google Drive document id used to build the resume download/view link.
+ * @param {Object} props.githubHeatmapTheme - Theme configuration passed to the GitHub heatmap component.
+ * @param {Object} props.githubHeatmapData - Initial contribution data passed to the GitHub heatmap component.
+ * @param {Object[]} props.experience - Experience data forwarded to the ExperienceSection component.
+ * @returns {JSX.Element} The composed page body as a React element.
+ */
 export function Body({ projects, skills, profile, resumeDocId, githubHeatmapTheme, githubHeatmapData, experience }) {
     const [isProjectBriefObject, setIsProjectBriefObject] = useState(false);
     const langCount = useRef({});

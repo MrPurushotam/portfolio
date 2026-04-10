@@ -5,6 +5,18 @@ import { readData, writeData } from '../../../utils/common';
 import crypto from 'crypto';
 import cloudinary from '@/components/CloudinaryConfig';
 
+/**
+ * Create a new experience entry and optionally upload associated static media to Cloudinary.
+ *
+ * Parses multipart/form-data from the incoming request, validates required fields, and:
+ * - if a file is provided, uploads it (image or video) to Cloudinary and attaches its URL;
+ * - otherwise if a weburl is provided, fetches the site's favicon, uploads it as an image, and attaches its URL.
+ * Persists the new experience (with `id`, `role`, `company`, `duration`, `description`, `weburl`, `static_file`, `resourceType`),
+ * triggers cache revalidation for the `experience` tag, and returns the created record.
+ *
+ * @param {Request} req - Incoming request containing multipart/form-data with fields: `role`, `company`, `duration`, `description`, optional `staticfile`, and optional `weburl`.
+ * @returns {NextResponse} JSON response describing the operation result. On success includes `updatedExperience` (the created record) and an `ETag` header; on failure includes an error `message` and `success: false`.
+ */
 export async function POST(req) {
     try {
         const formData = await req.formData();
@@ -88,6 +100,11 @@ export async function POST(req) {
     }
 }
 
+/**
+ * Update an existing experience record, optionally replacing, generating, or removing its associated media in Cloudinary.
+ * @param {import('next/server').NextRequest} req - Request whose FormData must include `id` and may include `role`, `company`, `duration`, `description`, `staticfile` (File or empty string), and `weburl`.
+ * @returns {import('next/server').NextResponse} JSON response: on success contains `message`, `updatedExperience`, and `success: true` and includes an `ETag` header; client errors return 401 (missing id) or 403 (invalid id); server errors return 500.
+ */
 export async function PUT(req) {
     try {
         const formData = await req.formData();
@@ -195,6 +212,11 @@ export async function PUT(req) {
     }
 }
 
+/**
+ * Delete an experience by id and remove its associated Cloudinary media if present.
+ * @param {Request} req - HTTP request with a JSON body containing `{ id }`.
+ * @returns {import('next/server').NextResponse} JSON response: on success `{ message: "Experience deleted successfully.", success: true }` with an `ETag` header; on failure an error message and `success: false` with appropriate status codes (`401` for missing id, `404` if not found, `500` on internal errors or media-deletion failure).
+ */
 export async function DELETE(req) {
     try {
         const body = await req.json();
@@ -233,6 +255,15 @@ export async function DELETE(req) {
     }
 }
 
+/**
+ * Retrieve a single experience by id or all experiences, honoring client-side caching with ETag.
+ *
+ * Supports conditional requests: if the request `If-None-Match` header matches the current ETag,
+ * responds with `304` and an empty body. When an `id` query parameter is present, returns the
+ * matching experience or `404` if not found. Includes the current `ETag` header on successful `200` responses.
+ *
+ * @returns `200` with `{ experience, success: true }` for a found item or the full list; `304` with an empty body when the client ETag matches; `404` with `{ message: "Experience not found", success: false }` when an id is missing; `500` with `{ message: "Internal server error.", success: false }` on unexpected errors.
+ */
 export async function GET(req) {
     try {
         const { searchParams } = new URL(req.url);

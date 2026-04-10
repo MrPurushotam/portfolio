@@ -9,6 +9,13 @@ const buildDriveViewUrl = (docId) => {
     return `https://drive.google.com/uc?export=view&id=${encodeURIComponent(docId)}`;
 };
 
+/**
+ * Serves a resume file retrieved from Google Drive, using the `docId` query parameter or a persisted resumeDocId when absent.
+ *
+ * If no `docId` is available the handler returns a 404 JSON response. When the upstream fetch succeeds, the handler returns the file bytes in a NextResponse with `Content-Type` (normalizes `application/octet-stream` to `application/pdf`), `Content-Disposition: inline`, and cache headers. If the upstream fetch fails the handler returns a JSON error with the upstream status; unexpected errors result in a 500 JSON response.
+ *
+ * @returns {NextResponse} A NextResponse containing the resume file bytes and HTTP 200 on success; otherwise a JSON NextResponse with an error message and an appropriate error status (404, upstream status, or 500).
+ */
 export async function GET(req) {
     try {
         const { searchParams } = new URL(req.url);
@@ -56,6 +63,18 @@ export async function GET(req) {
     }
 }
 
+/**
+ * Store the provided Google Drive document ID as the resume document and trigger cache revalidation.
+ *
+ * Expects the incoming request to contain a JSON body with a `docId` property. On success, persists the new `resumeDocId`,
+ * computes an MD5 ETag for the stored configuration, and revalidates cache tags related to the resume.
+ *
+ * @param {Request} req - Incoming request whose JSON body must include `{ docId: string }`.
+ * @returns {import('next/server').NextResponse} A JSON response:
+ *  - `200` with `{ message: "Resume Doc Id added successfully.", success: true }` and an `ETag` header on success;
+ *  - `401` with `{ message: "DocId is important.", success: false }` if `docId` is missing;
+ *  - `500` with `{ message: "Internal server error.", success: false }` on unexpected errors.
+ */
 export async function POST(req) {
     try {
         const body = await req.json();

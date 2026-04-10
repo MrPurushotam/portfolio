@@ -1,5 +1,11 @@
 import React from 'react';
 
+/**
+ * Renders an inline SVG icon and applies an optional CSS class to the root `<svg>`.
+ *
+ * @param className - Optional CSS class name to apply to the `<svg>` element
+ * @returns An SVG element (viewBox 0 0 256 256) containing the icon path
+ */
 export default function X({ className }: { className?: string }) {
   return (
     <svg

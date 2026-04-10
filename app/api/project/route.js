@@ -5,6 +5,19 @@ import { readData, writeData } from '../../../utils/common';
 import crypto from 'crypto';
 import cloudinary from '@/components/CloudinaryConfig';
 
+/**
+ * Handle creation of a new project from a multipart form request.
+ *
+ * Accepts form fields (title, techstack, description, brief, describe, githubLink, liveLink, staticfile),
+ * validates required fields, optionally uploads a provided static file to Cloudinary, persists the new project,
+ * and triggers cache revalidation for the 'projects' tag.
+ *
+ * @param {Request} req - Incoming Next.js request containing multipart form data.
+ * @returns {Response} JSON response:
+ *  - 200: { message: "Project added successfully.", success: true } with an `ETag` header reflecting the updated data.
+ *  - 401: { message: "Please fill all the necessary fields.", success: false } when required fields are missing or invalid.
+ *  - 500: { message: "Internal server error.", success: false } on unexpected errors.
+ */
 export async function POST(req) {
     try {
         const formData = await req.formData();
@@ -69,6 +82,15 @@ export async function POST(req) {
     }
 }
 
+/**
+ * Handle updating an existing project from multipart form data.
+ *
+ * Updates project fields and optional static media, persists changes, revalidates the projects cache tag,
+ * and computes an MD5 ETag for the returned dataset.
+ *
+ * @param {Request} req - Incoming Next.js request containing multipart form data; expected fields include `id`, `title`, `techstack`, `description`, `brief`, `describe`, `githubLink`, `liveLink`, and an optional `staticfile`.
+ * @returns {NextResponse} A JSON response whose body contains `message`, `updatedProject`, and `success`. Returns status 200 with the updated project and an `ETag` response header on success; 401 if `id` is missing; 403 if the project id is invalid; 500 on internal server error.
+ */
 export async function PUT(req) {
     try {
         const formData = await req.formData();
@@ -147,6 +169,11 @@ export async function PUT(req) {
     }
 }
 
+/**
+ * Delete a project by id, remove its associated Cloudinary media if present, persist the change, and revalidate the projects cache.
+ * @param {Request} req - Incoming request whose JSON body must include `id`.
+ * @returns {Response} A JSON NextResponse containing `{ message, success }`; on success returns status 200 and includes an `ETag` header, on failure returns an appropriate error status and message.
+ */
 export async function DELETE(req) {
     try {
         const body = await req.json();
@@ -187,6 +214,15 @@ export async function DELETE(req) {
     }
 }
 
+/**
+ * Handle GET requests for projects, returning either the full list or a single project and using an MD5 ETag for conditional responses.
+ * @param {Request} req - Incoming request; may include query parameter `id` to fetch a single project and the `If-None-Match` header for conditional GETs.
+ * @returns {Response} A JSON response:
+ * - 200: `{ projects: Array, success: true }` when no `id` is provided, or `{ project: Object, success: true }` when `id` is found. Responses include an `ETag` header.
+ * - 304: Empty response when `If-None-Match` matches the computed ETag.
+ * - 404: `{ message: "Project not found", success: false }` when a requested `id` does not exist.
+ * - 500: `{ message: "Internal server error.", success: false }` on failure.
+ */
 export async function GET(req) {
     try {
         const { searchParams } = new URL(req.url);

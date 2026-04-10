@@ -1,5 +1,11 @@
 import React from 'react';
 
+/**
+ * Renders the GitHub logo as an inline SVG.
+ *
+ * @param className - Optional CSS class name applied to the root <svg> element.
+ * @returns The GitHub logo SVG element.
+ */
 export default function Github({ className }: { className?: string }) {
   return (
 

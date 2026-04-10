@@ -1,5 +1,11 @@
 import React from 'react';
 
+/**
+ * Renders an inline SVG mail (envelope) icon.
+ *
+ * @param className - Optional CSS class name applied to the root `<svg>` element.
+ * @returns The rendered `<svg>` element representing a mail/envelope icon.
+ */
 export default function Mail({ className }: { className?: string }) {
   return (
     <svg

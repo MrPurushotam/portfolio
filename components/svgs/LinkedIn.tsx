@@ -1,5 +1,11 @@
 import React from 'react';
 
+/**
+ * Renders the LinkedIn logo as an SVG and applies an optional CSS class to the root element.
+ *
+ * @param className - Optional CSS class name added to the root `<svg>` element
+ * @returns An `<svg>` element (viewBox="0 0 128 128") containing the LinkedIn background and glyph paths
+ */
 export default function LinkedIn({ className }: { className?: string }) {
   return (
     <svg

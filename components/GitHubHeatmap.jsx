@@ -3,11 +3,23 @@ import { motion, AnimatePresence } from "motion/react";
 import { COLOR_THEMES, MONTH_LABELS, DAY_LABELS } from "@/lib/githubHeatmapConfig";
 import { GithubLogoIcon } from "@phosphor-icons/react";
 
+/**
+ * Selects the hex color for a contribution level from a named theme according to light or dark mode.
+ * @param {string} level - Contribution level key (e.g., `NONE`, `FIRST_QUARTILE`, `FOURTH_QUARTILE`).
+ * @param {string} theme - Theme name to look up in `COLOR_THEMES`.
+ * @param {boolean} isDark - When `true`, choose the theme's dark-mode color; otherwise choose light-mode.
+ * @returns {string} The resolved hex color for the given level and theme in the selected mode; returns `#e5e7eb` if no color is found.
+ */
 function getThemeColor(level, theme, isDark) {
     const mode = isDark ? "dark" : "light";
     return COLOR_THEMES[theme]?.colors[level]?.[mode] || "#e5e7eb";
 }
 
+/**
+ * Calculate total contributions, the current consecutive-day streak ending on the latest day, and the longest consecutive-day streak.
+ * @param {Array<Object>} weeks - Array of week objects each with a `contributionDays` array of day objects containing a numeric `contributionCount`.
+ * @returns {{ total: number, currentStreak: number, longestStreak: number }} An object with `total` contributions, `currentStreak` (consecutive nonzero contribution days at the end), and `longestStreak` (maximum consecutive nonzero contribution days anywhere).
+ */
 function computeStats(weeks) {
     let total = 0;
     let currentStreak = 0;
@@ -37,6 +49,12 @@ function computeStats(weeks) {
     return { total, currentStreak, longestStreak };
 }
 
+/**
+ * Identify week indices where the month changes so month labels can be placed.
+ * 
+ * @param {Array<Object>} weeks - Array of week objects; each must expose `contributionDays`, an array whose first element includes a `date` string parseable by `Date`.
+ * @returns {Array<{month: number, weekIndex: number}>} Array of marker objects where `month` is 0 (January) through 11 (December) and `weekIndex` is the index in the input `weeks` array where that month first appears.
+ */
 function getMonthPositions(weeks) {
     const positions = [];
     let lastMonth = -1;
@@ -53,6 +71,15 @@ function getMonthPositions(weeks) {
     return positions;
 }
 
+/**
+ * Renders a GitHub contribution heatmap with summary metrics, month/day labels, interactive tooltips, and a color legend.
+ *
+ * If `initialData` is not provided the component will fetch activity data from `/api/github`, and it displays loading and error states as needed. It also observes the document's `class` attribute to adapt colors for dark mode.
+ *
+ * @param {Object} props - Component props.
+ * @param {string} [props.defaultTheme="ocean"] - Theme key used to look up colors from the color theme map.
+ * @param {Object|null} [props.initialData=null] - Optional pre-fetched heatmap data shaped like the API response (contains `weeks`, `username`, etc.); when null the component will fetch data itself.
+ * @returns {JSX.Element|null} The rendered heatmap UI element, or `null` if there is no data to render. */
 export default function GitHubHeatmap({ defaultTheme = "ocean", initialData = null }) {
     const [data, setData] = useState(initialData);
     const [loading, setLoading] = useState(!initialData);

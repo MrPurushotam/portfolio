@@ -59,6 +59,10 @@ const fetchStaticDataServerSide = async () => {
   <p className="text-sm">This website is currently in the build phase and might break.</p>
 </div> */}
 
+/**
+ * Renders the home page populated with static site data and GitHub contribution data.
+ * @returns {JSX.Element} The page element containing the Body component with `projects`, `skills`, `profile`, `resumeDocId`, `githubHeatmapTheme`, `githubHeatmapData`, and `experience` supplied as props.
+ */
 export default async function Home() {
   const data = await fetchStaticDataServerSide();
   const { projects, skills, profile, resumeDocId, githubHeatmapTheme, githubHeatmapData, experience } = data.props;

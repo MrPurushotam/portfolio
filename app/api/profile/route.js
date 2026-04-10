@@ -5,6 +5,15 @@ import { readData, writeData } from '../../../utils/common';
 import crypto from 'crypto';
 import { revalidateTag } from 'next/cache';
 
+/**
+ * Handle profile image upload: upload a new image to Cloudinary (if provided), delete any previously stored Cloudinary image, persist the new profile URL, revalidate the profile cache tag, and return a JSON response.
+ *
+ * @returns {NextResponse} A response containing a JSON body and HTTP status:
+ * - Success: status 200 with `{ message: "Profile upload successful.", profile: <url>, success: true }` and an `ETag` header for the updated persisted data.
+ * - Missing file: status 401 with `{ message: "Please upload a profile picture.", success: false }`.
+ * - Cloudinary deletion failure: status 500 with `{ message: "Failed to delete associated media file.", success: false }`.
+ * - Other errors: status 500 with `{ message: "Internal server error.", success: false }`.
+ */
 export async function POST(req) {
     try {
         const formData = await req.formData();

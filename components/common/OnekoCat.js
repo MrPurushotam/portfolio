@@ -3,6 +3,17 @@ import Script from 'next/script';
 import React, { useEffect, useState, useCallback } from 'react';
 import { ONEKO_CHARACTERS, DEFAULT_CHARACTER_ID } from '@/lib/onekoCharacters';
 
+/**
+ * Renders an external "oneko" cat script when user preferences enable it.
+ *
+ * Reads the user's saved preferences from localStorage, updates whether the cat
+ * should be shown and whether sound is enabled, reacts to preference changes
+ * (including cross-window storage events and a custom "user-preference-updated"
+ * event), removes any existing on-page cat element when the cat is disabled or
+ * the character changes, and forces the script to remount when needed.
+ *
+ * @returns {JSX.Element|null} The configured <Script> element for the selected character, or `null` when the cat is disabled or no character is selected.
+ */
 export default function OnekoCat() {
     const [showCat, setShowCat] = useState(false);
     const [selectedChar, setSelectedChar] = useState(null);

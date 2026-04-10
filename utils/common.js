@@ -10,6 +10,11 @@ const defaultData = {
     experience: [],
 };
 
+/**
+ * Fetches JSON from the configured API endpoint and returns a normalized data object.
+ * @param {object} [nextOptions] - Optional `next` option passed to `fetch` to control caching/revalidation (for example `{ revalidate, tags }`).
+ * @returns {{projects: Array, skills: Array, resumeDocId: string, profile: string, githubHeatmapTheme: string, experience: Array}} The normalized data with fallbacks: `projects` and `skills` as arrays, `resumeDocId` and `profile` as strings, `githubHeatmapTheme` as a string (defaults to `"ocean"`), and `experience` as an array; returns the module's `defaultData` on error.
+ */
 export async function readData(nextOptions) {
     try {
         const response = await fetch(`${ApiEndpoint}`, {

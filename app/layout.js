@@ -78,6 +78,17 @@ export const metadata = {
   }
 };
 
+/**
+ * Provide the application's root HTML layout with global metadata, fonts, and shared UI.
+ *
+ * Fetches static site data to obtain `resumeDocId`, applies global font CSS variables to the <html>
+ * element, emits head metadata and resource links (icons, Open Graph tags, normalize stylesheet,
+ * dns-prefetch, analytics), and renders the site-wide Appbar, the page `children`, OnekoCat, and Footer.
+ *
+ * @param {Object} props
+ * @param {import('react').ReactNode} props.children - Content to render inside the layout's main area.
+ * @returns {import('react').ReactElement} The root HTML document JSX element for the application layout.
+ */
 export default async function RootLayout({ children }) {
   const data = await fetchStaticDataServerSide();
   const { resumeDocId } = data.props;

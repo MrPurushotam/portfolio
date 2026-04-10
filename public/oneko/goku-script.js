@@ -61,6 +61,13 @@
         SW: [px(0, 1), px(1, 2), px(0, 2)],
     };
 
+    /**
+     * Create, configure, and insert the pixel-art cursor follower element, hook mouse input, and start the animation loop.
+     *
+     * Sets up the `#oneko` element (size, positioning, rendering, sprite-sheet background), chooses the sprite image
+     * (from `document.currentScript.dataset.cat` if present, otherwise `./goku.png`), appends the element to `document.body`,
+     * listens for `mousemove` to track the cursor, and begins the animation via `requestAnimationFrame`.
+     */
     function init() {
         nekoEl.id = 'oneko';
         nekoEl.ariaHidden = true;
@@ -96,6 +103,11 @@
 
     let lastFrameTimestamp;
 
+    /**
+     * Animation frame callback that throttles visual updates to ~100ms and keeps the animation loop running.
+     * If the sprite element is removed from the document, the callback stops scheduling further frames.
+     * @param {DOMHighResTimeStamp} timestamp - High-resolution timestamp provided by requestAnimationFrame.
+     */
     function onAnimationFrame(timestamp) {
         if (!nekoEl.isConnected) return;
         if (!lastFrameTimestamp) lastFrameTimestamp = timestamp;
@@ -106,16 +118,35 @@
         window.requestAnimationFrame(onAnimationFrame);
     }
 
+    /**
+     * Update the displayed sprite on the neko element to the specified animation frame.
+     *
+     * @param {string} name - Animation name from `spriteSets` (e.g., "E", "idle", "sleeping").
+     * @param {number} frame - Frame index; wrapped to the animation's length to pick the frame to display.
+     */
     function setSprite(name, frame) {
         const sprite = spriteSets[name][frame % spriteSets[name].length];
         nekoEl.style.backgroundPosition = `-${sprite[0]}px -${sprite[1]}px`;
     }
 
+    /**
+     * Clear the current idle animation and reset its frame counter.
+     */
     function resetIdleAnimation() {
         idleAnimation = null;
         idleAnimationFrame = 0;
     }
 
+    /**
+     * Manage the neko's idle state and advance idle animation frames based on accumulated idle time and position.
+     *
+     * Increments the internal idle timer and, with a 1-in-200 chance after the timer exceeds 10, selects a random idle
+     * animation from `sleeping` and `scratchSelf`; additionally includes wall-scratch variants (`scratchWallN`, `scratchWallS`,
+     * `scratchWallE`, `scratchWallW`) when the sprite is near the corresponding viewport edge. Drives the chosen idle
+     * animation by updating the displayed sprite and advancing `idleAnimationFrame`; `sleeping` shows an initial `tired`
+     * sequence then the `sleeping` frames and resets after ~192 frames, while scratch animations reset after ~9 frames.
+     * If no idle animation is active, sets the default `idle` sprite.
+     */
     function idle() {
         idleTime += 1;
         if (idleTime > 10 && Math.floor(Math.random() * 200) === 0 && idleAnimation == null) {
@@ -148,6 +179,11 @@
         idleAnimationFrame += 1;
     }
 
+    /**
+     * Advance one animation step: decide idle/alert behavior or move the sprite toward the mouse, update the current animation frame, and reposition the DOM element.
+     *
+     * Increments the internal frame counter, determines proximity to the mouse to either run idle behavior or enter an alert state, computes movement direction when chasing the cursor, updates the sprite selection for the current direction/frame, moves and clamps the sprite position within the viewport, and writes the new left/top styles to the element.
+     */
     function frame() {
         frameCount += 1;
         const diffX = nekoPosX - mousePosX;
