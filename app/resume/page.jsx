@@ -1,5 +1,3 @@
-import Appbar from "@/components/Appbar";
-import Footer from "@/components/Footer";
 import ResumeIntegration from "@/components/resume"
 import { readData } from "@/utils/common";
 

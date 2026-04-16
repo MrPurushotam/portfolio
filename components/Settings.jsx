@@ -40,6 +40,18 @@ const Settings = ({ isOpen = false, onClose = () => { } }) => {
 
     useEffect(() => {
         applyTheme(preferences.theme);
+
+        if (preferences.theme !== 'system') {
+            return
+        };
+
+        const media = window.matchMedia('(prefers-color-scheme: dark)');
+        const handleChange = () => applyTheme('system');
+        media.addEventListener('change', handleChange);
+
+        return () => {
+            media.removeEventListener('change', handleChange);
+        }
     }, [preferences.theme]);
 
     const applyTheme = (selectedTheme) => {

@@ -1,3 +1,4 @@
+"use client"
 import { useEffect, useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { COLOR_THEMES, MONTH_LABELS, DAY_LABELS } from "@/lib/githubHeatmapConfig";
@@ -43,7 +44,7 @@ function getMonthPositions(weeks) {
     weeks.forEach((week, i) => {
         const firstDay = week.contributionDays[0];
         if (firstDay) {
-            const month = new Date(firstDay.date).getMonth();
+            const month = parseInt(firstDay.date.split('-')[1]) - 1;
             if (month !== lastMonth) {
                 positions.push({ month, weekIndex: i });
                 lastMonth = month;

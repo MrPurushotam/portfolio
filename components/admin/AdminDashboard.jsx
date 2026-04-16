@@ -272,7 +272,7 @@ const Admin = () => {
                     <div className="flex items-center justify-between ">
                         <h2 className="text-xl font-semibold tracking-wider">Skills</h2>
                         <div className="flex gap-2 items-center p-1">
-                            <ArrowCounterClockwiseIcon size={18} className="text-2xl hover:text-sky-600 rounded-md" onClick={() => revalidate("skills")} />
+                            <ArrowCounterClockwiseIcon size={18} className="text-2xl hover:text-sky-600 rounded-md" onClick={() => revalidate("skill")} />
 
                             <PencilSimpleIcon size={18} className="text-2xl hover:text-sky-600" onClick={() => setEdit("skills")} />
 

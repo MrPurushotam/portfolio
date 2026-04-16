@@ -40,8 +40,9 @@ const SocialIcons = () => {
                 <li key={index} className="relative group">
                     <Link
                         target='_blank'
-                        href={social.href}
+                        rel='noopener noreferrer'
                         aria-label={social.name}
+                        href={social.href}
                         className={`flex justify-center items-center w-12 h-12 rounded-full bg-white dark:bg-zinc-800/80 text-gray-500 dark:text-gray-400 border border-black/5 dark:border-white/10 shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-md ${social.hoverClass}`}
                     >
                         <svg
@@ -60,8 +61,9 @@ const SocialIcons = () => {
                         <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-900 dark:bg-white rotate-45 -z-10"></div>
                     </div>
                 </li>
-            ))}
-        </ul>
+            ))
+            }
+        </ul >
     );
 };
 

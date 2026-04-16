@@ -240,20 +240,26 @@ export async function GET(req) {
 
         const data = await readData();
 
-        const etag = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex');
-
-        const clientEtag = req.headers.get('If-None-Match');
-        if (clientEtag === etag) {
-            return new Response(null, { status: 304 });
-        }
-
         if (id) {
             const experience = data.experience.find(exp => parseInt(exp.id) === parseInt(id));
             if (!experience) {
                 return NextResponse.json({ message: "Experience not found", success: false }, { status: 404 });
             }
+            
+            const etag = crypto.createHash('md5').update(JSON.stringify(experience)).digest('hex');
+            const clientEtag = req.headers.get('If-None-Match');
+            if (clientEtag === etag) {
+                return new Response(null, { status: 304 });
+            }
+            
             return NextResponse.json({ experience, success: true }, { status: 200, headers: { 'ETag': etag }, });
         } else {
+            const etag = crypto.createHash('md5').update(JSON.stringify(data)).digest('hex');
+            const clientEtag = req.headers.get('If-None-Match');
+            if (clientEtag === etag) {
+                return new Response(null, { status: 304 });
+            }
+            
             return NextResponse.json({ experience: data.experience, success: true }, { status: 200, headers: { 'ETag': etag }, });
         }
     } catch (error) {

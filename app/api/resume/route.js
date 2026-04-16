@@ -11,16 +11,11 @@ const buildDriveViewUrl = (docId) => {
 
 export async function GET(req) {
     try {
-        const { searchParams } = new URL(req.url);
-        let docId = (searchParams.get('docId') || '').trim();
-
-        if (!docId) {
-            const data = await readData({
-                revalidate: 8 * 3600,
-                tags: ['resume']
-            });
-            docId = data.resumeDocId || '';
-        }
+        const data = await readData({
+            revalidate: 8 * 3600,
+            tags: ['resume']
+        });
+        const docId = data.resumeDocId || '';
 
         if (!docId) {
             return NextResponse.json({ message: 'Resume DocId is not configured.', success: false }, { status: 404 });

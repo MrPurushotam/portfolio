@@ -21,7 +21,7 @@ export function middleware(req) {
     }
 
     if (url.pathname.startsWith('/api/') && !isValidToken) {
-        const PrivateApis = ['/api/logout', '/api/profile', '/api/project', '/api/resume', '/api/revalidate', '/api/skill', '/api/updateOrder'];
+        const PrivateApis = ['/api/logout', '/api/profile', '/api/project', '/api/resume', '/api/revalidate', '/api/skill', '/api/updateOrder', '/api/experience'];
         const isPublicResumeRead = url.pathname === '/api/resume' && req.method === 'GET';
         const isPrivateApi = !isPublicResumeRead && PrivateApis.some(path => url.pathname.startsWith(path));
 
