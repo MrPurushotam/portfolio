@@ -4,6 +4,7 @@ import Provider from "@/utils/Provider";
 import Appbar from "@/components/Appbar";
 import Footer from "@/components/Footer";
 import OnekoCat from "@/components/common/OnekoCat";
+import ClarityScript from "@/components/ClarityScript";
 import { readData } from "@/utils/common";
 
 const inter = Inter({ subsets: ["latin"], display: 'swap', variable: '--font-inter' });
@@ -114,19 +115,10 @@ export default async function RootLayout({ children }) {
           <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com " />
           <link rel="dns-prefetch" href="https://unpkg.com" />
 
-          <script type="text/javascript">
-            (function(c,l,a,r,i,t,y){
-              c[a] = c[a] || function () {
-                (c[a].q = c[a].q || []).push(arguments)
-              };
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-            })(window, document, "clarity", "script", "wfu8a6ux77");
-          </script>
-
           <script defer src="https://cloud.umami.is/script.js" data-website-id="ec3938ba-2480-4751-ba61-cf71aee6d9e8"></script>
         </head>
         <body className={inter.className}>
+          <ClarityScript />
           <div className="flex flex-col">
             <Appbar />
             <div className="flex-1">
